@@ -2,10 +2,11 @@ import "express-async-errors";
 import { StatusCodes } from "http-status-codes";
 import { ExpressError } from "../ExpressError/ExpressError";
 import UserModel from "../Schema/UserSchema";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 import { UserInterfaceType } from "../Schema/UserSchema";
 
+/** REGISTER USER */
 /** @isAdmin boolean that determines if created user is first in the collection, to be used to specify roles */
 export const registerUser = async (req: Request, res: Response) => {
   if (!req.body) {
@@ -31,4 +32,21 @@ export const registerUser = async (req: Request, res: Response) => {
   res
     .status(StatusCodes.OK)
     .json({ message: "New user created", registeredUser });
+};
+
+/** LOGIN USER */
+export const loginUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.body) {
+    throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
+  }
+
+  const foundUser = await UserModel.findOne({ username: req.body.username });
+  if (!foundUser) {
+    throw new ExpressError("User does not exist", StatusCodes.NOT_FOUND);
+  }
+  res.status(StatusCodes.OK).json({ message: "logged user", foundUser });
 };
