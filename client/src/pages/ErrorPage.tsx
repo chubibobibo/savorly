@@ -2,7 +2,6 @@ import { useRouteError } from "react-router-dom";
 
 function ErrorPage() {
   const error = useRouteError() as { status: number };
-  console.log(error);
   return (
     <>
       <section className='error-container text-header-lg'>
@@ -12,7 +11,10 @@ function ErrorPage() {
             <img src='../error.png' alt='' className='error-image' />
           </>
         ) : (
-          <p>Something went wrong</p>
+          <>
+            <p>Something went wrong</p>
+            <img src='../error1.png' alt='' className='error-image' />
+          </>
         )}
       </section>
     </>
