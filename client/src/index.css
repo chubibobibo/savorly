@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@layer components {
+  .error-container {
+    @apply flex flex-col justify-center items-center p-8 md:p-30;
+  }
+
+  .error-image {
+    @apply w-10/12 h-[20rem] object-contain;
+  }
+
+  .text-header-lg {
+    @apply text-xl md:text-[40px];
+  }
+}

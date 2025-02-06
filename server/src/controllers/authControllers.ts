@@ -47,6 +47,7 @@ export const loginUser = async (
   const foundUser = await UserModel.findOne({ username: req.body.username });
   if (!foundUser) {
     throw new ExpressError("User does not exist", StatusCodes.NOT_FOUND);
+  } else {
+    res.status(StatusCodes.OK).json({ message: "logged user", foundUser });
   }
-  res.status(StatusCodes.OK).json({ message: "logged user", foundUser });
 };
