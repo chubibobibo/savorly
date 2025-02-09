@@ -4,6 +4,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { HomepageLayout, ErrorPage, LoginPage } from "./utils/";
 import RegisterPage from "./pages/authPages/RegisterPage";
 
+//action and loader functions
+import { action as registerAction } from "./pages/authPages/RegisterPage";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -15,7 +18,11 @@ function App() {
           path: "login",
           element: <LoginPage />,
         },
-        { path: "/register", element: <RegisterPage /> },
+        {
+          path: "/register",
+          element: <RegisterPage />,
+          action: registerAction,
+        },
       ],
     },
   ]);
