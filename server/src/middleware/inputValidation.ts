@@ -36,7 +36,7 @@ export const registerInputValidation = withValidationErrors([
   body("username")
     .notEmpty()
     .withMessage("Username cannot be empty")
-    .isLength({ min: 5 })
+    .isLength({ min: 4 })
     .withMessage("Username must be more than 5 characters")
     .custom(async (username) => {
       const foundUsername = await UserModel.findOne({ username: username });
@@ -50,15 +50,13 @@ export const registerInputValidation = withValidationErrors([
   body("firstName")
     .notEmpty()
     .withMessage("First name cannot be empty")
-    .isLength({ min: 5 })
+    .isLength({ min: 4 })
     .withMessage("First name must be more than 5 characters"),
-
   body("lastName")
     .notEmpty()
     .withMessage("Last name cannot be empty")
-    .isLength({ min: 5 })
+    .isLength({ min: 4 })
     .withMessage("Last name must be more than 5 characters"),
-
   body("email")
     .isEmail()
     .withMessage("Email should be valid")
@@ -70,7 +68,6 @@ export const registerInputValidation = withValidationErrors([
         throw new ExpressError("Email already used", StatusCodes.BAD_REQUEST);
       }
     }),
-
   body("password")
     .notEmpty()
     .withMessage("Password cannot be empty")
@@ -82,7 +79,7 @@ export const loginInputValidation = withValidationErrors([
   body("username")
     .notEmpty()
     .withMessage("Username cannot be empty")
-    .isLength({ min: 5 })
+    .isLength({ min: 4 })
     .withMessage("Username must be more than 5 characters"),
   body("password")
     .notEmpty()

@@ -21,7 +21,7 @@ const requestLimiter = rateLimit({
   message: { error: "Too many request attempts. Try again in 10 minutes" },
 });
 
-router.post("/register", loginInputValidation, registerUser);
+router.post("/register", registerInputValidation, registerUser);
 router.post(
   "/login",
   loginInputValidation,
