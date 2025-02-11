@@ -1,4 +1,10 @@
+import { Outlet } from "react-router-dom";
+
 function HomepageLayout() {
-  return <div>HomepageLayout</div>;
+  return (
+    <>
+      <Outlet />
+    </>
+  );
 }
 export default HomepageLayout;
