@@ -21,4 +21,8 @@
   .input-field {
     @apply md:h-12;
   }
+
+  .bgImage {
+    @apply bg-[url('./registerBg.png')] bg-cover bg-center w-screen h-screen opacity-40;
+  }
 }

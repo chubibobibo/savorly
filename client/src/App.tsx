@@ -1,7 +1,7 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { HomepageLayout, ErrorPage, LoginPage } from "./utils/";
+import { HomepageLayout, ErrorPage, LoginPage, LandingPage } from "./utils/";
 import RegisterPage from "./pages/authPages/RegisterPage";
 
 //action and loader functions
@@ -15,11 +15,15 @@ function App() {
       errorElement: <ErrorPage />,
       children: [
         {
+          index: true,
+          element: <LandingPage />,
+        },
+        {
           path: "login",
           element: <LoginPage />,
         },
         {
-          path: "/register",
+          path: "register",
           element: <RegisterPage />,
           action: registerAction,
         },

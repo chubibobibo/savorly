@@ -1,5 +1,5 @@
 import { Form } from "react-router-dom";
-function Forms_Register() {
+function FormsRegister() {
   return (
     <section className='forms-register'>
       <div className='w-full max-w-lg '>
@@ -113,4 +113,4 @@ function Forms_Register() {
     </section>
   );
 }
-export default Forms_Register;
+export default FormsRegister;

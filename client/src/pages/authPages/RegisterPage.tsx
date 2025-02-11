@@ -1,4 +1,4 @@
-import Forms_Register from "../../components/Forms_Register";
+import FormsRegister from "../../components/FormsRegister";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { ActionFunctionArgs, redirect } from "react-router-dom";
@@ -35,7 +35,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 function RegisterPage() {
   return (
     <section className='p-2 md:p-30'>
-      <Forms_Register />
+      <FormsRegister />
     </section>
   );
 }
