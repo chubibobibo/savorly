@@ -1,5 +1,8 @@
 import TransparentButton from "../../components/TransparentButton";
 
+// import { FaRegUser } from "react-icons/fa";
+// import { FaBook } from "react-icons/fa";
+
 function LandingPage() {
   return (
     <section className='flex flex-col items-center h-max-screen'>
@@ -22,9 +25,24 @@ function LandingPage() {
           </span>
         </section>
         <section className='flex flex-col gap-3 md:flex-row md:gap-5 z-10 items-center'>
-          <TransparentButton btnName={"Register"} size={"small"} />
-          <TransparentButton btnName={"Login"} size={"small"} />
-          <TransparentButton btnName={"Recipe Library"} size={"small"} />
+          <TransparentButton
+            btnName={"Login"}
+            size={"small"}
+            icon={"user"}
+            nav={"/login"}
+          />
+          <TransparentButton
+            btnName={"Register"}
+            size={"small"}
+            icon={"user"}
+            nav={"/register"}
+          />
+          <TransparentButton
+            btnName={"Recipe Library"}
+            size={"small"}
+            icon={"library"}
+            nav={null}
+          />
         </section>
       </section>
     </section>

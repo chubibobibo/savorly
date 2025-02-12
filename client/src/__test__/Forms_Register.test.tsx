@@ -39,7 +39,7 @@ describe("<App />", () => {
       {
         path: "/register",
         element: <RegisterPage />,
-        action: registerAction,
+        action: mockRegistrationAction,
       },
     ];
 

@@ -6,6 +6,7 @@ import RegisterPage from "./pages/authPages/RegisterPage";
 
 //action and loader functions
 import { action as registerAction } from "./pages/authPages/RegisterPage";
+import { action as loginAction } from "./pages/authPages/LoginPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -21,6 +22,7 @@ function App() {
         {
           path: "login",
           element: <LoginPage />,
+          action: loginAction,
         },
         {
           path: "register",
