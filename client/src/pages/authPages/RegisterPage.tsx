@@ -41,7 +41,7 @@ function RegisterPage() {
   };
   return (
     // <section className='p-2'>
-    <section className='p-2 md:p-30'>
+    <section className='p-2 mt-2 md:p-30'>
       <span
         className='flex gap-2 items-center cursor-pointer focus:text-gray-300 hover:text-gray-500 active:text-gray-500'
         onClick={handleBackNav}
