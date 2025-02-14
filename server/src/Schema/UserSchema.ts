@@ -1,7 +1,7 @@
 import mongoose, { InferSchemaType } from "mongoose";
 import { userRoles } from "../utils/roles/userRoles";
 import { Document } from "mongoose";
-import { model } from "mongoose";
+import { model, Types } from "mongoose";
 
 import passportLocalMongoose from "passport-local-mongoose";
 
@@ -18,6 +18,7 @@ export interface UserInterfaceType extends Document {
   createdAt: string;
   photoId: string;
   photoUrl: string;
+  _id: Types.ObjectId;
 }
 
 const UserSchema = new Schema<UserInterfaceType>(

@@ -14,3 +14,18 @@ export const createRecipe = async (req: Request, res: Response) => {
     res.status(StatusCodes.OK).json({ message: "createdRecipe", addedRecipe });
   }
 };
+
+export const getAllRecipes = async (req: Request, res: Response) => {
+  if (!req.user) {
+    throw new ExpressError(
+      "User needs to be logged in",
+      StatusCodes.UNAUTHORIZED
+    );
+  }
+  const foundRecipes = await RecipeModel.find().populate("createdBy");
+  if (!foundRecipes) {
+    res.status(StatusCodes.OK).json({ message: "No recipes found" });
+  } else {
+    res.status(StatusCodes.OK).json({ message: "recipes found", foundRecipes });
+  }
+};
