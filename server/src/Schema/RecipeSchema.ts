@@ -18,57 +18,60 @@ interface SchemaType {
   photoUrl: string;
 }
 
-const RecipeSchema = new Schema<SchemaType>({
-  recipeName: {
-    type: String,
-    required: true,
-  },
-
-  recipeIngredients: [
-    {
-      ingredientName: {
-        type: String,
-        required: true,
-      },
-      ingredientQty: {
-        type: Number,
-        required: true,
-      },
+const RecipeSchema = new Schema<SchemaType>(
+  {
+    recipeName: {
+      type: String,
+      required: true,
     },
-  ],
 
-  recipeDescription: {
-    type: String,
-    required: true,
-  },
+    recipeIngredients: [
+      {
+        ingredientName: {
+          type: String,
+          required: true,
+        },
+        ingredientQty: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
 
-  recipeInstruction: {
-    type: String,
-    required: true,
-  },
+    recipeDescription: {
+      type: String,
+      required: true,
+    },
 
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: UserModel,
-  },
+    recipeInstruction: {
+      type: String,
+      required: true,
+    },
 
-  category: {
-    type: String,
-    enum: Object.values(recipeCategories),
-  },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: UserModel,
+    },
 
-  cookingTime: {
-    type: Number,
-    required: true,
-  },
+    category: {
+      type: String,
+      enum: Object.values(recipeCategories),
+    },
 
-  photoUrl: {
-    type: String,
-  },
+    cookingTime: {
+      type: Number,
+      required: true,
+    },
 
-  photoId: {
-    type: String,
+    photoUrl: {
+      type: String,
+    },
+
+    photoId: {
+      type: String,
+    },
   },
-});
+  { timestamps: true }
+);
 
 export const RecipeModel = mongoose.model("RecipeSchema", RecipeSchema);
