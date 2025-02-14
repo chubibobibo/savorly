@@ -18,7 +18,7 @@ const requestLimiter = rateLimit({
   standardHeaders: "draft-8", // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
   // store: ... , // Redis, Memcached, etc. See below.
-  message: { error: "Too many request attempts. Try again in 10 minutes" },
+  message: { error: "Too many login attempts. Try again in 10 minutes" },
 });
 
 router.post("/register", registerInputValidation, registerUser);

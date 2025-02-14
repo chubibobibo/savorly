@@ -6,7 +6,8 @@ import cors from "cors";
 import { StatusCodes } from "http-status-codes";
 import { Request, Response, NextFunction } from "express";
 
-import registerUserRoute from "./routes/authRoutes";
+import userRoute from "./routes/authRoutes";
+import recipeRoutes from "./routes/recipeRoutes";
 import MongoStore from "connect-mongo";
 import session from "express-session";
 import { ExpressError } from "./ExpressError/ExpressError";
@@ -84,7 +85,8 @@ passport.serializeUser(UserModel.serializeUser() as any); // determines what dat
 passport.deserializeUser(UserModel.deserializeUser() as any); // attaches the user data from the the database to the req.user obj.
 
 //ROUTES
-app.use("/api/auth/", registerUserRoute);
+app.use("/api/auth/", userRoute);
+app.use("/api/recipe/", recipeRoutes);
 
 //error handler page not found
 app.use("*", (req: Request, res: Response) => {
