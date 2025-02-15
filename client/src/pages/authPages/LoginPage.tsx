@@ -13,7 +13,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   try {
     await axios.post("/api/auth/login", data);
     toast.success("User logged in successfully");
-    return redirect("/");
+    return redirect("/dashboard");
   } catch (err) {
     console.log(err);
     if (err instanceof AxiosError && err?.response?.data?.message) {

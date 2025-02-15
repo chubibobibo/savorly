@@ -1,10 +1,8 @@
 import { useContext } from "react";
 import { AllRecipesContext } from "../../context/contexts";
-// import { RecipeContextType } from "../../context/contexts";
 
 function DashboardLayout() {
   const context = useContext(AllRecipesContext);
-  console.log(context);
 
   /** handle @context if it is null. (Initial value of context is null) */
   return (

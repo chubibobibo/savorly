@@ -15,6 +15,7 @@ function RecipesContextProvider({ children }: ChildrenType) {
   const [recipes, setRecipes] = useState<RecipeTypes[]>([]);
 
   useEffect(() => {
+    const controller = new AbortController();
     const fetchAllRecipes = async () => {
       try {
         const foundRecipes = await axios.get("/api/recipe/getAllRecipes");
@@ -23,6 +24,7 @@ function RecipesContextProvider({ children }: ChildrenType) {
       } catch (err) {
         console.log(err);
       }
+      controller.abort();
     };
     fetchAllRecipes();
   }, []);
