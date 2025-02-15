@@ -15,6 +15,7 @@ import { action as registerAction } from "./pages/authPages/RegisterPage";
 import { action as loginAction } from "./pages/authPages/LoginPage";
 
 import RecipesContextProvider from "./context/RecipesContextProvider";
+import ProtectRoutes from "./utils/ProtectRoutes";
 
 function App() {
   const router = createBrowserRouter([
@@ -40,9 +41,11 @@ function App() {
         {
           path: "dashboard",
           element: (
-            <RecipesContextProvider>
-              <DashboardLayout />
-            </RecipesContextProvider>
+            <ProtectRoutes>
+              <RecipesContextProvider>
+                <DashboardLayout />
+              </RecipesContextProvider>
+            </ProtectRoutes>
           ),
         },
       ],

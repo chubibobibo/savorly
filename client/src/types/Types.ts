@@ -9,3 +9,32 @@ export type RecipeTypes = {
   photoId: string;
   cookingTime: number;
 };
+
+export type UserTypes = {
+  // username: string;
+  // lastName: string;
+  // firstName: string;
+  // email: string;
+  // setPassword: (args: string) => string;
+  // password: string;
+  // role: string;
+  // createdAt: string;
+  // photoId: string;
+  // photoUrl: string;
+  // _id: string;
+  // status: number;
+  userData: {
+    username: string;
+    lastName: string;
+    firstName: string;
+    email: string;
+    setPassword: (args: string) => string;
+    password: string;
+    role: string;
+    createdAt: string;
+    photoId: string;
+    photoUrl: string;
+    _id: string;
+    status: number;
+  };
+};
