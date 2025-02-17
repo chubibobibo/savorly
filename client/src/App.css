@@ -2,6 +2,8 @@
 
 @theme {
   --font-rubik: "Rubik";
+  /* colors */
+  --color-custom-green: #41c1a5;
 }
 
 * {

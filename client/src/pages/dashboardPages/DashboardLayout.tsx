@@ -1,18 +1,26 @@
 import { useContext } from "react";
 import { AllRecipesContext } from "../../context/contexts";
 
+import CardComponentVert from "../../components/CardComponentVert";
+import NavigationComponent from "../../components/navigationComponent";
+
 function DashboardLayout() {
   const context = useContext(AllRecipesContext);
 
   /** handle @context if it is null. (Initial value of context is null) */
   return (
-    <div>
+    <>
       {context && context.length !== 0 ? (
-        <h1>Here are the recipes</h1>
+        <section>
+          <NavigationComponent />
+          <section className='p-5'>
+            <CardComponentVert />
+          </section>
+        </section>
       ) : (
         <h1>Wow sooo empty here</h1>
       )}
-    </div>
+    </>
   );
 }
 export default DashboardLayout;
