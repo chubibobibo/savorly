@@ -80,7 +80,7 @@ function NavigationComponent() {
       <header className='bg-white'>
         <nav
           aria-label='Global'
-          className='mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8'
+          className='mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8'
         >
           <div className='flex lg:flex-1'>
             <a href='#' className='-m-1.5 p-1.5'>
@@ -211,7 +211,7 @@ function NavigationComponent() {
                       />
                     </DisclosureButton>
                     <DisclosurePanel className='mt-2 space-y-2'>
-                      <section className='bg-custom-green rounded-2xl p-4'>
+                      <section className='bg-custom-green rounded-2xl p-6'>
                         <span className='flex justify-center text-sm'>
                           Search other recipes by category from around the world
                         </span>
@@ -219,19 +219,21 @@ function NavigationComponent() {
                       {/** Other recipes submenu */}
                       {[...categories].map((item, idx) => (
                         <section
-                          className='flex items-center gap-2'
+                          className={`flex items-center gap-2 px-1 rounded-2xl ${
+                            idx % 2 === 0
+                              ? "bg-custom-blue"
+                              : "bg-custom-yellow"
+                          }`}
                           key={item.name}
                         >
                           <item.icon
-                            color={`${idx % 2 !== 0 ? "#41c1a5 " : "red-100"}`}
-                            size={40}
+                            // color={`${idx % 2 !== 0 ? "#41c1a5 " : "red-100"}`}
+                            size={30}
                           />
                           <DisclosureButton
                             as='a'
                             href={item.href}
-                            className={`block w-screen rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50 ${
-                              idx % 2 === 0 ? "bg-red-100" : "bg-green-100"
-                            }`}
+                            className='block w-screen rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50'
                           >
                             {item.name}
                           </DisclosureButton>

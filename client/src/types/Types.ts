@@ -8,6 +8,14 @@ export type RecipeTypes = {
   photoUrl: string;
   photoId: string;
   cookingTime: number;
+  _id?: string;
+};
+
+export type RecipePropsIndex = {
+  recipeName: string;
+  recipeDescription: string;
+  cookingTime: number;
+  category: string;
 };
 
 export type UserTypes = {
