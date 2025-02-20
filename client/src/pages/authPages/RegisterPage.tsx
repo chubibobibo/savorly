@@ -1,7 +1,9 @@
 import FormsRegister from "../../components/FormsRegister";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import { ActionFunctionArgs, redirect } from "react-router-dom";
+import { ActionFunctionArgs, redirect, useNavigate } from "react-router-dom";
+
+import { FaArrowCircleLeft } from "react-icons/fa";
 
 //action function to submit form
 // eslint-disable-next-line react-refresh/only-export-components
@@ -33,10 +35,22 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 function RegisterPage() {
+  const navigate = useNavigate();
+  const handleBackNav = () => {
+    return navigate(-1);
+  };
   return (
-    <section className='p-2 md:p-30'>
+    // <section className='p-2'>
+    <section className='p-2 mt-2 md:p-30'>
+      <span
+        className='flex gap-2 items-center cursor-pointer focus:text-gray-300 hover:text-gray-500 active:text-gray-500'
+        onClick={handleBackNav}
+      >
+        <FaArrowCircleLeft size={30} /> Back
+      </span>
       <FormsRegister />
     </section>
+    // </section>
   );
 }
 export default RegisterPage;

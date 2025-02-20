@@ -15,7 +15,7 @@
   }
 
   .forms-register {
-    @apply pt-5 px-2 flex justify-center md:h-[30rem];
+    @apply pt-1 px-2 flex justify-center md:h-[30rem];
   }
 
   .input-field {
