@@ -4,7 +4,14 @@ export type RecipeTypes = {
   recipeDescription: string;
   recipeInstruction: string;
   createdBy: string;
-  category: string;
+  category:
+    | "pork"
+    | "beef"
+    | "fish"
+    | "chicken"
+    | "vegetarian"
+    | "vegan"
+    | "dessert";
   photoUrl: string;
   photoId: string;
   cookingTime: number;
@@ -15,7 +22,14 @@ export type RecipePropsIndex = {
   recipeName: string;
   recipeDescription: string;
   cookingTime: number;
-  category: string;
+  category:
+    | "pork"
+    | "beef"
+    | "fish"
+    | "chicken"
+    | "vegetarian"
+    | "vegan"
+    | "dessert";
 };
 
 export type UserTypes = {
@@ -45,4 +59,8 @@ export type UserTypes = {
     _id: string;
     status: number;
   };
+};
+
+export type CategoryProps = {
+  category: string;
 };

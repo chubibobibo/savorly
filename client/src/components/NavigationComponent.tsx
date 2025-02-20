@@ -12,8 +12,8 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
-  PhoneIcon,
-  PlayCircleIcon,
+  // PhoneIcon,
+  // PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 
 import { GiPig, GiChickenOven } from "react-icons/gi";
@@ -66,11 +66,6 @@ function NavigationComponent() {
       href: "#",
       icon: FaCakeCandles,
     },
-  ];
-
-  const callsToAction = [
-    { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-    { name: "Contact sales", href: "#", icon: PhoneIcon },
   ];
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -140,21 +135,6 @@ function NavigationComponent() {
                     </div>
                   ))}
                 </div>
-                <div className='grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50'>
-                  {callsToAction.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className='flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100'
-                    >
-                      <item.icon
-                        aria-hidden='true'
-                        className='size-5 flex-none text-gray-400'
-                      />
-                      {item.name}
-                    </a>
-                  ))}
-                </div>
               </PopoverPanel>
             </Popover>
 
@@ -221,8 +201,8 @@ function NavigationComponent() {
                         <section
                           className={`flex items-center gap-2 px-1 rounded-2xl ${
                             idx % 2 === 0
-                              ? "bg-custom-blue"
-                              : "bg-custom-yellow"
+                              ? "text-custom-blue"
+                              : "text-custom-yellow"
                           }`}
                           key={item.name}
                         >
@@ -233,7 +213,11 @@ function NavigationComponent() {
                           <DisclosureButton
                             as='a'
                             href={item.href}
-                            className='block w-screen rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50'
+                            className={`block w-screen rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold  hover:bg-gray-50 ${
+                              idx % 2 === 0
+                                ? "text-custom-blue"
+                                : "text-custom-yellow"
+                            }`}
                           >
                             {item.name}
                           </DisclosureButton>

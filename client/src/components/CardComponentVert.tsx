@@ -1,5 +1,6 @@
 import { capitalize } from "../utils/capitalize";
 import { RecipePropsIndex } from "../types/Types";
+import CategoryBadge from "./CategoryBadge";
 
 import { FaRegClock } from "react-icons/fa";
 
@@ -16,10 +17,8 @@ function CardComponentVert({
         {/** Description body */}
         <div className='px-6 py-4 space-x-2'>
           <div className='font-bold text-xl mb-2'>{capitalize(recipeName)}</div>
-          <div className='pt-4 pb-2'>
-            <span className='inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2'>
-              {category}
-            </span>
+          <div className='pt-1 pb-2'>
+            <CategoryBadge category={category} />
           </div>
           <p className='text-gray-700 text-base'>{recipeDescription}</p>
           <p className='text-gray-700 text-base flex items-center gap-2'>

@@ -18,7 +18,7 @@ function DashboardLayout() {
       {context && context.length !== 0 ? (
         <section>
           <NavigationComponent />
-          <Form className='px-2 flex justify-center'>
+          <Form className='px-2 flex justify-center items-center'>
             <input
               className='shadow-lg border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline block max-w-2xl'
               id='search'
