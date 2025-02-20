@@ -16,62 +16,16 @@ import {
   // PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 
-import { GiPig, GiChickenOven } from "react-icons/gi";
-import { TbMeat } from "react-icons/tb";
-import { FaFishFins, FaLeaf, FaCakeCandles } from "react-icons/fa6";
+import { badgeCategories } from "../utils/badgeCategories";
 
 import { useState } from "react";
 
 function NavigationComponent() {
-  const categories = [
-    {
-      name: "Pork",
-      description: "Get a better understanding of your traffic",
-      href: "#",
-      icon: GiPig,
-    },
-    {
-      name: "Beef",
-      description: "Speak directly to your customers",
-      href: "#",
-      icon: TbMeat,
-    },
-    {
-      name: "Fish",
-      description: "Your customers’ data will be safe and secure",
-      href: "#",
-      icon: FaFishFins,
-    },
-    {
-      name: "Chicken",
-      description: "Your customers’ data will be safe and secure",
-      href: "#",
-      icon: GiChickenOven,
-    },
-    {
-      name: "Vegetarian",
-      description: "Connect with third-party tools",
-      href: "#",
-      icon: FaLeaf,
-    },
-    {
-      name: "Vegan",
-      description: "Build strategic funnels that will convert",
-      href: "#",
-      icon: FaLeaf,
-    },
-    {
-      name: "Dessert",
-      description: "Build strategic funnels that will convert",
-      href: "#",
-      icon: FaCakeCandles,
-    },
-  ];
-
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div>
+    <>
+      {/** DESKTOP */}
       <header className='bg-white'>
         <nav
           aria-label='Global'
@@ -111,7 +65,7 @@ function NavigationComponent() {
                   <span>
                     Search other recipes by category from around the world
                   </span>
-                  {categories.map((item) => (
+                  {badgeCategories.map((item) => (
                     <div
                       key={item.name}
                       className='group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50'
@@ -144,9 +98,6 @@ function NavigationComponent() {
             <a href='#' className='text-sm/6 font-semibold text-gray-900'>
               About Us
             </a>
-            {/* <a href='#' className='text-sm/6 font-semibold text-gray-900'>
-              Company
-            </a> */}
           </PopoverGroup>
           <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
             <a href='#' className='text-sm/6 font-semibold text-gray-900'>
@@ -197,7 +148,7 @@ function NavigationComponent() {
                         </span>
                       </section>
                       {/** Other recipes submenu */}
-                      {[...categories].map((item, idx) => (
+                      {[...badgeCategories].map((item, idx) => (
                         <section
                           className={`flex items-center gap-2 px-1 rounded-2xl ${
                             idx % 2 === 0
@@ -206,10 +157,7 @@ function NavigationComponent() {
                           }`}
                           key={item.name}
                         >
-                          <item.icon
-                            // color={`${idx % 2 !== 0 ? "#41c1a5 " : "red-100"}`}
-                            size={30}
-                          />
+                          <item.icon size={30} />
                           <DisclosureButton
                             as='a'
                             href={item.href}
@@ -257,7 +205,7 @@ function NavigationComponent() {
           </DialogPanel>
         </Dialog>
       </header>
-    </div>
+    </>
   );
 }
 export default NavigationComponent;
