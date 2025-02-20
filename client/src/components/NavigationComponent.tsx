@@ -12,71 +12,20 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
-  PhoneIcon,
-  PlayCircleIcon,
+  // PhoneIcon,
+  // PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 
-import { GiPig, GiChickenOven } from "react-icons/gi";
-import { TbMeat } from "react-icons/tb";
-import { FaFishFins, FaLeaf, FaCakeCandles } from "react-icons/fa6";
+import { badgeCategories } from "../utils/badgeCategories";
 
 import { useState } from "react";
 
 function NavigationComponent() {
-  const categories = [
-    {
-      name: "Pork",
-      description: "Get a better understanding of your traffic",
-      href: "#",
-      icon: GiPig,
-    },
-    {
-      name: "Beef",
-      description: "Speak directly to your customers",
-      href: "#",
-      icon: TbMeat,
-    },
-    {
-      name: "Fish",
-      description: "Your customers’ data will be safe and secure",
-      href: "#",
-      icon: FaFishFins,
-    },
-    {
-      name: "Chicken",
-      description: "Your customers’ data will be safe and secure",
-      href: "#",
-      icon: GiChickenOven,
-    },
-    {
-      name: "Vegetarian",
-      description: "Connect with third-party tools",
-      href: "#",
-      icon: FaLeaf,
-    },
-    {
-      name: "Vegan",
-      description: "Build strategic funnels that will convert",
-      href: "#",
-      icon: FaLeaf,
-    },
-    {
-      name: "Dessert",
-      description: "Build strategic funnels that will convert",
-      href: "#",
-      icon: FaCakeCandles,
-    },
-  ];
-
-  const callsToAction = [
-    { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-    { name: "Contact sales", href: "#", icon: PhoneIcon },
-  ];
-
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div>
+    <>
+      {/** DESKTOP */}
       <header className='bg-white'>
         <nav
           aria-label='Global'
@@ -116,7 +65,7 @@ function NavigationComponent() {
                   <span>
                     Search other recipes by category from around the world
                   </span>
-                  {categories.map((item) => (
+                  {badgeCategories.map((item) => (
                     <div
                       key={item.name}
                       className='group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50'
@@ -140,21 +89,6 @@ function NavigationComponent() {
                     </div>
                   ))}
                 </div>
-                <div className='grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50'>
-                  {callsToAction.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className='flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100'
-                    >
-                      <item.icon
-                        aria-hidden='true'
-                        className='size-5 flex-none text-gray-400'
-                      />
-                      {item.name}
-                    </a>
-                  ))}
-                </div>
               </PopoverPanel>
             </Popover>
 
@@ -164,9 +98,6 @@ function NavigationComponent() {
             <a href='#' className='text-sm/6 font-semibold text-gray-900'>
               About Us
             </a>
-            {/* <a href='#' className='text-sm/6 font-semibold text-gray-900'>
-              Company
-            </a> */}
           </PopoverGroup>
           <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
             <a href='#' className='text-sm/6 font-semibold text-gray-900'>
@@ -217,23 +148,24 @@ function NavigationComponent() {
                         </span>
                       </section>
                       {/** Other recipes submenu */}
-                      {[...categories].map((item, idx) => (
+                      {[...badgeCategories].map((item, idx) => (
                         <section
                           className={`flex items-center gap-2 px-1 rounded-2xl ${
                             idx % 2 === 0
-                              ? "bg-custom-blue"
-                              : "bg-custom-yellow"
+                              ? "text-custom-blue"
+                              : "text-custom-yellow"
                           }`}
                           key={item.name}
                         >
-                          <item.icon
-                            // color={`${idx % 2 !== 0 ? "#41c1a5 " : "red-100"}`}
-                            size={30}
-                          />
+                          <item.icon size={30} />
                           <DisclosureButton
                             as='a'
                             href={item.href}
-                            className='block w-screen rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50'
+                            className={`block w-screen rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold  hover:bg-gray-50 ${
+                              idx % 2 === 0
+                                ? "text-custom-blue"
+                                : "text-custom-yellow"
+                            }`}
                           >
                             {item.name}
                           </DisclosureButton>
@@ -273,7 +205,7 @@ function NavigationComponent() {
           </DialogPanel>
         </Dialog>
       </header>
-    </div>
+    </>
   );
 }
 export default NavigationComponent;

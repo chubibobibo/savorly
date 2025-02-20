@@ -25,4 +25,12 @@
   .bgImage {
     @apply bg-[url('./registerBg.png')] bg-cover bg-center w-screen h-screen opacity-40;
   }
+
+  .badges-sm {
+    @apply text-xs;
+  }
+
+  .badges-md {
+    @apply md:text-base;
+  }
 }
