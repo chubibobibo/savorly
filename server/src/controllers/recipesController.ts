@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ExpressError } from "../ExpressError/ExpressError";
 import { StatusCodes } from "http-status-codes";
 import { RecipeModel } from "../Schema/RecipeSchema";
+import { UserRequest } from "../types/Types";
 
 export const createRecipe = async (req: Request, res: Response) => {
   if (!req.body) {
@@ -15,14 +16,27 @@ export const createRecipe = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllRecipes = async (req: Request, res: Response) => {
-  if (!req.user) {
-    throw new ExpressError(
-      "User needs to be logged in",
-      StatusCodes.UNAUTHORIZED
-    );
+/** @UserRequest extended type from Request that contains _id  */
+export const getAllRecipes: any = async (req: UserRequest, res: Response) => {
+  const { search } = req.query;
+  console.log(search);
+
+  /** @queryObj will be used as default query for getAllRecipes */
+  const queryObj: any = {
+    createdBy: req.user._id,
+  };
+
+  if (search) {
+    queryObj.$or = [
+      {
+        recipeName: { $regex: search, $options: "i" },
+      },
+    ];
   }
-  const foundRecipes = await RecipeModel.find().populate("createdBy");
+
+  const foundRecipes = await RecipeModel.find(queryObj)
+    .populate("createdBy")
+    .sort({ createdAt: -1 });
   if (!foundRecipes) {
     res.status(StatusCodes.OK).json({ message: "No recipes found" });
   } else {

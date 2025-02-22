@@ -5,6 +5,8 @@ import UserModel from "../Schema/UserSchema";
 import { NextFunction, Request, Response } from "express";
 
 import { UserInterfaceType } from "../Schema/UserSchema";
+import { UserRequest } from "../types/Types";
+import { RequestHandler } from "express";
 
 /** REGISTER USER */
 /** @isAdmin boolean that determines if created user is first in the collection, to be used to specify roles */
@@ -50,4 +52,18 @@ export const loginUser = async (
   } else {
     res.status(StatusCodes.OK).json({ message: "logged user", foundUser });
   }
+};
+
+// GET LOGGED USER
+/** @req used UserRequest to type the request object which includes the user and _id so that we can access req.user._id without any type errors */
+export const getLoggedUser: any = async (req: UserRequest, res: Response) => {
+  if (!req.user) {
+    throw new ExpressError("User is not logged in", StatusCodes.UNAUTHORIZED);
+  }
+
+  const loggedUser = await UserModel.findById(req.user._id);
+  if (!loggedUser) {
+    throw new ExpressError("User is not logged in", StatusCodes.UNAUTHORIZED);
+  }
+  res.status(StatusCodes.OK).json({ message: "LoggedUser", loggedUser });
 };
