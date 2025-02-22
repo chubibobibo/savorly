@@ -13,8 +13,9 @@ import RegisterPage from "./pages/authPages/RegisterPage";
 //action and loader functions
 import { action as registerAction } from "./pages/authPages/RegisterPage";
 import { action as loginAction } from "./pages/authPages/LoginPage";
+import { loader as recipesLoader } from "./pages/dashboardPages/DashboardLayout";
 
-import RecipesContextProvider from "./context/RecipesContextProvider";
+// import RecipesContextProvider from "./context/RecipesContextProvider";
 import ProtectRoutes from "./utils/ProtectRoutes";
 
 function App() {
@@ -42,11 +43,12 @@ function App() {
           path: "dashboard",
           element: (
             <ProtectRoutes>
-              <RecipesContextProvider>
-                <DashboardLayout />
-              </RecipesContextProvider>
+              {/* <RecipesContextProvider> */}
+              <DashboardLayout />
+              {/* </RecipesContextProvider> */}
             </ProtectRoutes>
           ),
+          loader: recipesLoader,
         },
       ],
     },

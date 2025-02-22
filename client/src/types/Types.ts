@@ -51,13 +51,20 @@ export type UserTypes = {
   };
 };
 
-// export type CategoryProps = {
-//   category: string;
-// };
-
 export type SearchBadgeProps = {
   name: string;
   BadgeIcon: IconType;
   onClick: () => void;
   badgeId: string;
 };
+
+export interface SyntheticEvent<T> {
+  currentTarget: EventTarget & T;
+}
+
+export interface HandleEventQueryChange
+  extends React.ChangeEvent<HTMLInputElement> {}
+
+export interface SearchQueryType {
+  search: string;
+}

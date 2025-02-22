@@ -1,5 +1,9 @@
 import express, { NextFunction, Request, Response } from "express";
-import { loginUser, registerUser } from "../controllers/authControllers";
+import {
+  getLoggedUser,
+  loginUser,
+  registerUser,
+} from "../controllers/authControllers";
 
 import {
   loginInputValidation,
@@ -21,6 +25,7 @@ const requestLimiter = rateLimit({
   message: { error: "Too many login attempts. Try again in 10 minutes" },
 });
 
+router.get("/getLoggedUser", getLoggedUser);
 router.post("/register", registerInputValidation, registerUser);
 router.post(
   "/login",
