@@ -18,8 +18,7 @@ export const createRecipe = async (req: Request, res: Response) => {
 
 /** @UserRequest extended type from Request that contains _id  */
 export const getAllRecipes: any = async (req: UserRequest, res: Response) => {
-  const { search } = req.query;
-  console.log(search);
+  const { search, category } = req.query;
 
   /** @queryObj will be used as default query for getAllRecipes */
   const queryObj: any = {
@@ -30,6 +29,14 @@ export const getAllRecipes: any = async (req: UserRequest, res: Response) => {
     queryObj.$or = [
       {
         recipeName: { $regex: search, $options: "i" },
+      },
+    ];
+  }
+
+  if (category) {
+    queryObj.$or = [
+      {
+        category: { $regex: category, $options: "i" },
       },
     ];
   }
