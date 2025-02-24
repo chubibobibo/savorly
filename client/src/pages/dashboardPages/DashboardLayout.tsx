@@ -1,8 +1,9 @@
-import { SyntheticEvent, useState } from "react";
+import { useState } from "react";
 // import { AllRecipesContext } from "../../context/contexts";
-import axios, { isAxiosError } from "axios";
+import axios from "axios";
 import { toast } from "react-toastify";
-import { useLoaderData, redirect } from "react-router-dom";
+import { useLoaderData, redirect, useSubmit } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
@@ -12,12 +13,9 @@ import SearchBadge from "../../components/SearchBadge";
 
 import { Form } from "react-router-dom";
 import { badgeCategories } from "../../utils/badgeCategories";
-import {
-  HandleEventQueryChange,
-  RecipeTypes,
-  SearchQueryType,
-} from "../../types/Types";
+import { RecipeTypes } from "../../types/Types";
 import { LoaderFunctionArgs } from "react-router-dom";
+import { SearchStateType } from "../../types/Types";
 
 /** @request used as argument to obtain the url in the request body */
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -37,90 +35,103 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 function DashboardLayout() {
-  // const context = useContext(AllRecipesContext);
+  const submit = useSubmit();
   const data = useLoaderData();
+  const navigate = useNavigate();
   const allRecipes = data.data.foundRecipes;
-  console.log(data);
+  // console.log(data);
 
   /** @badeId state that will be used to compare which badge is clicked */
   const [badgeId, setBadgeId] = useState("");
-  const [searchInput, setSearchInput] = useState<SearchQueryType>({
+  const [searchInput, setSearchInput] = useState<SearchStateType>({
     search: "",
   });
 
   const handleBadgeClick = (badgeName: string) => {
     setBadgeId(badgeName);
+    navigate(`/dashboard?category=${badgeName}`);
   };
 
-  const handleChange = (e: HandleEventQueryChange): void => {
-    setSearchInput((prev: SearchQueryType) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setSearchInput((prev: { search: string }) => {
       return { ...prev, search: e.target.value };
     });
+    submit(e.currentTarget.form);
   };
-  console.log(searchInput);
+  // console.log(searchInput);
+
   return (
     <>
       {/** handle @context if it is null. (Initial value of context is null) */}
-      {allRecipes && allRecipes.length !== 0 ? (
-        <section>
-          <NavigationComponent />
-          <section className='w-screen flex justify-center'>
-            <Form
-              className='px-2 flex justify-center items-center flex-col'
-              action='/dashboard'
-            >
-              <section className='flex w-full items-center pb-4'>
-                <input
-                  className='shadow-lg border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline block max-w-2xl m-auto '
-                  id='search'
-                  type='search'
-                  placeholder='Search Recipes...'
-                  name='search'
-                  onChange={handleChange}
-                  value={searchInput.search}
-                />
-                {/** logo for the search bar */}
-                <FaMagnifyingGlass
-                  className='pl-2 md:mr-5 md:pl-0 text-gray-600'
-                  size={30}
-                />
-              </section>
+      {/* {allRecipes && allRecipes.length !== 0 ? ( */}
+      <section>
+        <NavigationComponent />
+        <section className='w-screen flex justify-center'>
+          <Form
+            className='px-2 flex justify-center items-center flex-col'
+            action='/dashboard'
+          >
+            <section className='flex w-full items-center pb-4'>
+              <input
+                className='shadow-lg border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline block max-w-2xl m-auto '
+                id='search'
+                type='search'
+                placeholder='Search Recipes...'
+                name='search'
+                onChange={handleChange}
+                value={searchInput.search}
+              />
+              {/** logo for the search bar */}
+              <FaMagnifyingGlass
+                className='pl-2 md:mr-5 md:pl-0 text-gray-600'
+                size={30}
+              />
+            </section>
 
-              <section className='flex flex-row flex-wrap justify-center gap-x-5'>
-                {/** mapped badges */}
-                {badgeCategories.map((allCategories) => {
-                  return (
-                    <section key={allCategories.name}>
-                      <SearchBadge
-                        name={allCategories.name}
-                        BadgeIcon={allCategories.icon}
-                        onClick={() => handleBadgeClick(allCategories.name)}
-                        badgeId={badgeId}
-                      />
-                    </section>
-                  );
-                })}
-              </section>
-            </Form>
-          </section>
-          <section className='p-5 flex flex-col gap-6'>
-            {allRecipes.map((allRecipes: RecipeTypes) => {
-              return (
-                <section key={allRecipes._id}>
-                  <CardComponentVert
-                    recipeName={allRecipes.recipeName}
-                    recipeDescription={allRecipes.recipeDescription}
-                    cookingTime={allRecipes.cookingTime}
-                    category={allRecipes.category}
-                  />
-                </section>
-              );
-            })}
-          </section>
+            <section className='flex flex-row flex-wrap justify-center gap-x-5'>
+              {/** mapped badges */}
+              {badgeCategories.map((allCategories) => {
+                return (
+                  <section key={allCategories.name}>
+                    <SearchBadge
+                      name={allCategories.name}
+                      BadgeIcon={allCategories.icon}
+                      onClick={() => handleBadgeClick(allCategories.name)}
+                      badgeId={badgeId}
+                    />
+                  </section>
+                );
+              })}
+            </section>
+          </Form>
         </section>
-      ) : (
+        <section className='p-5 flex flex-col gap-6'>
+          {allRecipes.length === 0 ? (
+            <>
+              <h1>Wow, soooo empty</h1>
+            </>
+          ) : (
+            <>
+              {" "}
+              {allRecipes.map((eachRecipes: RecipeTypes) => {
+                return (
+                  <section key={eachRecipes._id}>
+                    <CardComponentVert
+                      recipeName={eachRecipes.recipeName}
+                      recipeDescription={eachRecipes.recipeDescription}
+                      cookingTime={eachRecipes.cookingTime}
+                      category={eachRecipes.category}
+                    />
+                  </section>
+                );
+              })}
+            </>
+          )}
+        </section>
+      </section>
+      {/* ) : (
         <h1>Wow sooo empty here</h1>
-      )}
+      )} */}
     </>
   );
 }
