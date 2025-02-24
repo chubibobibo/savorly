@@ -62,9 +62,6 @@ export interface SyntheticEvent<T> {
   currentTarget: EventTarget & T;
 }
 
-export interface HandleEventQueryChange
-  extends React.ChangeEvent<HTMLInputElement> {}
-
-export interface SearchQueryType {
+export interface SearchStateType {
   search: string;
 }
