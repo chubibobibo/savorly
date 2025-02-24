@@ -35,12 +35,12 @@ export type RecipePropsIndex = {
 };
 
 export type UserTypes = {
-  userData: {
+  userData?: {
     username: string;
     lastName: string;
     firstName: string;
     email: string;
-    setPassword: (args: string) => string;
+    setPassword?: (args: string) => string;
     password: string;
     role: string;
     createdAt: string;

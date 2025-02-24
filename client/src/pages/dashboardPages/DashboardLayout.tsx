@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import { useLoaderData, redirect, useSubmit } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+import LoggedUserContextProvider from "../../context/LoggedUserContextProvider";
+
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
 import CardComponentVert from "../../components/CardComponentVert";
@@ -65,7 +67,9 @@ function DashboardLayout() {
       {/** handle @context if it is null. (Initial value of context is null) */}
       {/* {allRecipes && allRecipes.length !== 0 ? ( */}
       <section>
-        <NavigationComponent />
+        <LoggedUserContextProvider>
+          <NavigationComponent />
+        </LoggedUserContextProvider>
         <section className='w-screen flex justify-center'>
           <Form
             className='px-2 flex justify-center items-center flex-col'

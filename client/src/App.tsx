@@ -43,9 +43,7 @@ function App() {
           path: "dashboard",
           element: (
             <ProtectRoutes>
-              {/* <RecipesContextProvider> */}
               <DashboardLayout />
-              {/* </RecipesContextProvider> */}
             </ProtectRoutes>
           ),
           loader: recipesLoader,
