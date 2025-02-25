@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import {
   getLoggedUser,
   loginUser,
+  logout,
   registerUser,
 } from "../controllers/authControllers";
 
@@ -55,5 +56,6 @@ router.post(
   },
   loginUser
 );
+router.post("/logout", logout);
 
 export default router;

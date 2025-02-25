@@ -67,3 +67,14 @@ export const getLoggedUser: any = async (req: UserRequest, res: Response) => {
   }
   res.status(StatusCodes.OK).json({ message: "LoggedUser", loggedUser });
 };
+
+/** Logging out user */
+export const logout = (req: Request, res: Response, next: NextFunction) => {
+  req.logout((err) => {
+    if (err) {
+      console.log(err);
+      next(err);
+    }
+    res.status(StatusCodes.OK).json({ message: "User logged out" });
+  });
+};
