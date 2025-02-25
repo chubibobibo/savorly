@@ -31,12 +31,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 function LoginPage() {
   const navigate = useNavigate();
   const handleBackNav = () => {
-    return navigate(-1);
+    return navigate("/");
   };
   return (
     <section className='p-2 py-10 m-auto md:p-30 '>
       <span
-        className='flex gap-2 items-center cursor-pointer focus:text-gray-300 hover:text-gray-500 active:text-gray-500'
+        className='flex gap-2 items-center cursor-pointer focus:text-gray-300 hover:text-gray-500 active:text-gray-500 mb-7'
         onClick={handleBackNav}
       >
         <FaArrowCircleLeft size={30} /> Back

@@ -15,7 +15,7 @@ function LoggedUserContextProvider({ children }: ChildrenInterface) {
       const controller = new AbortController();
       const getLoggedUser = async () => {
         const response = await axios.get("/api/auth/getLoggedUser");
-        console.log(response);
+        // console.log(response);
         setLoggedUserData((prev) => {
           return { ...prev, userData: response?.data?.loggedUser };
         });

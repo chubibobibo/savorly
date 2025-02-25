@@ -21,11 +21,27 @@ import { badgeCategories } from "../utils/badgeCategories";
 import { useState } from "react";
 import { LoggedUserContext } from "../context/contexts";
 import { useContext } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function NavigationComponent() {
+  /** @userData logged user data from the LoggedUserContextProvider */
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const userData = useContext(LoggedUserContext);
-  console.log(userData);
+  const navigate = useNavigate();
+
+  const handleLogoutClick = async () => {
+    try {
+      axios.post("/api/auth/logout");
+      navigate("/login");
+      toast.success("User is logged out");
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong in logging out");
+    }
+  };
+  // console.log(userData);
 
   return (
     <>
@@ -104,11 +120,24 @@ function NavigationComponent() {
               About Us
             </a>
           </PopoverGroup>
-          <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
-            <a href='#' className='text-sm/6 font-semibold text-gray-900'>
-              Log in <span aria-hidden='true'>&rarr;</span>
-            </a>
-          </div>
+          {userData?.userData ? (
+            <>
+              <div
+                className='hidden lg:flex lg:flex-1 lg:justify-end'
+                onClick={handleLogoutClick}
+              >
+                <a href='#' className='text-sm/6 font-semibold text-gray-900'>
+                  Log out <span aria-hidden='true'>&rarr;</span>
+                </a>
+              </div>
+            </>
+          ) : (
+            <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
+              <a href='#' className='text-sm/6 font-semibold text-gray-900'>
+                Log in <span aria-hidden='true'>&rarr;</span>
+              </a>
+            </div>
+          )}
         </nav>
         <Dialog
           open={mobileMenuOpen}
@@ -197,14 +226,28 @@ function NavigationComponent() {
                     Company
                   </a>
                 </div>
-                <div className='py-6'>
-                  <a
-                    href='#'
-                    className='-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50'
-                  >
-                    Log in
-                  </a>
-                </div>
+                {userData?.userData ? (
+                  <>
+                    {" "}
+                    <div className='py-6' onClick={handleLogoutClick}>
+                      <a
+                        href='#'
+                        className='-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50'
+                      >
+                        Log out
+                      </a>
+                    </div>
+                  </>
+                ) : (
+                  <div className='py-6'>
+                    <a
+                      href='#'
+                      className='-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50'
+                    >
+                      Log in
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           </DialogPanel>

@@ -1,4 +1,4 @@
-import { Form } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 
 function FormsLogin() {
   return (
@@ -37,7 +37,11 @@ function FormsLogin() {
             name='password'
           />
         </div>
-        <div className='flex items-center justify-center'>
+        <div className='flex flex-col items-center justify-center'>
+          <span className='pt-4'>No account yet?</span>
+          <Link to='/register' className='cursor-pointer pb-4'>
+            Register
+          </Link>
           <button
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer'
             type='submit'
