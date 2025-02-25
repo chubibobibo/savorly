@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useLoaderData, redirect, useSubmit } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import LazyLoadingComponent from "../../components/LazyLoadingComponent";
 
 import LoggedUserContextProvider from "../../context/LoggedUserContextProvider";
 
@@ -119,14 +120,16 @@ function DashboardLayout() {
               {" "}
               {allRecipes.map((eachRecipes: RecipeTypes) => {
                 return (
-                  <section key={eachRecipes._id}>
-                    <CardComponentVert
-                      recipeName={eachRecipes.recipeName}
-                      recipeDescription={eachRecipes.recipeDescription}
-                      cookingTime={eachRecipes.cookingTime}
-                      category={eachRecipes.category}
-                    />
-                  </section>
+                  <LazyLoadingComponent key={eachRecipes._id}>
+                    <section>
+                      <CardComponentVert
+                        recipeName={eachRecipes.recipeName}
+                        recipeDescription={eachRecipes.recipeDescription}
+                        cookingTime={eachRecipes.cookingTime}
+                        category={eachRecipes.category}
+                      />
+                    </section>
+                  </LazyLoadingComponent>
                 );
               })}
             </>

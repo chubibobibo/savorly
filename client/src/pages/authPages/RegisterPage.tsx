@@ -37,7 +37,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 function RegisterPage() {
   const navigate = useNavigate();
   const handleBackNav = () => {
-    return navigate(-1);
+    return navigate("/");
   };
   return (
     // <section className='p-2'>
