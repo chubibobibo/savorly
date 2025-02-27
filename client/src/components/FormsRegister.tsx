@@ -1,10 +1,10 @@
-import { Form } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 function FormsRegister() {
   return (
     <section className='forms-register'>
       <div className='w-full max-w-lg '>
         <Form
-          className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 md:h-[40rem] md:flex md:flex-col md:gap-3'
+          className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 md:h-[45rem] md:flex md:flex-col md:gap-3'
           method='POST'
         >
           <div className='mb-2'>
@@ -97,7 +97,11 @@ function FormsRegister() {
               name='reEnterPassword'
             />
           </div>
-          <div className='flex items-center justify-center'>
+          <div className='flex flex-col items-center justify-center'>
+            <span className='pt-2'>Already have an account?</span>
+            <Link to='/login' className='pb-2 cursor-pointer'>
+              Login
+            </Link>
             <button
               className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer'
               type='submit'
@@ -106,7 +110,7 @@ function FormsRegister() {
             </button>
           </div>
         </Form>
-        <p className='text-center text-gray-500 text-xs'>
+        <p className='text-center text-gray-500 text-xs pb-2'>
           &copy;2022 SAVORLY All rights reserved.
         </p>
       </div>
