@@ -145,9 +145,6 @@ function DashboardLayout() {
           )}
         </section>
       </section>
-      {/* ) : (
-        <h1>Wow sooo empty here</h1>
-      )} */}
     </>
   );
 }

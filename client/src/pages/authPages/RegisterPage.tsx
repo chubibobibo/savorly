@@ -10,14 +10,17 @@ import { FaArrowCircleLeft } from "react-icons/fa";
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData(); // obtains data from form
   // console.log(formData.get("reEnterPassword"));
+  // const file = formData.get('photoUrl')
+  // const photo = formData.get("photoUrl");
+  // console.log(photo);
   const reEnteredPassword = formData.get("reEnterPassword");
   const password = formData.get("password");
   if (password !== reEnteredPassword) {
     return toast.error("Passwords do no match");
   } else {
-    const data = Object.fromEntries(formData); //converts form data to objects
+    // const data = Object.fromEntries(formData); //converts form data to objects
     try {
-      await axios.post("/api/auth/register", data);
+      await axios.post("/api/auth/register", formData);
       toast.success("Registration successful");
       return redirect("/login");
     } catch (err) {
