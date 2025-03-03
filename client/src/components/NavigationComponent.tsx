@@ -41,7 +41,7 @@ function NavigationComponent() {
       toast.error("Something went wrong in logging out");
     }
   };
-  // console.log(userData);
+  console.log(userData);
 
   return (
     <>
@@ -54,7 +54,11 @@ function NavigationComponent() {
           <div className='flex lg:flex-1 items-center'>
             <a href='#' className='-m-1.5 p-1.5'>
               <span className='sr-only'>Your Company</span>
-              <img alt='' src='/logo.png' className='h-10 w-auto rounded-3xl' />
+              <img
+                alt=''
+                src={userData?.userData?.photoUrl}
+                className='h-10 w-auto rounded-3xl'
+              />
             </a>
             <p className='px-2'>{`Welcome ${userData?.userData?.username}`}</p>
           </div>

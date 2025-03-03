@@ -10,7 +10,7 @@ import LoggedUserContextProvider from "../../context/LoggedUserContextProvider";
 
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
-import CardComponentVert from "../../components/CardComponentVert";
+// import CardComponentVert from "../../components/CardComponentVert";
 import NavigationComponent from "../../components/navigationComponent";
 import SearchBadge from "../../components/SearchBadge";
 
@@ -19,6 +19,7 @@ import { badgeCategories } from "../../utils/badgeCategories";
 import { RecipeTypes } from "../../types/Types";
 import { LoaderFunctionArgs } from "react-router-dom";
 import { SearchStateType } from "../../types/Types";
+import CardComponentHorz from "../../components/CardComponentHorz";
 
 /** @request used as argument to obtain the url in the request body */
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -50,9 +51,9 @@ function DashboardLayout() {
     search: "",
   });
 
-  const handleBadgeClick = (badgeName: string) => {
-    setBadgeId(badgeName);
-    navigate(`/dashboard?category=${badgeName}`);
+  const handleBadgeClick = (badgeValue: string) => {
+    setBadgeId(badgeValue);
+    navigate(`/dashboard?category=${badgeValue}`);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -101,7 +102,7 @@ function DashboardLayout() {
                     <SearchBadge
                       name={allCategories.name}
                       BadgeIcon={allCategories.icon}
-                      onClick={() => handleBadgeClick(allCategories.name)}
+                      onClick={() => handleBadgeClick(allCategories.value)}
                       badgeId={badgeId}
                     />
                   </section>
@@ -110,19 +111,27 @@ function DashboardLayout() {
             </section>
           </Form>
         </section>
-        <section className='p-5 flex flex-col gap-6'>
+        <section className='p-5 flex flex-col gap-6 items-center'>
           {allRecipes.length === 0 ? (
             <>
               <h1>Wow, soooo empty</h1>
             </>
           ) : (
-            <>
+            <section className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>
               {" "}
               {allRecipes.map((eachRecipes: RecipeTypes) => {
                 return (
                   <LazyLoadingComponent key={eachRecipes._id}>
-                    <section>
+                    {/* <section className='sm:hidden'>
                       <CardComponentVert
+                        recipeName={eachRecipes.recipeName}
+                        recipeDescription={eachRecipes.recipeDescription}
+                        cookingTime={eachRecipes.cookingTime}
+                        category={eachRecipes.category}
+                      />
+                    </section> */}
+                    <section>
+                      <CardComponentHorz
                         recipeName={eachRecipes.recipeName}
                         recipeDescription={eachRecipes.recipeDescription}
                         cookingTime={eachRecipes.cookingTime}
@@ -132,13 +141,10 @@ function DashboardLayout() {
                   </LazyLoadingComponent>
                 );
               })}
-            </>
+            </section>
           )}
         </section>
       </section>
-      {/* ) : (
-        <h1>Wow sooo empty here</h1>
-      )} */}
     </>
   );
 }
