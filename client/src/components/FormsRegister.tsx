@@ -1,4 +1,5 @@
 import { Form, Link } from "react-router-dom";
+
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import InputForms from "./inputForms";
 
@@ -8,6 +9,7 @@ function FormsRegister() {
       <div className='w-full max-w-lg '>
         <Form
           className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4  md:flex md:flex-col md:gap-3'
+
           method='POST'
           encType='multipart/form-data'
         >
@@ -83,6 +85,7 @@ function FormsRegister() {
             name={"reEnterPassword"}
             id={"reEnterPassword"}
           />
+
           <div className='flex flex-col items-center justify-center'>
             <span className='pt-2'>Already have an account?</span>
             <Link to='/login' className='pb-2 cursor-pointer'>
