@@ -21,6 +21,9 @@ import { LoaderFunctionArgs } from "react-router-dom";
 import { SearchStateType } from "../../types/Types";
 import CardComponentHorz from "../../components/CardComponentHorz";
 
+import AddRecipeModal from "../../components/AddRecipeModal";
+
+
 /** @request used as argument to obtain the url in the request body */
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   try {
@@ -51,6 +54,13 @@ function DashboardLayout() {
     search: "",
   });
 
+  const [toggleModal, setToggleModal] = useState(false);
+
+  const modalClick = () => {
+    setToggleModal((prevToggle) => !prevToggle);
+  };
+
+
   const handleBadgeClick = (badgeValue: string) => {
     setBadgeId(badgeValue);
     navigate(`/dashboard?category=${badgeValue}`);
@@ -64,6 +74,9 @@ function DashboardLayout() {
   };
   // console.log(searchInput);
 
+  // console.log(toggleModal);
+
+
   return (
     <>
       {/** handle @context if it is null. (Initial value of context is null) */}
@@ -72,9 +85,12 @@ function DashboardLayout() {
         <LoggedUserContextProvider>
           <NavigationComponent />
         </LoggedUserContextProvider>
-        <section className='w-screen flex justify-center'>
+
+
+        <section className='w-screen flex justify-center flex-col items-center gap-2'>
           <Form
-            className='px-2 flex justify-center items-center flex-col'
+            className='px-2 py-4 flex justify-center items-center flex-col border-b-1 border-gray-200 gap-2 md:w-screen mb-2'
+
             action='/dashboard'
           >
             <section className='flex w-full items-center pb-4'>
@@ -110,6 +126,27 @@ function DashboardLayout() {
               })}
             </section>
           </Form>
+
+
+          <section className=' bg-light-custom-purple w-10/12 rounded-3xl p-4 md:p-8 place-items-center'>
+            <p className='pb-2'>
+              Create your own recipes that will only be visible to you.
+            </p>
+            <p className='text-sm text-gray-500 place-items-center pb-5'>
+              You can also check our collection of recipes from the internet.
+            </p>
+            <button className='custom-buttons' onClick={modalClick}>
+              Add Recipe
+            </button>
+          </section>
+          <section>
+            {toggleModal && (
+              <AddRecipeModal
+                setToggleModal={setToggleModal}
+                toggleModal={toggleModal}
+              />
+            )}
+          </section>
         </section>
         <section className='p-5 flex flex-col gap-6 items-center'>
           {allRecipes.length === 0 ? (
@@ -122,14 +159,6 @@ function DashboardLayout() {
               {allRecipes.map((eachRecipes: RecipeTypes) => {
                 return (
                   <LazyLoadingComponent key={eachRecipes._id}>
-                    {/* <section className='sm:hidden'>
-                      <CardComponentVert
-                        recipeName={eachRecipes.recipeName}
-                        recipeDescription={eachRecipes.recipeDescription}
-                        cookingTime={eachRecipes.cookingTime}
-                        category={eachRecipes.category}
-                      />
-                    </section> */}
                     <section>
                       <CardComponentHorz
                         recipeName={eachRecipes.recipeName}
@@ -145,9 +174,7 @@ function DashboardLayout() {
           )}
         </section>
       </section>
-      {/* ) : (
-        <h1>Wow sooo empty here</h1>
-      )} */}
+
     </>
   );
 }
