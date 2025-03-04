@@ -41,7 +41,7 @@ function NavigationComponent() {
       toast.error("Something went wrong in logging out");
     }
   };
-  console.log(userData);
+  // console.log(userData);
 
   return (
     <>
@@ -56,7 +56,11 @@ function NavigationComponent() {
               <span className='sr-only'>Your Company</span>
               <img
                 alt=''
-                src={userData?.userData?.photoUrl}
+                src={
+                  userData?.userData?.photoUrl
+                    ? userData?.userData?.photoUrl
+                    : "./logo.png"
+                }
                 className='h-10 w-auto rounded-3xl'
               />
             </a>
@@ -143,6 +147,7 @@ function NavigationComponent() {
             </div>
           )}
         </nav>
+        {/* mobile*/}
         <Dialog
           open={mobileMenuOpen}
           onClose={setMobileMenuOpen}
