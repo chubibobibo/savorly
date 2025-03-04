@@ -1,11 +1,15 @@
+import { HTMLInputTypeAttribute } from "react";
+
 type InputProps = {
   title: string;
-  type: string;
+  type: HTMLInputTypeAttribute;
   name: string;
   id: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string | number;
 };
 
-function InputForms({ title, type, name, id }: InputProps) {
+function InputForms({ title, type, name, id, onChange, value }: InputProps) {
   return (
     <>
       <div className='mb-2'>
@@ -21,6 +25,8 @@ function InputForms({ title, type, name, id }: InputProps) {
           type={type}
           placeholder={title}
           name={name}
+          onChange={onChange}
+          value={value}
         />
       </div>
     </>
