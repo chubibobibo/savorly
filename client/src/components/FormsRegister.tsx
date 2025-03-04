@@ -1,5 +1,6 @@
 import { Form, Link } from "react-router-dom";
 import { PhotoIcon } from "@heroicons/react/24/solid";
+import InputForms from "./inputForms";
 
 function FormsRegister() {
   return (
@@ -46,96 +47,42 @@ function FormsRegister() {
             </div>
           </div>
 
-          <div className='mb-2'>
-            <label
-              className='block text-gray-700 text-sm font-bold mb-1'
-              htmlFor='username'
-            >
-              Username
-            </label>
-            <input
-              className='input-field shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-green-600 focus:border-2'
-              id='username'
-              type='text'
-              placeholder='Username'
-              name='username'
-            />
-          </div>
-          <div className='mb-2'>
-            <label
-              className='block text-gray-700 text-sm font-bold mb-1'
-              htmlFor='firstName'
-            >
-              First Name
-            </label>
-            <input
-              className='input-field shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-green-600 focus:border-2'
-              id='firstName'
-              type='text'
-              placeholder='First Name'
-              name='firstName'
-            />
-          </div>
-          <div className='mb-2'>
-            <label
-              className='block text-gray-700 text-sm font-bold mb-1'
-              htmlFor='lastName'
-            >
-              Last Name
-            </label>
-            <input
-              className='input-field shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-green-600 focus:border-2'
-              id='lastName'
-              type='text'
-              placeholder='Last Name'
-              name='lastName'
-            />
-          </div>
-          <div className='mb-2'>
-            <label
-              className='block text-gray-700 text-sm font-bold mb-1'
-              htmlFor='email'
-            >
-              Email
-            </label>
-            <input
-              className='input-field shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-green-600 focus:border-2'
-              id='email'
-              type='text'
-              placeholder='Email'
-              name='email'
-            />
-          </div>
-          <div className='mb-2'>
-            <label
-              className='block text-gray-700 text-sm font-bold mb-1'
-              htmlFor='password'
-            >
-              Password
-            </label>
-            <input
-              className='input-field shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-green-600 focus:border-2'
-              id='password'
-              type='password'
-              placeholder='*******'
-              name='password'
-            />
-          </div>
-          <div className='mb-2'>
-            <label
-              className='block text-gray-700 text-sm font-bold mb-1'
-              htmlFor='reEnterPassword'
-            >
-              Re-enter your password
-            </label>
-            <input
-              className='input-field shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-green-600 focus:border-2'
-              id='reEnterPassword'
-              type='password'
-              placeholder='*******'
-              name='reEnterPassword'
-            />
-          </div>
+          <InputForms
+            title={"Username"}
+            type={"text"}
+            name={"username"}
+            id={"username"}
+          />
+          <InputForms
+            title={"First name"}
+            type={"text"}
+            name={"firstName"}
+            id={"firstName"}
+          />
+          <InputForms
+            title={"Last name"}
+            type={"text"}
+            name={"lastName"}
+            id={"lastName"}
+          />
+          <InputForms
+            title={"Email"}
+            type={"email"}
+            name={"email"}
+            id={"email"}
+          />
+          <InputForms
+            title={"Password"}
+            type={"password"}
+            name={"password"}
+            id={"password"}
+          />
+          <InputForms
+            title={"Re-enter your password"}
+            type={"password"}
+            name={"reEnterPassword"}
+            id={"reEnterPassword"}
+          />
           <div className='flex flex-col items-center justify-center'>
             <span className='pt-2'>Already have an account?</span>
             <Link to='/login' className='pb-2 cursor-pointer'>
