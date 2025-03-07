@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Label,
   Listbox,
@@ -9,12 +8,34 @@ import {
 import { ChevronUpDownIcon } from "@heroicons/react/16/solid";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { badgeCategories } from "../utils/badgeCategories";
+import { IconType } from "react-icons";
 
-function SelectInputForms() {
-  const [selected, setSelected] = useState(badgeCategories[3]);
+type ChangeType = {
+  selected: {
+    name: string;
+    value: string;
+    description: string;
+    href: string;
+    badgeId: number;
+    icon: IconType;
+  };
+  setSelected: (value: {
+    name: string;
+    value: string;
+    description: string;
+    href: string;
+    badgeId: number;
+    icon: IconType;
+  }) => void;
+};
+
+function SelectInputForms({ selected, setSelected }: ChangeType) {
+  //   const [selected, setSelected] = useState(badgeCategories[3]);
+
+  //   console.log(selected);
   return (
-    <section className=''>
-      <Listbox value={selected} onChange={setSelected}>
+    <section>
+      <Listbox value={selected} onChange={setSelected} name='category'>
         <Label className='block  text-gray-700 text-sm font-bold mb-1'>
           Recipe Category
         </Label>
