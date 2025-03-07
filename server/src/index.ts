@@ -15,6 +15,11 @@ import { ExpressError } from "./ExpressError/ExpressError";
 import passport from "passport";
 import UserModel from "./Schema/UserSchema";
 
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import path from "path";
+import { v2 as cloudinary } from "cloudinary";
+
 //interface to type check err
 interface AppError {
   status?: number;
@@ -28,6 +33,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); //parses data and populates req.body if content is application/x-www-form-urlencoded
 app.use(cors());
+// const __dirname = dirname(fileURLToPath(import.meta.url));
+// app.use(express.static(path.resolve(__dirname, "./src/public")));
+app.use(express.static("./src/public"));
 
 // connection to mongoose
 // ensure that the connection string exist before passing it as connection arg.
@@ -76,13 +84,19 @@ app.use(
   })
 );
 
-// initalize passport
+// initialize passport
 app.use(passport.initialize()); // creates passport object that contains user data
 app.use(passport.session()); // adds the passport object to session that allows persistent userdata.
 passport.use(UserModel.createStrategy()); //allows passport to use local strategy define in the USerSchema
 
 passport.serializeUser(UserModel.serializeUser() as any); // determines what data of user is stored when logging in
 passport.deserializeUser(UserModel.deserializeUser() as any); // attaches the user data from the the database to the req.user obj.
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
 
 //ROUTES
 app.use("/api/auth/", userRoute);
