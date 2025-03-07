@@ -18,6 +18,7 @@ function TextAreaForms({ onChange }: ChangeType) {
         rows={5}
         onChange={onChange}
         name='recipeInstruction'
+        required
       ></textarea>
     </>
   );
