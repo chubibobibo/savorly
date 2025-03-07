@@ -7,12 +7,26 @@ import { NextFunction, Request, Response } from "express";
 import { UserInterfaceType } from "../Schema/UserSchema";
 import { UserRequest } from "../types/Types";
 import { RequestHandler } from "express";
+import cloudinary from "cloudinary";
+import { promises as fs } from "fs"; //fs used to remove image files from the storage
 
 /** REGISTER USER */
 /** @isAdmin boolean that determines if created user is first in the collection, to be used to specify roles */
 export const registerUser = async (req: Request, res: Response) => {
   if (!req.body) {
     throw new ExpressError("no data received", StatusCodes.NOT_FOUND);
+  }
+
+  if (req.file) {
+    // console.log(req.file);
+    const response = await cloudinary.v2.uploader.upload(req.file.path, {
+      folder: "savorly",
+      quality: 70,
+    });
+    // console.log(response);
+    fs.unlink(req.file.path);
+    req.body.photoUrl = response.secure_url;
+    req.body.photoId = response.public_id;
   }
 
   const { password }: UserInterfaceType = req.body;

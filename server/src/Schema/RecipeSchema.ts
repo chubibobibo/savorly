@@ -13,7 +13,7 @@ interface SchemaType {
   recipeInstruction: string;
   createdBy: Types.ObjectId;
   category: string;
-  cookingTime: number;
+  cookingTime: string;
   photoId: string;
   photoUrl: string;
 }
@@ -59,7 +59,7 @@ const RecipeSchema = new Schema<SchemaType>(
     },
 
     cookingTime: {
-      type: Number,
+      type: String,
       required: true,
     },
 
