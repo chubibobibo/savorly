@@ -6,7 +6,7 @@ import { UserRequest, UserTypes } from "../types/Types";
 import cloudinary from "cloudinary";
 import { promises as fs } from "fs";
 
-export const createRecipe = async (req: Request, res: Response) => {
+export const createRecipe: any = async (req: UserRequest, res: Response) => {
   if (!req.body) {
     throw new ExpressError("No data received", StatusCodes.NOT_FOUND);
   }
@@ -38,11 +38,11 @@ export const createRecipe = async (req: Request, res: Response) => {
     req.body.recipeIngredients = parsedData;
   }
 
-  // if (!req.user) {
-  //   res.status(StatusCodes.NOT_FOUND).json({ message: "User not logged in" });
-  // } else {
-  //   req.body.createdBy = req.user._id;
-  // }
+  if (!req.user) {
+    throw new ExpressError("User not found", StatusCodes.NOT_FOUND);
+  } else {
+    req.body.createdBy = req.user._id;
+  }
 
   const addedRecipe = await RecipeModel.create(req.body);
   if (!addedRecipe) {

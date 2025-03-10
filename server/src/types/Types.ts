@@ -23,7 +23,11 @@ export interface UserTypes {
 // }
 
 export interface UserRequest extends Request {
+  // user: {
+  //   _id: Types.ObjectId;
+  // };
+  // _id: Types.ObjectId;
   user: {
-    _id: Types.ObjectId;
+    _id: string;
   };
 }
