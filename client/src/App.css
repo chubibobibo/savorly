@@ -1,10 +1,15 @@
 @import "tailwindcss";
+@plugin "daisyui";
+@plugin 'daisyui/theme' {
+  name: "light";
+
+  --color-primary: #41c1a5;
+}
 
 @theme {
   --font-rubik: "Rubik";
   /* colors */
   --color-custom-green: #41c1a5;
-  --color-custom-blue: #009edc;
   --color-custom-yellow: #ffce5d;
   --color-light-custom-green: #e5fbf3;
   --color-light-custom-yellow: #f7fae7;
