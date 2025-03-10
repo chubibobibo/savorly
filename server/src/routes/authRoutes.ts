@@ -15,6 +15,8 @@ import { StatusCodes } from "http-status-codes";
 
 import { rateLimit } from "express-rate-limit";
 
+import upload from "../middleware/multerMiddleware";
+
 const router = express.Router();
 
 const requestLimiter = rateLimit({
@@ -27,7 +29,12 @@ const requestLimiter = rateLimit({
 });
 
 router.get("/getLoggedUser", getLoggedUser);
-router.post("/register", registerInputValidation, registerUser);
+router.post(
+  "/register",
+  upload.single("photoUrl"),
+  registerInputValidation,
+  registerUser
+);
 router.post(
   "/login",
   loginInputValidation,

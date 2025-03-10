@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { Request } from "express";
 
-export type UserTypes = {
+export interface UserTypes {
   username: string;
   lastName: string;
   firstName: string;
@@ -13,7 +13,7 @@ export type UserTypes = {
   photoId: string;
   photoUrl: string;
   _id: Types.ObjectId;
-};
+}
 
 /** extending @Request type object to include user and _id property. This allows us to type properly req.user._id */
 // export interface UserRequest extends Request {
