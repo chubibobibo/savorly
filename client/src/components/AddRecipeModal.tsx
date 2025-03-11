@@ -11,38 +11,20 @@ import React, { useState } from "react";
 // import { badgeCategories } from "../utils/badgeCategories";
 
 import UploadPhotoForm from "./UploadPhotoForm";
+import Button from "./Button";
 
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Form } from "react-router-dom";
+import IngredientTable from "./IngredientTable";
+import { RecipeTypes, IngredientType } from "../types/Types";
 
 interface setToggleModalType {
   setToggleModal: React.Dispatch<React.SetStateAction<boolean>>;
   toggleModal: boolean;
   navigate: () => void;
 }
-
-type RecipeDataType = {
-  recipeName?: string;
-  recipeDescription?: string;
-  recipeInstruction?: string;
-  category?: string;
-  cookingTime?: string;
-  recipeIngredients?: {
-    ingredientName?: string;
-    ingredientQty?: string | null;
-    id?: string | null;
-  }[];
-  photoUrl?: File | string | null;
-  photoId?: string | null;
-};
-
-type IngredientType = {
-  ingredientName?: string;
-  ingredientQty?: string | null;
-  id?: string | null;
-};
 
 function AddRecipeModal({
   setToggleModal,
@@ -54,22 +36,24 @@ function AddRecipeModal({
   /** @ingredients state that handles ingredient data that will be used to update with new data the recipeIngredient array in the recipeData */
   /** @handleInputChange handles input changes for input fields */
   /** @handleIngredientChange handles the ingredient name and ingredient qty fields */
-  /** @onClickAddIngredients updates the recipeData with all the previous data then adds to the recipeData.ingredients the value from the ingredients state (ingredientName and ingredientQty) */
+  /** @onClickAddIngredients updates the recipeData with all the previous data then adds to the recipeData.ingredients the value from the ingredients state (ingredientName and ingredientQty). Implemented checks if ingredients.ingredientName and ingredientQty is undefined of empty throws a toast error. */
   /** @formData created a new form data to be used in the addRecipe API. This is because we need to convert the ... */
   /** @file the photoUrl from the image upload input (using e.target.files[0])*/
   /** @handleImageInput  handles the file upload in the file upload input. This directly updates the photoUrl in the recipeData */
-  /** @handleSubmit created a new formData that will contain all the data of the recipe using data from the recipeData state. This will be sent as strings or blobs or files for multer to convert to req.file (which is an object) */
+  /** @handleSubmit created a new formData that will contain all the data of the recipe using data from the recipeData state. This will be sent as strings or blobs or files for multer to convert to req.file (which is an object). Clears the input field after submission by updating the ingredients state */
+  /** @recipeDataStateSetter callback function that sets the state using setRecipeState and passed as props to the Ingredientable component */
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [recipeData, setRecipeData] = useState<RecipeDataType>({
-    recipeName: "",
+  const [recipeData, setRecipeData] = useState<RecipeTypes>({
+    recipeName: "", // ensure this is always a string
     recipeDescription: "",
     recipeInstruction: "",
     category: "",
-    cookingTime: "",
+    cookingTime: 0,
     recipeIngredients: [],
     photoUrl: "",
     photoId: "",
+    createdBy: "",
   });
   const [ingredients, setIngredients] = useState<IngredientType>();
   //   const [photoUpload, setPhotoUpload] = useState({});
@@ -93,7 +77,7 @@ function AddRecipeModal({
   };
 
   const handleImageInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null; //image upload input uses files instead of values
+    const file = e.target.files ? e.target.files[0] : ""; //image upload input uses files instead of values
     //update the state of photoUrl with the file
     setRecipeData((prev) => {
       return { ...prev, photoUrl: file };
@@ -101,7 +85,7 @@ function AddRecipeModal({
   };
 
   const onClickAddIngredients = () => {
-    console.log(ingredients?.ingredientName, ingredients?.ingredientQty);
+    // console.log(ingredients?.ingredientName, ingredients?.ingredientQty);
     const genId = uuidv4();
     if (ingredients === undefined) {
       toast.error("Please add ingredients");
@@ -122,7 +106,7 @@ function AddRecipeModal({
         return {
           ...prev,
           recipeIngredients: [
-            ...(prev.recipeIngredients || []), // or empty array because we initialized recipeIngredients in the state as an empty array therefore it can be empty.
+            ...(prev?.recipeIngredients || []), // or empty array because we initialized recipeIngredients in the state as an empty array therefore it can be empty.
             {
               ingredientName: ingredients?.ingredientName,
               ingredientQty: ingredients?.ingredientQty,
@@ -135,9 +119,12 @@ function AddRecipeModal({
     }
   };
 
-  console.log(recipeData);
+  const RecipeDataStateSetter = (data: RecipeTypes) => {
+    setRecipeData(data);
+  };
 
-  //   console.log(ingredients);
+  console.log(recipeData);
+  // console.log(ingredients);
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -147,7 +134,7 @@ function AddRecipeModal({
     formData.append("recipeDescription", recipeData?.recipeDescription || "");
     formData.append("recipeInstruction", recipeData?.recipeInstruction || "");
     formData.append("category", recipeData?.category || "");
-    formData.append("cookingTime", recipeData?.cookingTime || "");
+    formData.append("cookingTime", recipeData?.cookingTime?.toString() || "");
     formData.append("photoUrl", recipeData?.photoUrl || "");
     recipeData?.recipeIngredients?.forEach((newIngredients) => {
       formData.append("recipeIngredients", JSON.stringify(newIngredients));
@@ -203,11 +190,6 @@ function AddRecipeModal({
                       >
                         Create your recipe
                       </DialogTitle>
-                      {/* <Form
-                      onSubmit={handleSubmit}
-                      method='POST'
-                      encType='multipart/form-data'
-                    > */}
                       <UploadPhotoForm onChange={handleImageInput} />
                       <InputForms
                         title={"Recipe Name"}
@@ -261,79 +243,38 @@ function AddRecipeModal({
                           value={ingredients?.ingredientQty ?? ""} //value is indicated to allow us to reset the input field after adding the ingredient.
                         />
                       </section>
-                      {/* </Form> */}
 
-                      <button
-                        className=' btn btn-primary btn-md btn-outline shadow-3xl text-base-content'
-                        onClick={onClickAddIngredients}
-                        type='button'
-                      >
-                        Add Ingredients
-                      </button>
-
-                      {/** ingredient list */}
-                      <section className='h-40 border-1 border-gray-300 overflow-y-scroll p-1'>
-                        <section className='bg-light-custom-purple rounded-md h-10 flex items-center justify-center'>
-                          <p className='my-auto '>Ingredient List</p>
-                        </section>
-                        <section className='grid grid-cols-2'>
-                          <section>
-                            <h2 className='text-sm border-b-1 mt-2 border-gray-300'>
-                              Name
-                            </h2>
-                            {recipeData?.recipeIngredients?.length !== 0 ? (
-                              recipeData?.recipeIngredients?.map((prev) => {
-                                return (
-                                  <section key={prev.id}>
-                                    <p className='text-sm mb-2'>
-                                      {prev.ingredientName}
-                                    </p>
-                                  </section>
-                                );
-                              })
-                            ) : (
-                              <p>Empty</p>
-                            )}
-                          </section>
-                          <section>
-                            <h2 className='text-sm border-b-1 border-gray-300 mt-2'>
-                              Quantity
-                            </h2>
-                            {recipeData?.recipeIngredients?.length !== 0 ? (
-                              recipeData?.recipeIngredients?.map((prev) => {
-                                return (
-                                  <section key={prev.id}>
-                                    <p className='text-sm mb-2'>
-                                      {prev.ingredientQty}
-                                    </p>
-                                  </section>
-                                );
-                              })
-                            ) : (
-                              <p>Empty</p>
-                            )}
-                          </section>
-                        </section>
-                      </section>
+                      <Button
+                        type={"button"}
+                        onClickProps={onClickAddIngredients}
+                        title={"Add Ingredients"}
+                        isDisabled={false}
+                        isSubmitting={false}
+                      />
                     </div>
+                    {/** ingredient list */}
+                    <IngredientTable
+                      data={recipeData}
+                      recipeDataStateSetter={RecipeDataStateSetter}
+                      recipeData={recipeData}
+                    />
                   </div>
                 </div>
-                <div className='bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
-                  <button
-                    type='submit'
-                    className='inline-flex w-full justify-center rounded-md bg-light-custom-green px-3 py-2 text-sm font-semibold text-black shadow-xs ring-green-200 hover:bg-green-500 sm:ml-3 sm:w-auto cursor-pointer'
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Creating your recipe..." : "Submit"}
-                  </button>
-                  <button
-                    type='button'
-                    data-autofocus
-                    onClick={() => setToggleModal(false)}
-                    className='mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto cursor-pointer'
-                  >
-                    Cancel
-                  </button>
+                <div className='bg-gray-50 px-4 py-5 sm:flex sm:flex-row-reverse sm:px-6 flex flex-col gap-2'>
+                  <Button
+                    title={"Submit"}
+                    type={"submit"}
+                    isSubmitting={isSubmitting}
+                    isDisabled={false}
+                  />
+
+                  <Button
+                    title={"Cancel"}
+                    type={"button"}
+                    isSubmitting={isSubmitting}
+                    isDisabled={false}
+                    onClickProps={() => setToggleModal(false)}
+                  />
                 </div>
               </DialogPanel>
             </Form>
