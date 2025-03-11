@@ -11,79 +11,49 @@ import React, { useState } from "react";
 // import { badgeCategories } from "../utils/badgeCategories";
 
 import UploadPhotoForm from "./UploadPhotoForm";
+import Button from "./Button";
 
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Form } from "react-router-dom";
-
-import { IconType } from "react-icons";
+import IngredientTable from "./IngredientTable";
+import { RecipeTypes, IngredientType } from "../types/Types";
 
 interface setToggleModalType {
   setToggleModal: React.Dispatch<React.SetStateAction<boolean>>;
   toggleModal: boolean;
+  navigate: () => void;
 }
 
-type RecipeDataType = {
-  recipeName?: string;
-  recipeDescription?: string;
-  recipeInstruction?: string;
-  category?: string;
-  cookingTime?: string;
-  recipeIngredients?: {
-    ingredientName?: string;
-    ingredientQty?: string | null;
-    id?: string | null;
-  }[];
-  photoUrl?: File | string | null;
-  photoId?: string | null;
-};
-
-type IngredientType = {
-  ingredientName?: string;
-  ingredientQty?: string | null;
-  id?: string | null;
-};
-
-function AddRecipeModal({ setToggleModal, toggleModal }: setToggleModalType) {
+function AddRecipeModal({
+  setToggleModal,
+  toggleModal,
+  navigate,
+}: setToggleModalType) {
   /** @selected state in the selectInput component that contains data of the recipe category selected */
   /** @recipeData state that handles of the data with regards to the recipe */
   /** @ingredients state that handles ingredient data that will be used to update with new data the recipeIngredient array in the recipeData */
   /** @handleInputChange handles input changes for input fields */
   /** @handleIngredientChange handles the ingredient name and ingredient qty fields */
-  /** @onClickAddIngredients updates the recipeData with all the previous data then adds to the recipeData.ingredients the value from the ingredients state (ingredientName and ingredientQty) */
+  /** @onClickAddIngredients updates the recipeData with all the previous data then adds to the recipeData.ingredients the value from the ingredients state (ingredientName and ingredientQty). Implemented checks if ingredients.ingredientName and ingredientQty is undefined of empty throws a toast error. */
   /** @formData created a new form data to be used in the addRecipe API. This is because we need to convert the ... */
   /** @file the photoUrl from the image upload input (using e.target.files[0])*/
   /** @handleImageInput  handles the file upload in the file upload input. This directly updates the photoUrl in the recipeData */
-  /** @handleSubmit created a new formData that will contain all the data of the recipe using data from the recipeData state. This will be sent as strings or blobs or files for multer to convert to req.file (which is an object) */
+  /** @handleSubmit created a new formData that will contain all the data of the recipe using data from the recipeData state. This will be sent as strings or blobs or files for multer to convert to req.file (which is an object). Clears the input field after submission by updating the ingredients state */
+  /** @recipeDataStateSetter callback function that sets the state using setRecipeState and passed as props to the Ingredientable component */
 
-  type BadgeType = {
-    name: string;
-    value: string;
-    description: string;
-    href: string;
-    badgeId: number;
-    icon: IconType | null;
-  };
-
-  const [selected, setSelected] = useState<BadgeType>({
-    name: "",
-    value: "",
-    description: "",
-    href: "",
-    badgeId: 0,
-    icon: null,
-  });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [recipeData, setRecipeData] = useState<RecipeDataType>({
-    recipeName: "",
+  const [recipeData, setRecipeData] = useState<RecipeTypes>({
+    recipeName: "", // ensure this is always a string
     recipeDescription: "",
     recipeInstruction: "",
     category: "",
-    cookingTime: "",
+    cookingTime: 0,
     recipeIngredients: [],
     photoUrl: "",
     photoId: "",
+    createdBy: "",
   });
   const [ingredients, setIngredients] = useState<IngredientType>();
   //   const [photoUpload, setPhotoUpload] = useState({});
@@ -107,7 +77,7 @@ function AddRecipeModal({ setToggleModal, toggleModal }: setToggleModalType) {
   };
 
   const handleImageInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null; //image upload input uses files instead of values
+    const file = e.target.files ? e.target.files[0] : ""; //image upload input uses files instead of values
     //update the state of photoUrl with the file
     setRecipeData((prev) => {
       return { ...prev, photoUrl: file };
@@ -115,26 +85,46 @@ function AddRecipeModal({ setToggleModal, toggleModal }: setToggleModalType) {
   };
 
   const onClickAddIngredients = () => {
+    // console.log(ingredients?.ingredientName, ingredients?.ingredientQty);
     const genId = uuidv4();
-    setRecipeData((prev) => {
-      return {
-        ...prev,
-        recipeIngredients: [
-          ...(prev.recipeIngredients || []), // or empty array because we initialized recipeIngredients in the state as an empty array therefore it can be empty.
-          {
-            ingredientName: ingredients?.ingredientName,
-            ingredientQty: ingredients?.ingredientQty,
-            id: genId,
-          },
-        ],
-      };
-    });
-    setIngredients({ ingredientName: "", ingredientQty: "", id: null });
+    if (ingredients === undefined) {
+      toast.error("Please add ingredients");
+    } else if (
+      ingredients?.ingredientName === "" ||
+      ingredients?.ingredientName === undefined ||
+      null
+    ) {
+      toast.error("Please add ingredients!!");
+    } else if (
+      ingredients?.ingredientQty === "" ||
+      ingredients?.ingredientQty === undefined ||
+      null
+    ) {
+      toast.error("Please add ingredients quantity!!");
+    } else {
+      setRecipeData((prev) => {
+        return {
+          ...prev,
+          recipeIngredients: [
+            ...(prev?.recipeIngredients || []), // or empty array because we initialized recipeIngredients in the state as an empty array therefore it can be empty.
+            {
+              ingredientName: ingredients?.ingredientName,
+              ingredientQty: ingredients?.ingredientQty,
+              id: genId,
+            },
+          ],
+        };
+      });
+      setIngredients({ ingredientName: "", ingredientQty: "", id: null });
+    }
   };
 
-  //   console.log(recipeData);
-  //   console.log(selected);
-  //   console.log(ingredients);
+  const RecipeDataStateSetter = (data: RecipeTypes) => {
+    setRecipeData(data);
+  };
+
+  console.log(recipeData);
+  // console.log(ingredients);
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -144,7 +134,7 @@ function AddRecipeModal({ setToggleModal, toggleModal }: setToggleModalType) {
     formData.append("recipeDescription", recipeData?.recipeDescription || "");
     formData.append("recipeInstruction", recipeData?.recipeInstruction || "");
     formData.append("category", recipeData?.category || "");
-    formData.append("cookingTime", recipeData?.cookingTime || "");
+    formData.append("cookingTime", recipeData?.cookingTime?.toString() || "");
     formData.append("photoUrl", recipeData?.photoUrl || "");
     recipeData?.recipeIngredients?.forEach((newIngredients) => {
       formData.append("recipeIngredients", JSON.stringify(newIngredients));
@@ -154,6 +144,7 @@ function AddRecipeModal({ setToggleModal, toggleModal }: setToggleModalType) {
       await axios.post("/api/recipe/createRecipe", formData);
       setToggleModal(false);
       toast.success("Created new recipe");
+      navigate(); // defined in the parent component (included in react router dom)
     } catch (err) {
       if (axios.isAxiosError(err)) {
         console.log(err);
@@ -174,18 +165,18 @@ function AddRecipeModal({ setToggleModal, toggleModal }: setToggleModalType) {
         onClose={setToggleModal}
         className='relative z-10'
       >
-        <Form
-          onSubmit={handleSubmit}
-          method='POST'
-          encType='multipart/form-data'
-        >
-          <DialogBackdrop
-            transition
-            className='fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in'
-          />
+        <DialogBackdrop
+          transition
+          className='fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in'
+        />
 
-          <div className='fixed inset-0 z-10 w-screen overflow-y-scroll'>
-            <div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 '>
+        <div className='fixed inset-0 z-10 w-screen overflow-y-scroll'>
+          <div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 '>
+            <Form
+              onSubmit={handleSubmit}
+              method='POST'
+              encType='multipart/form-data'
+            >
               <DialogPanel
                 transition
                 className='relative transform overflow-auto rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95 w-78'
@@ -206,29 +197,28 @@ function AddRecipeModal({ setToggleModal, toggleModal }: setToggleModalType) {
                         id={"recipeName"}
                         type={"text"}
                         onChange={handleInputChange}
-                        value={recipeData.recipeName}
+                        // value={recipeData.recipeName}
                       />
-                      <TextAreaForms onChange={handleInputChange} />
+                      <TextAreaForms
+                        onChange={handleInputChange}
+                        name={"recipeInstruction"}
+                      />
                       <InputForms
                         title={"Recipe Description"}
                         name={"recipeDescription"}
                         id={"recipeDescription"}
                         type={"text"}
                         onChange={handleInputChange}
-                        value={recipeData.recipeDescription}
+                        // value={recipeData.recipeDescription}
                       />
-                      <SelectInputForms
-                        selected={selected}
-                        setSelected={setSelected}
-                        handleInputChange={handleInputChange}
-                      />
+                      <SelectInputForms handleInputChange={handleInputChange} />
                       <InputForms
                         title={"Cooking Time"}
                         name={"cookingTime"}
                         id={"cookingTime"}
                         type={"number"}
                         onChange={handleInputChange}
-                        value={recipeData.cookingTime}
+                        // value={recipeData.cookingTime}
                       />
                       <section className='border-1 border-gray-300 p-2'>
                         <section className='bg-light-custom-purple p-2 rounded-2xl mb-2'>
@@ -242,7 +232,7 @@ function AddRecipeModal({ setToggleModal, toggleModal }: setToggleModalType) {
                           id={"ingredientName"}
                           type={"text"}
                           onChange={handleIngredientChange}
-                          value={ingredients?.ingredientName ?? ""} // ?? = right side is used if left is null or undefined
+                          value={ingredients?.ingredientName ?? ""} //value is indicated to allow us to reset the input field after adding the ingredient.
                         />
                         <InputForms
                           title={"Ingredient Quantity"}
@@ -250,92 +240,46 @@ function AddRecipeModal({ setToggleModal, toggleModal }: setToggleModalType) {
                           id={"ingredientQty"}
                           type={"number"}
                           onChange={handleIngredientChange}
-                          value={ingredients?.ingredientQty ?? ""}
+                          value={ingredients?.ingredientQty ?? ""} //value is indicated to allow us to reset the input field after adding the ingredient.
                         />
-                        {/* <button
-                          className='custom-buttons m-auto bg-light-custom-green active:bg-green-200 border-1 border-green-100'
-                          onClick={onClickAddIngredients}
-                          type='button'
-                        >
-                          Add Ingredient
-                        </button> */}
-                        <button
-                          type='button'
-                          data-autofocus
-                          onClick={onClickAddIngredients}
-                          className='mt-3 inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-green-200 ring-inset hover:bg-green-400 sm:mt-0 sm:w-auto bg-light-custom-green cursor-pointer '
-                        >
-                          Add Ingredients
-                        </button>
                       </section>
-                      {/** ingredient list */}
-                      <section className='h-40 border-1 border-gray-300 overflow-y-scroll p-1'>
-                        <section className='bg-light-custom-purple rounded-md h-10 flex items-center justify-center'>
-                          <p className='my-auto '>Ingredient List</p>
-                        </section>
-                        <section className='grid grid-cols-2'>
-                          <section>
-                            <h2 className='text-sm border-b-1 mt-2 border-gray-300'>
-                              Name
-                            </h2>
-                            {recipeData?.recipeIngredients?.length !== 0 ? (
-                              recipeData?.recipeIngredients?.map((prev) => {
-                                return (
-                                  <section key={prev.id}>
-                                    <p className='text-sm mb-2'>
-                                      {prev.ingredientName}
-                                    </p>
-                                  </section>
-                                );
-                              })
-                            ) : (
-                              <p>Empty</p>
-                            )}
-                          </section>
-                          <section>
-                            <h2 className='text-sm border-b-1 border-gray-300 mt-2'>
-                              Quantity
-                            </h2>
-                            {recipeData?.recipeIngredients?.length !== 0 ? (
-                              recipeData?.recipeIngredients?.map((prev) => {
-                                return (
-                                  <section key={prev.id}>
-                                    <p className='text-sm mb-2'>
-                                      {prev.ingredientQty}
-                                    </p>
-                                  </section>
-                                );
-                              })
-                            ) : (
-                              <p>Empty</p>
-                            )}
-                          </section>
-                        </section>
-                      </section>
+
+                      <Button
+                        type={"button"}
+                        onClickProps={onClickAddIngredients}
+                        title={"Add Ingredients"}
+                        isDisabled={false}
+                        isSubmitting={false}
+                      />
                     </div>
+                    {/** ingredient list */}
+                    <IngredientTable
+                      data={recipeData}
+                      recipeDataStateSetter={RecipeDataStateSetter}
+                      recipeData={recipeData}
+                    />
                   </div>
                 </div>
-                <div className='bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
-                  <button
-                    type='submit'
-                    className='inline-flex w-full justify-center rounded-md bg-light-custom-green px-3 py-2 text-sm font-semibold text-black shadow-xs ring-green-200 hover:bg-green-500 sm:ml-3 sm:w-auto cursor-pointer'
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Creating your recipe..." : "Submit"}
-                  </button>
-                  <button
-                    type='button'
-                    data-autofocus
-                    onClick={() => setToggleModal(false)}
-                    className='mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto cursor-pointer'
-                  >
-                    Cancel
-                  </button>
+                <div className='bg-gray-50 px-4 py-5 sm:flex sm:flex-row-reverse sm:px-6 flex flex-col gap-2'>
+                  <Button
+                    title={"Submit"}
+                    type={"submit"}
+                    isSubmitting={isSubmitting}
+                    isDisabled={false}
+                  />
+
+                  <Button
+                    title={"Cancel"}
+                    type={"button"}
+                    isSubmitting={isSubmitting}
+                    isDisabled={false}
+                    onClickProps={() => setToggleModal(false)}
+                  />
                 </div>
               </DialogPanel>
-            </div>
+            </Form>
           </div>
-        </Form>
+        </div>
       </Dialog>
     </section>
   );

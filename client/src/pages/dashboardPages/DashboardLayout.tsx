@@ -1,17 +1,19 @@
 import { useState } from "react";
-// import { AllRecipesContext } from "../../context/contexts";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useLoaderData, redirect, useSubmit } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import {
+  useLoaderData,
+  redirect,
+  useSubmit,
+  useNavigate,
+} from "react-router-dom";
 import LazyLoadingComponent from "../../components/LazyLoadingComponent";
 
 import LoggedUserContextProvider from "../../context/LoggedUserContextProvider";
 
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
-// import CardComponentVert from "../../components/CardComponentVert";
-import NavigationComponent from "../../components/navigationComponent";
+import NavigationComponent from "../../components/NavigationComponent";
 import SearchBadge from "../../components/SearchBadge";
 
 import { Form } from "react-router-dom";
@@ -42,13 +44,18 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 function DashboardLayout() {
+  /** @modalClick handles the rendering of modal to add recipes by updating the toggleModal state */
+  /** @handleBadgeClick handles the querying of recipes by navigating to a url with the corresponding query hard coded to it */
+  /** @handleChange handles the changes of values in the search input query */
+  /** @navigateToDashboard function that employs useNavigate to /dashboard page which is passed as props to the modal to add recipes which allows navigation after successful submission of post request */
+
   const submit = useSubmit();
   const data = useLoaderData();
   const navigate = useNavigate();
   const allRecipes = data.data.foundRecipes;
   // console.log(data);
 
-  /** @badeId state that will be used to compare which badge is clicked */
+  /** @badgeId state that will be used to compare which badge is clicked */
   const [badgeId, setBadgeId] = useState("");
   const [searchInput, setSearchInput] = useState<SearchStateType>({
     search: "",
@@ -71,6 +78,10 @@ function DashboardLayout() {
       return { ...prev, search: e.target.value };
     });
     submit(e.currentTarget.form);
+  };
+
+  const navigateToDashboard = () => {
+    navigate("/dashboard");
   };
   // console.log(searchInput);
 
@@ -135,7 +146,10 @@ function DashboardLayout() {
             <p className='text-sm text-gray-500 place-items-center pb-5'>
               You can also check our collection of recipes from the internet.
             </p>
-            <button className='custom-buttons' onClick={modalClick}>
+            <button
+              className=' btn btn-primary btn-md btn-outline shadow-3xl text-base-content'
+              onClick={modalClick}
+            >
               Add Recipe
             </button>
           </section>
@@ -144,6 +158,7 @@ function DashboardLayout() {
               <AddRecipeModal
                 setToggleModal={setToggleModal}
                 toggleModal={toggleModal}
+                navigate={navigateToDashboard}
               />
             )}
           </section>

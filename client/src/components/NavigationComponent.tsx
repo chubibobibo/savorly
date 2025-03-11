@@ -10,11 +10,7 @@ import {
   PopoverPanel,
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-  // PhoneIcon,
-  // PlayCircleIcon,
-} from "@heroicons/react/20/solid";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 import { badgeCategories } from "../utils/badgeCategories";
 
@@ -49,7 +45,7 @@ function NavigationComponent() {
       <header className='bg-white'>
         <nav
           aria-label='Global'
-          className='mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8'
+          className='mx-auto flex max-w-7xl items-center justify-between pt-3 px-3 lg:px-8'
         >
           <div className='flex lg:flex-1 items-center'>
             <a href='#' className='-m-1.5 p-1.5'>

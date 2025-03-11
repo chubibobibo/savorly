@@ -11,9 +11,12 @@ import { Request, Response, NextFunction } from "express";
 
 import UserModel from "../Schema/UserSchema";
 
+import recipeCategories from "../utils/recipeCategories";
+
 //create a function that will handle the error
 //This function will accept an array (validateValues) of valeus to be validated.
 //then this function will return the array we passed as an argument and an error response
+// console.log(Object.values(recipeCategories));
 const withValidationErrors = (validateValues: ValidationChain[]) => {
   return [
     ...validateValues, // spread to treat validateValues as an array of function instead of a single middleware (typescript)
@@ -86,4 +89,35 @@ export const loginInputValidation = withValidationErrors([
     .withMessage("Password cannot be empty")
     .isLength({ min: 8 })
     .withMessage("Password must be at least 8 characters"),
+]);
+
+export const addRecipesInputValidation = withValidationErrors([
+  body("recipeName").notEmpty().withMessage("Recipe name cannot be empty"),
+  body("recipeInstruction")
+    .notEmpty()
+    .withMessage("Recipe instruction cannot be empty"),
+  body("recipeDescription")
+    .isLength({ min: 5 })
+    .withMessage("Recipe description should be between 5 to 250 characters")
+    .notEmpty()
+    .withMessage("Recipe description cannot be empty"),
+
+  body("category")
+    .notEmpty()
+    .withMessage("Category cannot be empty")
+    .isIn(Object.values(recipeCategories))
+    .withMessage("Invalid category"),
+  body("cookingTime")
+    .notEmpty()
+    .withMessage("Cooking time cannot be empty")
+    .isNumeric()
+    .withMessage("Cooking time must be a number"),
+  // body("recipeIngredients.*.ingredientName")
+  //   .notEmpty()
+  //   .withMessage("Ingredient name cannot be empty"),
+  // body("recipeIngredients.*.ingredientQty")
+  //   .notEmpty()
+  //   .withMessage("Ingredient quantity cannot be empty")
+  //   .isNumeric()
+  //   .withMessage("Ingredient quantity must be a number"),
 ]);
