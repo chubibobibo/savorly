@@ -2,9 +2,11 @@ import { Request, Response } from "express";
 import { ExpressError } from "../ExpressError/ExpressError";
 import { StatusCodes } from "http-status-codes";
 import { RecipeModel } from "../Schema/RecipeSchema";
-import { UserRequest, UserTypes } from "../types/Types";
+import { ParsedDataType, UserRequest, UserTypes } from "../types/Types";
 import cloudinary from "cloudinary";
 import { promises as fs } from "fs";
+
+/** @parsedDataArray array where the parsed ingredients data is pushed then used as the new value of req.body.recipeIngredients */
 
 export const createRecipe: any = async (req: UserRequest, res: Response) => {
   if (!req.body) {
@@ -24,20 +26,23 @@ export const createRecipe: any = async (req: UserRequest, res: Response) => {
     req.body.photoId = response.public_id;
   }
 
+  // console.log(req.body.recipeIngredients);
   /** multiple recipeIngredients results in an array that needs to be mapped and parsed for each of the items */
   /** single recipe ingredient needs to be parsed without mapping */
+  const parsedDataArray: ParsedDataType[][] = [];
   if (Array.isArray(req.body.recipeIngredients)) {
     req.body.recipeIngredients.map((ingredients: any) => {
-      const parsedData = (ingredients = JSON.parse(ingredients));
-      req.body.recipeIngredients = parsedData;
+      const parsedData: ParsedDataType[] = JSON.parse(ingredients);
+      parsedDataArray.push(parsedData);
+      // console.log(parsedData);
+      req.body.recipeIngredients = parsedDataArray;
+      // console.log(req.body.recipeIngredients);
     });
   } else {
-    const parsedData = (req.body.recipeIngredients = JSON.parse(
-      req.body.recipeIngredients
-    ));
+    const parsedData = JSON.parse(req.body.recipeIngredients);
     req.body.recipeIngredients = parsedData;
   }
-
+  // console.log(req.body.recipeIngredients);
   if (!req.user) {
     throw new ExpressError("User not found", StatusCodes.NOT_FOUND);
   } else {
