@@ -20,7 +20,7 @@ function InputForms({ title, type, name, id, onChange, value }: InputProps) {
           {title}
         </label>
         <input
-          className='input-field input-field-forms'
+          className='input input-primary'
           id={id}
           type={type}
           placeholder={title}

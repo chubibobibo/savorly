@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer, Zoom } from "react-toastify";
 import {
   useLoaderData,
   redirect,
@@ -22,7 +22,8 @@ import { RecipeTypes } from "../../types/Types";
 import { LoaderFunctionArgs } from "react-router-dom";
 import { SearchStateType } from "../../types/Types";
 import CardComponentHorz from "../../components/CardComponentHorz";
-import AddRecipeModal from "../../components/AddRecipeModal";
+// import AddRecipeModal from "../../components/AddRecipeModal";
+import ModalAddRecipe from "../../components/ModalAddRecipe";
 
 /** @request used as argument to obtain the url in the request body */
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -58,10 +59,20 @@ function DashboardLayout() {
   const [searchInput, setSearchInput] = useState<SearchStateType>({
     search: "",
   });
-  const [toggleModal, setToggleModal] = useState(false);
+  // const [toggleModal, setToggleModal] = useState(false);
 
-  const modalClick = () => {
-    setToggleModal((prevToggle) => !prevToggle);
+  // const modalClick = () => {
+  //   setToggleModal((prevToggle) => !prevToggle);
+  // };
+
+  const openModal = () => {
+    const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
+    modal?.showModal();
+  };
+
+  const closeModal = () => {
+    const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
+    modal?.close();
   };
 
   const handleBadgeClick = (badgeValue: string) => {
@@ -84,6 +95,14 @@ function DashboardLayout() {
 
   return (
     <>
+      <ToastContainer
+        position='top-center'
+        closeOnClick
+        transition={Zoom}
+        autoClose={5000}
+        hideProgressBar={true}
+        theme='colored'
+      />
       {/** handle @context if it is null. (Initial value of context is null) */}
       {/* {allRecipes && allRecipes.length !== 0 ? ( */}
       <section>
@@ -93,7 +112,7 @@ function DashboardLayout() {
 
         <section className='w-screen flex justify-center flex-col items-center gap-2'>
           <Form
-            className='px-2 py-4 flex justify-center items-center flex-col border-b-1 border-gray-200 gap-2 md:w-screen mb-2'
+            className='px-2 py-4 flex justify-center items-center flex-col border-b-1 border-gray-200 gap-2 md:w-screen mb-2 md:mb-8'
             action='/dashboard'
           >
             <section className='flex w-full items-center pb-4'>
@@ -130,21 +149,25 @@ function DashboardLayout() {
             </section>
           </Form>
 
-          <section className=' bg-light-custom-purple w-10/12 rounded-3xl p-4 md:p-8 place-items-center'>
-            <p className='pb-2'>
+          <section className=' bg-light-custom-purple w-10/12 rounded-3xl p-4 md:p-8 md:w-4/12 place-items-center'>
+            <p className='pb-2 md:text-base'>
               Create your own recipes that will only be visible to you.
             </p>
-            <p className='text-sm text-gray-500 place-items-center pb-5'>
+            <p className='text-sm text-gray-500 place-items-center pb-5 md:text-base'>
               You can also check our collection of recipes from the internet.
             </p>
-            <button
+            {/* <button
               className=' btn btn-primary btn-md btn-outline shadow-3xl text-base-content'
               onClick={modalClick}
             >
               Add Recipe
+            </button> */}
+            <button className='btn' onClick={openModal}>
+              open modal
             </button>
           </section>
-          <section>
+          {/** old modal */}
+          {/* <section>
             {toggleModal && (
               <AddRecipeModal
                 setToggleModal={setToggleModal}
@@ -152,12 +175,22 @@ function DashboardLayout() {
                 navigate={navigateToDashboard}
               />
             )}
+          </section> */}
+          {/*test of new modal*/}
+          <section className='z-0'>
+            {
+              <ModalAddRecipe
+                navigate={navigateToDashboard}
+                closeModal={closeModal}
+                // openModal={openModal}
+              />
+            }
           </section>
         </section>
         <section className='p-5 flex flex-col gap-6 items-center'>
           {allRecipes.length === 0 ? (
             <>
-              <h1>Wow, soooo empty</h1>
+              <h1 className='md:text-lg'>Wow, soooo empty</h1>
             </>
           ) : (
             <section className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>

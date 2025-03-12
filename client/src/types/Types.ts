@@ -8,6 +8,7 @@ export type IngredientType = {
 
 export type RecipeTypes = {
   recipeName: string;
+  // recipeIngredients: IngredientType[];
   recipeIngredients: IngredientType[];
   recipeDescription: string;
   recipeInstruction: string;

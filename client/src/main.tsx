@@ -11,9 +11,10 @@ createRoot(document.getElementById("root")!).render(
       position='top-center'
       closeOnClick
       transition={Zoom}
-      autoClose={8000}
+      autoClose={5000}
       hideProgressBar={true}
       theme='colored'
+      style={{ zIndex: 100 }}
     />
     <App />
   </StrictMode>
