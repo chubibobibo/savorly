@@ -1,9 +1,10 @@
 type ChangeType = {
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   name: string;
+  value: string;
 };
 
-function TextAreaForms({ onChange, name }: ChangeType) {
+function TextAreaForms({ onChange, name, value }: ChangeType) {
   return (
     <>
       <label
@@ -14,11 +15,12 @@ function TextAreaForms({ onChange, name }: ChangeType) {
       </label>
       <textarea
         id='recipeInstruction'
-        className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-green-600 focus:border-2'
+        className='textarea textarea-primary'
         placeholder='Recipe Instruction'
         rows={5}
         onChange={onChange}
         name={name}
+        value={value}
       ></textarea>
     </>
   );

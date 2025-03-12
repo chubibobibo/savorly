@@ -15,7 +15,11 @@ function SelectInputForms({ handleInputChange }: ChangeType) {
         onChange={handleInputChange}
       >
         {badgeCategories.map((newCat) => (
-          <option value={newCat.name} key={newCat?.badgeId}>
+          <option
+            value={newCat.name}
+            key={newCat?.badgeId}
+            defaultValue={"pork"}
+          >
             {newCat.name}
           </option>
         ))}

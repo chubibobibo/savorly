@@ -42,7 +42,7 @@ function NavigationComponent() {
   return (
     <>
       {/** DESKTOP */}
-      <header className='bg-white'>
+      <header className='bg-white md:text-base md:py-10'>
         <nav
           aria-label='Global'
           className='mx-auto flex max-w-7xl items-center justify-between pt-3 px-3 lg:px-8'
@@ -74,7 +74,7 @@ function NavigationComponent() {
           </div>
           <PopoverGroup className='hidden lg:flex lg:gap-x-12'>
             <Popover className='relative'>
-              <PopoverButton className='flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900'>
+              <PopoverButton className='flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 md:text-base'>
                 Search other's recipes
                 <ChevronDownIcon
                   aria-hidden='true'
@@ -117,10 +117,16 @@ function NavigationComponent() {
               </PopoverPanel>
             </Popover>
 
-            <a href='#' className='text-sm/6 font-semibold text-gray-900'>
+            <a
+              href='#'
+              className='text-sm/6 font-semibold text-gray-900 md:text-base'
+            >
               Create your own recipe
             </a>
-            <a href='#' className='text-sm/6 font-semibold text-gray-900'>
+            <a
+              href='#'
+              className='text-sm/6 font-semibold text-gray-900 md:text-base'
+            >
               About Us
             </a>
           </PopoverGroup>
@@ -130,20 +136,27 @@ function NavigationComponent() {
                 className='hidden lg:flex lg:flex-1 lg:justify-end'
                 onClick={handleLogoutClick}
               >
-                <a href='#' className='text-sm/6 font-semibold text-gray-900'>
+                <a
+                  href='#'
+                  className='text-sm/6 font-semibold text-gray-900 md:text-base'
+                >
                   Log out <span aria-hidden='true'>&rarr;</span>
                 </a>
               </div>
             </>
           ) : (
             <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
-              <a href='#' className='text-sm/6 font-semibold text-gray-900'>
+              <a
+                href='#'
+                className='text-sm/6 font-semibold text-gray-900 md:text-base'
+              >
                 Log in <span aria-hidden='true'>&rarr;</span>
               </a>
             </div>
           )}
         </nav>
-        {/* mobile*/}
+
+        {/* mobile view*/}
         <Dialog
           open={mobileMenuOpen}
           onClose={setMobileMenuOpen}
@@ -237,7 +250,7 @@ function NavigationComponent() {
                     <div className='py-6' onClick={handleLogoutClick}>
                       <a
                         href='#'
-                        className='-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50'
+                        className='-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50 md:text-base'
                       >
                         Log out
                       </a>
@@ -247,7 +260,7 @@ function NavigationComponent() {
                   <div className='py-6'>
                     <a
                       href='#'
-                      className='-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50'
+                      className='-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50 md:text-base'
                     >
                       Log in
                     </a>

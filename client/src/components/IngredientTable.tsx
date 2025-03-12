@@ -1,4 +1,5 @@
 import { RecipeDataProps } from "../types/Types";
+import { IoIosCloseCircle } from "react-icons/io";
 
 function IngredientTable({
   data,
@@ -13,7 +14,7 @@ function IngredientTable({
     recipeDataStateSetter((prev) => {
       return { ...prev, recipeIngredients: [...filtered] };
     });
-    console.log(filtered);
+    // console.log(filtered);
   };
   return (
     <>
@@ -27,7 +28,7 @@ function IngredientTable({
               <th>Quantity</th>
             </tr>
           </thead>
-          <tbody className='text-[12px]'>
+          <tbody className='text-[14px]'>
             {/* row 1 */}
             {data?.recipeIngredients.length !== 0 ? (
               data?.recipeIngredients.map((prev) => {
@@ -39,7 +40,7 @@ function IngredientTable({
                         filteredRecipes(prev.id ? prev.id : "");
                       }}
                     >
-                      X
+                      <IoIosCloseCircle size={20} color='red' />
                     </th>
                     <td>{prev.ingredientName}</td>
                     <td>{prev.ingredientQty}</td>
