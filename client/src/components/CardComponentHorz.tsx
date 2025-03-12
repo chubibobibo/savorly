@@ -17,6 +17,7 @@ function CardComponentHorz({
         <div className='h-48 w-auto sm:w-74 lg:h-auto lg:w-48  flex-none rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden'>
           <img
             src='/logo.png'
+
             alt='recipe image'
             className='h-48 w-90 object-cover lg:object-cover lg:h-60'
           />

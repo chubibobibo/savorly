@@ -22,8 +22,11 @@ import { RecipeTypes } from "../../types/Types";
 import { LoaderFunctionArgs } from "react-router-dom";
 import { SearchStateType } from "../../types/Types";
 import CardComponentHorz from "../../components/CardComponentHorz";
+
 // import AddRecipeModal from "../../components/AddRecipeModal";
 import ModalAddRecipe from "../../components/ModalAddRecipe";
+
+
 
 /** @request used as argument to obtain the url in the request body */
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -59,7 +62,9 @@ function DashboardLayout() {
   const [searchInput, setSearchInput] = useState<SearchStateType>({
     search: "",
   });
-  // const [toggleModal, setToggleModal] = useState(false);
+
+
+
 
   // const modalClick = () => {
   //   setToggleModal((prevToggle) => !prevToggle);
@@ -74,6 +79,7 @@ function DashboardLayout() {
     const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
     modal?.close();
   };
+
 
   const handleBadgeClick = (badgeValue: string) => {
     setBadgeId(badgeValue);
@@ -91,7 +97,9 @@ function DashboardLayout() {
     navigate("/dashboard");
   };
   // console.log(searchInput);
+
   // console.log(toggleModal);
+
 
   return (
     <>
@@ -110,9 +118,12 @@ function DashboardLayout() {
           <NavigationComponent />
         </LoggedUserContextProvider>
 
+
         <section className='w-screen flex justify-center flex-col items-center gap-2'>
           <Form
+
             className='px-2 py-4 flex justify-center items-center flex-col border-b-1 border-gray-200 gap-2 md:w-screen mb-2 md:mb-8'
+
             action='/dashboard'
           >
             <section className='flex w-full items-center pb-4'>
@@ -149,8 +160,10 @@ function DashboardLayout() {
             </section>
           </Form>
 
+
           <section className=' bg-light-custom-purple w-10/12 rounded-3xl p-4 md:p-8 md:w-4/12 place-items-center'>
             <p className='pb-2 md:text-base'>
+
               Create your own recipes that will only be visible to you.
             </p>
             <p className='text-sm text-gray-500 place-items-center pb-5 md:text-base'>
@@ -213,6 +226,7 @@ function DashboardLayout() {
           )}
         </section>
       </section>
+
     </>
   );
 }
