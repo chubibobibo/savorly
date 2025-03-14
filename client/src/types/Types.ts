@@ -24,7 +24,15 @@ export type RecipePropsIndex = {
   recipeName: string;
   recipeDescription: string;
   cookingTime: number;
-  category: string;
+  category:
+    | "pork"
+    | "beef"
+    | "fish"
+    | "chicken"
+    | "vegetarian"
+    | "vegan"
+    | "dessert";
+  _id?: string;
 };
 
 export type RecipeDataProps = {

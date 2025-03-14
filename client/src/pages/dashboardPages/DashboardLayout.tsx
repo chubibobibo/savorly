@@ -18,7 +18,7 @@ import SearchBadge from "../../components/SearchBadge";
 
 import { Form } from "react-router-dom";
 import { badgeCategories } from "../../utils/badgeCategories";
-import { RecipeTypes } from "../../types/Types";
+import { RecipePropsIndex } from "../../types/Types";
 import { LoaderFunctionArgs } from "react-router-dom";
 import { SearchStateType } from "../../types/Types";
 import CardComponentHorz from "../../components/CardComponentHorz";
@@ -64,11 +64,6 @@ function DashboardLayout() {
   });
 
 
-
-
-  // const modalClick = () => {
-  //   setToggleModal((prevToggle) => !prevToggle);
-  // };
 
   const openModal = () => {
     const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
@@ -169,27 +164,13 @@ function DashboardLayout() {
             <p className='text-sm text-gray-500 place-items-center pb-5 md:text-base'>
               You can also check our collection of recipes from the internet.
             </p>
-            {/* <button
-              className=' btn btn-primary btn-md btn-outline shadow-3xl text-base-content'
-              onClick={modalClick}
+            <button
+              className='btn btn-primary btn-md  shadow-3xl text-base-content'
+              onClick={openModal}
             >
               Add Recipe
-            </button> */}
-            <button className='btn' onClick={openModal}>
-              open modal
             </button>
           </section>
-          {/** old modal */}
-          {/* <section>
-            {toggleModal && (
-              <AddRecipeModal
-                setToggleModal={setToggleModal}
-                toggleModal={toggleModal}
-                navigate={navigateToDashboard}
-              />
-            )}
-          </section> */}
-          {/*test of new modal*/}
           <section className='z-0'>
             {
               <ModalAddRecipe
@@ -208,7 +189,7 @@ function DashboardLayout() {
           ) : (
             <section className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>
               {" "}
-              {allRecipes.map((eachRecipes: RecipeTypes) => {
+              {allRecipes.map((eachRecipes: RecipePropsIndex) => {
                 return (
                   <LazyLoadingComponent key={eachRecipes._id}>
                     <section>

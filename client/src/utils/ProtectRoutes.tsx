@@ -7,6 +7,8 @@ type ProtectedRoutes = {
   children: React.ReactNode;
 };
 
+/** @ProtectedRoutes accepts children props which allows to render components that are wrapped with ProtectedRoute component. using useEffect to fetch the logged user and saving it in a variable that we used to render the children component dynamically */
+
 function ProtectRoutes({ children }: ProtectedRoutes) {
   const navigate = useNavigate();
   const [user, setUser] = useState({ userData: {} });
