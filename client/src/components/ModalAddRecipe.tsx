@@ -178,7 +178,7 @@ function ModalAddRecipe({ navigate, closeModal }: setToggleModalType) {
           theme='colored'
         />
         {/** MAIN CONTAINER */}
-        <div className='modal-box'>
+        <div className='modal-box md:w-5/12 md:max-w-7xl md:h-[70rem]'>
           <h3 className='font-bold text-lg'>Create your Recipe</h3>
           <p className='py-4'>
             Press ESC key or click the button below to close
@@ -188,8 +188,9 @@ function ModalAddRecipe({ navigate, closeModal }: setToggleModalType) {
               onSubmit={handleSubmit}
               method='POST'
               encType='multipart/form-data'
+              className='w-12/12 md:w-7/12'
             >
-              <div>
+              <div className='md:flex md:flex-col md:w-full gap-6'>
                 <UploadPhotoForm onChange={handleImageInput} />
                 <InputForms
                   title={"Recipe Name"}
