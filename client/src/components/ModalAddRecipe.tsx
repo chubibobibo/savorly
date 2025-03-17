@@ -178,7 +178,7 @@ function ModalAddRecipe({ navigate, closeModal }: setToggleModalType) {
           theme='colored'
         />
         {/** MAIN CONTAINER */}
-        <div className='modal-box'>
+        <div className='modal-box md:w-5/12 md:max-w-7xl md:h-[70rem]'>
           <h3 className='font-bold text-lg'>Create your Recipe</h3>
           <p className='py-4'>
             Press ESC key or click the button below to close
@@ -188,8 +188,9 @@ function ModalAddRecipe({ navigate, closeModal }: setToggleModalType) {
               onSubmit={handleSubmit}
               method='POST'
               encType='multipart/form-data'
+              className='w-12/12 md:w-7/12'
             >
-              <div>
+              <div className='md:flex md:flex-col md:w-full gap-6'>
                 <UploadPhotoForm onChange={handleImageInput} />
                 <InputForms
                   title={"Recipe Name"}
@@ -222,7 +223,7 @@ function ModalAddRecipe({ navigate, closeModal }: setToggleModalType) {
                   value={recipeData.cookingTime}
                 />
                 <section className='border-1 border-gray-300 p-0 flex flex-col justify-center items-center rounded-xl pb-4'>
-                  <section className='bg-light-custom-purple p-10 rounded-t-xl mb-2 h-25 flex justify-center items-center'>
+                  <section className='bg-light-custom-purple p-10 rounded-t-xl mb-2 h-25 flex justify-center items-center md:w-full'>
                     <p className='text-sm'>
                       Add your ingredients and their quantity in the table
                       below.
