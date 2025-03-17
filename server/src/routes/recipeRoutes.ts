@@ -1,11 +1,16 @@
 import express from "express";
 const router = express.Router();
-import { createRecipe, getAllRecipes } from "../controllers/recipesController";
+import {
+  createRecipe,
+  getAllRecipes,
+  getRecipe,
+} from "../controllers/recipesController";
 import { isLoggedIn } from "../middleware/isLoggedIn";
 import upload from "../middleware/multerMiddleware";
 import { addRecipesInputValidation } from "../middleware/inputValidation";
 
 router.get("/getAllRecipes", isLoggedIn, getAllRecipes);
+router.get("/recipe/:id", getRecipe);
 //adding a recipe
 router.post(
   "/createRecipe",

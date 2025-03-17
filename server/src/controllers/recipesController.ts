@@ -91,3 +91,13 @@ export const getAllRecipes: any = async (req: UserRequest, res: Response) => {
     res.status(StatusCodes.OK).json({ message: "recipes found", foundRecipes });
   }
 };
+
+/** GET SPECIFIC RECIPE */
+export const getRecipe = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const foundRecipe = await RecipeModel.find({ _id: id });
+  if (!foundRecipe) {
+    throw new ExpressError("No recipe found", StatusCodes.NOT_FOUND);
+  }
+  res.status(StatusCodes.OK).json({ message: "Recipe Found", foundRecipe });
+};
