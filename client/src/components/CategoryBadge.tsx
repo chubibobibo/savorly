@@ -1,6 +1,7 @@
 import { badgeProperties } from "../utils/badgeProperties";
 import { capitalize } from "../utils/capitalize";
 
+/** This component is rendered in it's parent component CardComponentHorz.tsx */
 type CategoryProps = {
   category:
     | "pork"

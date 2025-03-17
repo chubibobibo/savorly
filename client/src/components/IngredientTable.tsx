@@ -7,6 +7,8 @@ function IngredientTable({
   recipeDataStateSetter,
 }: RecipeDataProps) {
   /** @filteredRecipes function that filters recipesIngredients by it's id then updates the recipeIngredient in the recipeData state to the filtered ingredients */
+  /** @recipeDataDateSetter callback  function that allows the setting of recipeData state. */
+
   const filteredRecipes = (id: string) => {
     const filtered = recipeData?.recipeIngredients?.filter(
       (recipesFiltered) => recipesFiltered.id !== id
@@ -34,13 +36,16 @@ function IngredientTable({
               data?.recipeIngredients.map((prev) => {
                 return (
                   <tr key={prev.id}>
-                    {/* <th>{index + 1}</th> */}
                     <th
                       onClick={() => {
                         filteredRecipes(prev.id ? prev.id : "");
                       }}
                     >
-                      <IoIosCloseCircle size={20} color='red' />
+                      <IoIosCloseCircle
+                        size={20}
+                        color='red'
+                        cursor='pointer'
+                      />
                     </th>
                     <td>{prev.ingredientName}</td>
                     <td>{prev.ingredientQty}</td>

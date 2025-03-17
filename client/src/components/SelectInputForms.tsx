@@ -10,7 +10,7 @@ function SelectInputForms({ handleInputChange }: ChangeType) {
     <section className='flex flex-col'>
       <select
         defaultValue='Select a category'
-        className='select select-primary'
+        className='select select-primary md:w-12/12'
         name='category'
         onChange={handleInputChange}
       >

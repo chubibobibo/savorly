@@ -15,7 +15,7 @@ function TextAreaForms({ onChange, name, value }: ChangeType) {
       </label>
       <textarea
         id='recipeInstruction'
-        className='textarea textarea-primary'
+        className='textarea textarea-primary md:w-12/12'
         placeholder='Recipe Instruction'
         rows={5}
         onChange={onChange}
