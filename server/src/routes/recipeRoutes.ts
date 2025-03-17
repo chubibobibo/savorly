@@ -10,7 +10,7 @@ import upload from "../middleware/multerMiddleware";
 import { addRecipesInputValidation } from "../middleware/inputValidation";
 
 router.get("/getAllRecipes", isLoggedIn, getAllRecipes);
-router.get("/recipe/:id", getRecipe);
+router.get("/recipe/:id", isLoggedIn, getRecipe);
 //adding a recipe
 router.post(
   "/createRecipe",
