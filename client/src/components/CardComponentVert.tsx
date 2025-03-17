@@ -4,6 +4,7 @@ import CategoryBadge from "./CategoryBadge";
 
 import { FaRegClock } from "react-icons/fa";
 import { MdOutlineDescription } from "react-icons/md";
+import { Button } from "@headlessui/react";
 
 function CardComponentVert({
   recipeName,
@@ -29,6 +30,7 @@ function CardComponentVert({
             {recipeDescription}
           </p>
         </div>
+        <Button />
       </div>
     </>
   );

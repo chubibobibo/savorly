@@ -1,13 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
-import { toast, ToastContainer, Zoom } from "react-toastify";
-import {
-  useLoaderData,
-  redirect,
-  useSubmit,
-  useNavigate,
-} from "react-router-dom";
-import LazyLoadingComponent from "../../components/LazyLoadingComponent";
+
+import { ToastContainer, Zoom } from "react-toastify";
+import { useSubmit, useNavigate, Outlet } from "react-router-dom";
 
 import LoggedUserContextProvider from "../../context/LoggedUserContextProvider";
 
@@ -18,29 +12,10 @@ import SearchBadge from "../../components/SearchBadge";
 
 import { Form } from "react-router-dom";
 import { badgeCategories } from "../../utils/badgeCategories";
-import { RecipePropsIndex } from "../../types/Types";
-import { LoaderFunctionArgs } from "react-router-dom";
-import { SearchStateType } from "../../types/Types";
-import CardComponentHorz from "../../components/CardComponentHorz";
-// import AddRecipeModal from "../../components/AddRecipeModal";
-import ModalAddRecipe from "../../components/ModalAddRecipe";
 
-/** @request used as argument to obtain the url in the request body */
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  try {
-    const params = Object.fromEntries([
-      ...new URL(request.url).searchParams.entries(),
-    ]);
-    const data = await axios.get("/api/recipe/getAllRecipes", { params });
-    return data;
-  } catch (err) {
-    console.log(err);
-    if (axios.isAxiosError(err)) {
-      toast.error(err?.response?.data?.message);
-      return redirect("/login");
-    }
-  }
-};
+import { SearchStateType } from "../../types/Types";
+
+import ModalAddRecipe from "../../components/ModalAddRecipe";
 
 function DashboardLayout() {
   /** @modalClick handles the rendering of modal to add recipes by updating the toggleModal state */
@@ -49,9 +24,9 @@ function DashboardLayout() {
   /** @navigateToDashboard function that employs useNavigate to /dashboard page which is passed as props to the modal to add recipes which allows navigation after successful submission of post request */
 
   const submit = useSubmit();
-  const data = useLoaderData();
+  // const data = useLoaderData();
+  // const allRecipes = data.data.foundRecipes;
   const navigate = useNavigate();
-  const allRecipes = data.data.foundRecipes;
   // console.log(data);
 
   /** @badgeId state that will be used to compare which badge is clicked */
@@ -72,7 +47,7 @@ function DashboardLayout() {
 
   const handleBadgeClick = (badgeValue: string) => {
     setBadgeId(badgeValue);
-    navigate(`/dashboard?category=${badgeValue}`);
+    navigate(`/dashboard/home?category=${badgeValue}`);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -99,12 +74,11 @@ function DashboardLayout() {
         theme='colored'
       />
       {/** handle @context if it is null. (Initial value of context is null) */}
-      {/* {allRecipes && allRecipes.length !== 0 ? ( */}
+
       <section>
         <LoggedUserContextProvider>
           <NavigationComponent />
         </LoggedUserContextProvider>
-
         <section className='w-screen flex justify-center flex-col items-center gap-2'>
           <Form
             className='px-2 py-4 flex justify-center items-center flex-col border-b-1 border-gray-200 gap-2 md:w-screen mb-2 md:mb-8'
@@ -163,36 +137,11 @@ function DashboardLayout() {
               <ModalAddRecipe
                 navigate={navigateToDashboard}
                 closeModal={closeModal}
-                // openModal={openModal}
               />
             }
           </section>
         </section>
-        <section className='p-5 flex flex-col gap-6 items-center'>
-          {allRecipes.length === 0 ? (
-            <>
-              <h1 className='md:text-lg'>Wow, soooo empty</h1>
-            </>
-          ) : (
-            <section className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>
-              {" "}
-              {allRecipes.map((eachRecipes: RecipePropsIndex) => {
-                return (
-                  <LazyLoadingComponent key={eachRecipes._id}>
-                    <section>
-                      <CardComponentHorz
-                        recipeName={eachRecipes.recipeName}
-                        recipeDescription={eachRecipes.recipeDescription}
-                        cookingTime={eachRecipes.cookingTime}
-                        category={eachRecipes.category}
-                      />
-                    </section>
-                  </LazyLoadingComponent>
-                );
-              })}
-            </section>
-          )}
-        </section>
+        <Outlet /> {/** Renders all child components of DashboardLayout */}
       </section>
     </>
   );

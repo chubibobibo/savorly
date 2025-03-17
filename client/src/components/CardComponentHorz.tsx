@@ -1,6 +1,8 @@
+import Button from "./Button";
 import { RecipePropsIndex } from "../types/Types";
 import { capitalize } from "../utils/capitalize";
 import CategoryBadge from "./CategoryBadge";
+import { useNavigate } from "react-router-dom";
 
 import { FaRegClock } from "react-icons/fa";
 import { MdOutlineDescription } from "react-icons/md";
@@ -10,7 +12,12 @@ function CardComponentHorz({
   recipeDescription,
   cookingTime,
   category,
+  id,
 }: RecipePropsIndex) {
+  const navigate = useNavigate();
+  const recipeRedirect = () => {
+    navigate(`/recipe/${id}`);
+  };
   return (
     <>
       <div className='max-w-md w-full lg:max-w-full lg:flex p-2'>
@@ -36,6 +43,11 @@ function CardComponentHorz({
               <MdOutlineDescription className='text-custom-blue' size={20} />
               {recipeDescription}
             </p>
+            <Button
+              title={"Show Recipe"}
+              type={"button"}
+              onClickProps={recipeRedirect}
+            />
           </div>
         </div>
       </div>
