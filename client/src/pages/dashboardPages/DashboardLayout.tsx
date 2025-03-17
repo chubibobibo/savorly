@@ -1,17 +1,19 @@
 import { useState } from "react";
-// import { AllRecipesContext } from "../../context/contexts";
 import axios from "axios";
-import { toast } from "react-toastify";
-import { useLoaderData, redirect, useSubmit } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer, Zoom } from "react-toastify";
+import {
+  useLoaderData,
+  redirect,
+  useSubmit,
+  useNavigate,
+} from "react-router-dom";
 import LazyLoadingComponent from "../../components/LazyLoadingComponent";
 
 import LoggedUserContextProvider from "../../context/LoggedUserContextProvider";
 
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
-// import CardComponentVert from "../../components/CardComponentVert";
-import NavigationComponent from "../../components/navigationComponent";
+import NavigationComponent from "../../components/NavigationComponent";
 import SearchBadge from "../../components/SearchBadge";
 
 import { Form } from "react-router-dom";
@@ -21,7 +23,9 @@ import { LoaderFunctionArgs } from "react-router-dom";
 import { SearchStateType } from "../../types/Types";
 import CardComponentHorz from "../../components/CardComponentHorz";
 
-import AddRecipeModal from "../../components/AddRecipeModal";
+// import AddRecipeModal from "../../components/AddRecipeModal";
+import ModalAddRecipe from "../../components/ModalAddRecipe";
+
 
 
 /** @request used as argument to obtain the url in the request body */
@@ -42,22 +46,38 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 function DashboardLayout() {
+  /** @modalClick handles the rendering of modal to add recipes by updating the toggleModal state */
+  /** @handleBadgeClick handles the querying of recipes by navigating to a url with the corresponding query hard coded to it */
+  /** @handleChange handles the changes of values in the search input query */
+  /** @navigateToDashboard function that employs useNavigate to /dashboard page which is passed as props to the modal to add recipes which allows navigation after successful submission of post request */
+
   const submit = useSubmit();
   const data = useLoaderData();
   const navigate = useNavigate();
   const allRecipes = data.data.foundRecipes;
   // console.log(data);
 
-  /** @badeId state that will be used to compare which badge is clicked */
+  /** @badgeId state that will be used to compare which badge is clicked */
   const [badgeId, setBadgeId] = useState("");
   const [searchInput, setSearchInput] = useState<SearchStateType>({
     search: "",
   });
 
-  const [toggleModal, setToggleModal] = useState(false);
 
-  const modalClick = () => {
-    setToggleModal((prevToggle) => !prevToggle);
+
+
+  // const modalClick = () => {
+  //   setToggleModal((prevToggle) => !prevToggle);
+  // };
+
+  const openModal = () => {
+    const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
+    modal?.showModal();
+  };
+
+  const closeModal = () => {
+    const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
+    modal?.close();
   };
 
 
@@ -72,6 +92,10 @@ function DashboardLayout() {
     });
     submit(e.currentTarget.form);
   };
+
+  const navigateToDashboard = () => {
+    navigate("/dashboard");
+  };
   // console.log(searchInput);
 
   // console.log(toggleModal);
@@ -79,6 +103,14 @@ function DashboardLayout() {
 
   return (
     <>
+      <ToastContainer
+        position='top-center'
+        closeOnClick
+        transition={Zoom}
+        autoClose={5000}
+        hideProgressBar={true}
+        theme='colored'
+      />
       {/** handle @context if it is null. (Initial value of context is null) */}
       {/* {allRecipes && allRecipes.length !== 0 ? ( */}
       <section>
@@ -89,7 +121,8 @@ function DashboardLayout() {
 
         <section className='w-screen flex justify-center flex-col items-center gap-2'>
           <Form
-            className='px-2 py-4 flex justify-center items-center flex-col border-b-1 border-gray-200 gap-2 md:w-screen mb-2'
+
+            className='px-2 py-4 flex justify-center items-center flex-col border-b-1 border-gray-200 gap-2 md:w-screen mb-2 md:mb-8'
 
             action='/dashboard'
           >
@@ -128,30 +161,49 @@ function DashboardLayout() {
           </Form>
 
 
-          <section className=' bg-light-custom-purple w-10/12 rounded-3xl p-4 md:p-8 place-items-center'>
-            <p className='pb-2'>
+          <section className=' bg-light-custom-purple w-10/12 rounded-3xl p-4 md:p-8 md:w-4/12 place-items-center'>
+            <p className='pb-2 md:text-base'>
+
               Create your own recipes that will only be visible to you.
             </p>
-            <p className='text-sm text-gray-500 place-items-center pb-5'>
+            <p className='text-sm text-gray-500 place-items-center pb-5 md:text-base'>
               You can also check our collection of recipes from the internet.
             </p>
-            <button className='custom-buttons' onClick={modalClick}>
+            {/* <button
+              className=' btn btn-primary btn-md btn-outline shadow-3xl text-base-content'
+              onClick={modalClick}
+            >
               Add Recipe
+            </button> */}
+            <button className='btn' onClick={openModal}>
+              open modal
             </button>
           </section>
-          <section>
+          {/** old modal */}
+          {/* <section>
             {toggleModal && (
               <AddRecipeModal
                 setToggleModal={setToggleModal}
                 toggleModal={toggleModal}
+                navigate={navigateToDashboard}
               />
             )}
+          </section> */}
+          {/*test of new modal*/}
+          <section className='z-0'>
+            {
+              <ModalAddRecipe
+                navigate={navigateToDashboard}
+                closeModal={closeModal}
+                // openModal={openModal}
+              />
+            }
           </section>
         </section>
         <section className='p-5 flex flex-col gap-6 items-center'>
           {allRecipes.length === 0 ? (
             <>
-              <h1>Wow, soooo empty</h1>
+              <h1 className='md:text-lg'>Wow, soooo empty</h1>
             </>
           ) : (
             <section className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>

@@ -15,6 +15,12 @@ export interface UserTypes {
   _id: Types.ObjectId;
 }
 
+export type ParsedDataType = {
+  ingredientName: string;
+  ingredientQty: string;
+  id: string | null;
+};
+
 /** extending @Request type object to include user and _id property. This allows us to type properly req.user._id */
 // export interface UserRequest extends Request {
 //   user: {
@@ -23,7 +29,11 @@ export interface UserTypes {
 // }
 
 export interface UserRequest extends Request {
+  // user: {
+  //   _id: Types.ObjectId;
+  // };
+  // _id: Types.ObjectId;
   user: {
-    _id: Types.ObjectId;
+    _id: string;
   };
 }
