@@ -23,6 +23,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   }
 };
 
+/** HOME PAGE THAT CONTAINS THE MAPPED CARDS FOR RECIPES */
 function Dashboard() {
   /** @data @allRecipes data obtained from the loader function */
 
