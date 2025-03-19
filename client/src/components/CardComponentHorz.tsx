@@ -37,11 +37,12 @@ function CardComponentHorz({
             <div className='pt-1'>
               <CategoryBadge category={category} />
             </div>
-            <p className='text-gray-700 text-base flex items-center gap-2 pb-2'>
-              <FaRegClock className='text-custom-blue' /> {cookingTime} minutes
+            <p className='text-gray-700 text-xs  flex items-center gap-2 pb-2'>
+              <FaRegClock className='text-custom-blue size-3' /> {cookingTime}
+              minutes
             </p>
-            <p className='text-gray-700 text-base flex items-center gap-2'>
-              <MdOutlineDescription className='text-custom-blue' size={20} />
+            <p className='text-gray-700 text-xs flex items-center gap-2 mb-4'>
+              <MdOutlineDescription className='text-custom-blue size-3' />
               {recipeDescription}
             </p>
             <Button

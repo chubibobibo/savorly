@@ -16,6 +16,7 @@ import RegisterPage from "./pages/authPages/RegisterPage";
 import { action as registerAction } from "./pages/authPages/RegisterPage";
 import { action as loginAction } from "./pages/authPages/LoginPage";
 import { loader as recipesLoader } from "./pages/dashboardPages/Dashboard";
+import { loader as specificRecipeLoader } from "./pages/dashboardPages/RecipePage";
 
 // import RecipesContextProvider from "./context/RecipesContextProvider";
 import ProtectRoutes from "./utils/ProtectRoutes";
@@ -67,6 +68,7 @@ function App() {
               <RecipePage />
             </ProtectRoutes>
           ),
+          loader: specificRecipeLoader,
         },
       ],
     },

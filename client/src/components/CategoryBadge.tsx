@@ -20,7 +20,7 @@ function CategoryBadge({ category }: CategoryProps) {
   return (
     <>
       <span
-        className={`inline-block ${badgeColor} rounded-full px-3 py-2  text-sm font-semibold text-gray-700 -ml-1 mb-2`}
+        className={`inline-block ${badgeColor} rounded-full px-3 py-1  text-xs font-semibold text-gray-700 -ml-1 mb-2`}
       >
         {capitalize(category)}
       </span>
