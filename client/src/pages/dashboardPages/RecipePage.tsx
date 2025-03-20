@@ -3,6 +3,11 @@ import { LoaderFunction } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useLoaderData } from "react-router-dom";
 
+import { FaRegClock } from "react-icons/fa";
+import { MdOutlineDescription } from "react-icons/md";
+import { capitalize } from "../../utils/capitalize";
+import IngredientTable from "../../components/IngredientTable";
+
 export const loader: LoaderFunction = async ({ params }) => {
   try {
     const specificRecipeData = await axios.get(
@@ -25,19 +30,39 @@ export const loader: LoaderFunction = async ({ params }) => {
 function RecipePage() {
   const specificRecipeData = useLoaderData();
   const recipeData = specificRecipeData.data.foundRecipe;
-  console.log(specificRecipeData);
+  // console.log(specificRecipeData);
   return (
-    <section className='p-2'>
+    <section className='p-2 w-12/12'>
       <div className='card bg-base-100 w-12/12 shadow-sm'>
         <figure>
           <img
-            src='https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp'
-            alt='Shoes'
+            src={recipeData.photoUrl ? recipeData.photoUrl : "/logo.png"}
+            alt='recipe photo'
           />
         </figure>
-        <div className='card-body'>
-          <h2 className='card-title'>{recipeData.recipeName}</h2>
-          <p>{recipeData.recipeDescription}</p>
+        <div className='card-body overflow-y-auto overflow-x-hidden'>
+          <h2 className='card-title'>{capitalize(recipeData.recipeName)}</h2>
+          <p className='flex items-center gap-2'>
+            <MdOutlineDescription size={15} />
+            {recipeData.recipeDescription}
+          </p>
+          <p className='flex items-center gap-2'>
+            <FaRegClock size={15} />
+            {recipeData.cookingTime} minutes
+          </p>
+          <section>
+            <IngredientTable data={recipeData} isForDisplay={true} />
+          </section>
+          <section className='bg-custom-blue p-2 rounded-lg h-[10rem] w-12/12 overflow-y-scroll mb-2 text-gray-800'>
+            <h1 className='font-semibold text-sm pb-2'>How To Cook:</h1>
+            <p className='text-wrap'>
+              {recipeData.recipeInstruction}
+              asdasdasdasdasd asdasd asdasdasdasdasdasdasd asdasdasd
+              asdasdasdasdasdasdasdasdasdasd sadfdasfdsadfsdfsdfgdsfgdsfg
+              asdasdasdasdasdasdasd a asdasdasd sadasdasd asdasdsad
+              asdasddasdfgasd sadasdasdas saddas
+            </p>
+          </section>
           <div className='card-actions justify-end'>
             <button className='btn btn-primary'>Buy Now</button>
           </div>

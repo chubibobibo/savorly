@@ -5,6 +5,7 @@ function IngredientTable({
   data,
   recipeData,
   recipeDataStateSetter,
+  isForDisplay,
 }: RecipeDataProps) {
   /** @filteredRecipes function that filters recipesIngredients by it's id then updates the recipeIngredient in the recipeData state to the filtered ingredients */
   /** @recipeDataDateSetter callback  function that allows the setting of recipeData state. */
@@ -13,10 +14,12 @@ function IngredientTable({
     const filtered = recipeData?.recipeIngredients?.filter(
       (recipesFiltered) => recipesFiltered.id !== id
     );
-    recipeDataStateSetter((prev) => {
-      return { ...prev, recipeIngredients: [...filtered] };
-    });
-    // console.log(filtered);
+    if (recipeDataStateSetter) {
+      recipeDataStateSetter((prev) => {
+        return { ...prev, recipeIngredients: [...filtered] };
+      });
+      // console.log(filtered);
+    }
   };
   return (
     <>
@@ -33,7 +36,7 @@ function IngredientTable({
           <tbody className='text-[14px]'>
             {/* row 1 */}
             {data?.recipeIngredients.length !== 0 ? (
-              data?.recipeIngredients.map((prev) => {
+              data?.recipeIngredients.map((prev, idx) => {
                 return (
                   <tr key={prev.id}>
                     <th
@@ -41,11 +44,15 @@ function IngredientTable({
                         filteredRecipes(prev.id ? prev.id : "");
                       }}
                     >
-                      <IoIosCloseCircle
-                        size={20}
-                        color='red'
-                        cursor='pointer'
-                      />
+                      {!isForDisplay ? (
+                        <IoIosCloseCircle
+                          size={20}
+                          color='red'
+                          cursor='pointer'
+                        />
+                      ) : (
+                        idx + 1
+                      )}
                     </th>
                     <td>{prev.ingredientName}</td>
                     <td>{prev.ingredientQty}</td>

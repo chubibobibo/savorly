@@ -38,8 +38,9 @@ export type RecipePropsIndex = {
 
 export type RecipeDataProps = {
   data: RecipeTypes;
-  recipeData: RecipeTypes;
-  recipeDataStateSetter: (args: RecipeTypes) => void;
+  recipeData?: RecipeTypes;
+  recipeDataStateSetter?: (args: RecipeTypes) => void;
+  isForDisplay?: boolean;
 };
 
 export type UserTypes = {
