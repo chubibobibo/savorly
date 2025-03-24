@@ -34,6 +34,7 @@
     @apply md:text-base;
   }
 
+
   .custom-buttons {
     @apply bg-green-100 rounded-3xl w-34 flex justify-center items-center h-8 hover:bg-green-200 cursor-pointer active:bg-green-300;
   }
@@ -41,4 +42,5 @@
   .input-field-forms {
     @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-green-600 focus:border-2;
   }
+
 } */
