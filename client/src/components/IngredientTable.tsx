@@ -30,8 +30,8 @@ function IngredientTable({
           <thead>
             <tr>
               <th>#</th>
-              <th>Ingredient Name</th>
-              <th>Quantity</th>
+              <th className='paragraphMd'>Ingredient Name</th>
+              <th className='paragraphMd'>Quantity</th>
             </tr>
           </thead>
           <tbody className='text-[14px] bg-custom-yellow'>
@@ -55,8 +55,8 @@ function IngredientTable({
                         idx + 1
                       )}
                     </th>
-                    <td>{prev.ingredientName}</td>
-                    <td>{prev.ingredientQty}</td>
+                    <td className='paragraphMd'>{prev.ingredientName}</td>
+                    <td className='paragraphMd'>{prev.ingredientQty}</td>
                   </tr>
                 );
               })
