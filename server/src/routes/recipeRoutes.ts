@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import {
   createRecipe,
+  deleteRecipe,
   getAllRecipes,
   getRecipe,
 } from "../controllers/recipesController";
@@ -19,5 +20,7 @@ router.post(
   addRecipesInputValidation,
   createRecipe
 );
+
+router.delete("/deleteRecipe/:id", isLoggedIn, deleteRecipe);
 
 export default router;

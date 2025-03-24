@@ -8,6 +8,7 @@ function IngredientTable({
   isForDisplay,
 }: RecipeDataProps) {
   /** @filteredRecipes function that filters recipesIngredients by it's id then updates the recipeIngredient in the recipeData state to the filtered ingredients */
+  /** @isForDisplay passed boolean as props, used to determine if ingredient table is for adding ingredients or just displaying */
   /** @recipeDataDateSetter callback  function that allows the setting of recipeData state. */
 
   const filteredRecipes = (id: string) => {
@@ -33,12 +34,12 @@ function IngredientTable({
               <th>Quantity</th>
             </tr>
           </thead>
-          <tbody className='text-[14px]'>
+          <tbody className='text-[14px] bg-custom-yellow'>
             {/* row 1 */}
             {data?.recipeIngredients.length !== 0 ? (
               data?.recipeIngredients.map((prev, idx) => {
                 return (
-                  <tr key={prev.id}>
+                  <tr key={idx}>
                     <th
                       onClick={() => {
                         filteredRecipes(prev.id ? prev.id : "");

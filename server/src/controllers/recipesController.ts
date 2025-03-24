@@ -95,9 +95,20 @@ export const getAllRecipes: any = async (req: UserRequest, res: Response) => {
 /** GET SPECIFIC RECIPE */
 export const getRecipe = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const foundRecipe = await RecipeModel.find({ _id: id });
+  const foundRecipe = await RecipeModel.findOne({ _id: id });
   if (!foundRecipe) {
     throw new ExpressError("No recipe found", StatusCodes.NOT_FOUND);
   }
   res.status(StatusCodes.OK).json({ message: "Recipe Found", foundRecipe });
+};
+
+/** Delete Specific Recipe */
+export const deleteRecipe = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const deletedRecipe = await RecipeModel.findByIdAndDelete(id);
+  if (!deletedRecipe) {
+    throw new ExpressError("Cannot delete recipe", StatusCodes.NOT_FOUND);
+  }
+  res.status(StatusCodes.OK).json({ message: "Recipe Deleted" });
 };

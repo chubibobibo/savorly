@@ -1,7 +1,7 @@
 import axios from "axios";
 import { LoaderFunction } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 import { FaRegClock } from "react-icons/fa";
 import { MdOutlineDescription } from "react-icons/md";
@@ -28,11 +28,25 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 function RecipePage() {
+  /** @handleDelete event handler for button to delete a specific recipe */
+
   const specificRecipeData = useLoaderData();
   const recipeData = specificRecipeData.data.foundRecipe;
+  const navigate = useNavigate();
+
+  const handleDelete = async (id: string) => {
+    try {
+      await axios.delete(`/api/recipe/deleteRecipe/${id}`);
+      navigate("/dashboard/home");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        toast.error(err?.response?.data?.message);
+      }
+    }
+  };
   // console.log(specificRecipeData);
   return (
-    <section className='p-2 w-12/12'>
+    <section className='p-1 w-12/12'>
       <div className='card bg-base-100 w-12/12 shadow-sm'>
         <figure>
           <img
@@ -50,11 +64,13 @@ function RecipePage() {
             <FaRegClock size={15} />
             {recipeData.cookingTime} minutes
           </p>
-          <section>
+          <section className='pb-4'>
             <IngredientTable data={recipeData} isForDisplay={true} />
           </section>
-          <section className='bg-custom-blue p-2 rounded-lg h-[10rem] w-12/12 overflow-y-scroll mb-2 text-gray-800'>
-            <h1 className='font-semibold text-sm pb-2'>How To Cook:</h1>
+          <h1 className='font-semibold text-sm bg-custom-blue translate-y-2.5 pt-2 pb-1 px-1 rounded-t-lg'>
+            How To Cook:
+          </h1>
+          <section className='bg-custom-blue p-2 rounded-b-lg h-[10rem] w-12/12 overflow-y-scroll mb-2 text-gray-800'>
             <p className='text-wrap'>
               {recipeData.recipeInstruction}
               asdasdasdasdasd asdasd asdasdasdasdasdasdasd asdasdasd
@@ -64,7 +80,14 @@ function RecipePage() {
             </p>
           </section>
           <div className='card-actions justify-end'>
-            <button className='btn btn-primary'>Buy Now</button>
+            <button
+              className='btn btn-primary'
+              onClick={() => {
+                handleDelete(recipeData._id);
+              }}
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
