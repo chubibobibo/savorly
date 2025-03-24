@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/** reusable styling using classNames*/
+/* * reusable styling using classNames
 @layer components {
   .error-container {
     @apply flex flex-col justify-center items-center p-8 md:p-30;
@@ -43,4 +43,4 @@
     @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-green-600 focus:border-2;
   }
 
-}
+} */
