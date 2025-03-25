@@ -8,6 +8,7 @@ import { MdOutlineDescription } from "react-icons/md";
 import { capitalize } from "../../utils/capitalize";
 import IngredientTable from "../../components/IngredientTable";
 import ConfirmDeleteModal from "../../components/confirmDeleteModal";
+import ModalAddRecipe from "../../components/ModalAddRecipe";
 
 export const loader: LoaderFunction = async ({ params }) => {
   try {
@@ -46,9 +47,23 @@ function RecipePage() {
     }
   };
 
+  const navigateToDashboard = () => {
+    navigate("/dashboard/home");
+  };
+
   const openDeleteModal = () => {
     const modal = document.getElementById("my_modal_5") as HTMLDialogElement;
     modal?.showModal();
+  };
+
+  const openUpdateModal = () => {
+    const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
+    modal.showModal();
+  };
+
+  const closeUpdateModal = () => {
+    const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
+    modal?.close();
   };
   // console.log(specificRecipeData);
   return (
@@ -110,6 +125,18 @@ function RecipePage() {
                 recipeId={recipeData._id}
               />
             </section>
+            {/** update recipe modal button */}
+            <button
+              className='btn btn-error md:m-auto md:w-32 md:h-12'
+              onClick={openUpdateModal}
+            >
+              Update
+            </button>
+            <ModalAddRecipe
+              navigate={navigateToDashboard}
+              closeModal={closeUpdateModal}
+              updateRecipeData={recipeData}
+            />
           </div>
         </div>
       </div>

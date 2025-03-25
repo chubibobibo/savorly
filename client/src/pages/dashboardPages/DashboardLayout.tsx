@@ -22,6 +22,7 @@ function DashboardLayout() {
   /** @handleBadgeClick handles the querying of recipes by navigating to a url with the corresponding query hard coded to it */
   /** @handleChange handles the changes of values in the search input query */
   /** @navigateToDashboard function that employs useNavigate to /dashboard page which is passed as props to the modal to add recipes which allows navigation after successful submission of post request */
+  /** @closeModal function to close the modal passed as props. */
 
   const submit = useSubmit();
   // const data = useLoaderData();
