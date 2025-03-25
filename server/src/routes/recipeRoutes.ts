@@ -5,6 +5,7 @@ import {
   deleteRecipe,
   getAllRecipes,
   getRecipe,
+  updateRecipe,
 } from "../controllers/recipesController";
 import { isLoggedIn } from "../middleware/isLoggedIn";
 import upload from "../middleware/multerMiddleware";
@@ -22,5 +23,12 @@ router.post(
 );
 
 router.delete("/deleteRecipe/:id", isLoggedIn, deleteRecipe);
+
+router.patch(
+  "/updateRecipe/:id",
+  upload.single("photoUrl"),
+  isLoggedIn,
+  updateRecipe
+);
 
 export default router;

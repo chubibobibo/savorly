@@ -19,12 +19,23 @@ interface setToggleModalType {
   //   toggleModal: boolean;
   navigate: () => void;
   closeModal: () => void;
-  //   openModal: () => void;
+  updateRecipeData: {
+    recipeName: string;
+    recipeInstruction: string;
+    recipeDescription: string;
+    recipeIngredients: [{ ingredientName: string; ingredientQty: string }];
+    category: string;
+    cookingTime: number;
+  };
 }
 
-function ModalAddRecipe({ navigate, closeModal }: setToggleModalType) {
+function ModalAddRecipe({
+  navigate,
+  closeModal,
+  updateRecipeData,
+}: setToggleModalType) {
   /** @selected state in the selectInput component that contains data of the recipe category selected */
-  /** @recipeData state that handles of the data with regards to the recipe */
+  /** @recipeData state that handles of the data with regards to the recipe. When modal is used in updating, used as initial value the updateRecipeData passed as props from the RecipePage component. */
   /** @ingredients state that handles ingredient data that will be used to update with new data the recipeIngredient array in the recipeData */
   /** @handleInputChange handles input changes for input fields */
   /** @handleIngredientChange handles the ingredient name and ingredient qty fields */
@@ -33,17 +44,17 @@ function ModalAddRecipe({ navigate, closeModal }: setToggleModalType) {
   /** @file the photoUrl from the image upload input (using e.target.files[0])*/
   /** @handleImageInput  handles the file upload in the file upload input. This directly updates the photoUrl in the recipeData */
   /** @handleSubmit created a new formData that will contain all the data of the recipe using data from the recipeData state. This will be sent as strings or blobs or files for multer to convert to req.file (which is an object). Clears the input field after submission by updating the ingredients state */
-  /** @recipeDataStateSetter callback function that sets the state using setRecipeState and passed as props to the Ingredientable component */
+  /** @recipeDataStateSetter callback function that sets the state using setRecipeState and passed as props to the Ingredient table component */
   /** @ToastContainer placed on top of the main container for the modal dialog to render toast alerts on top of modal */
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [recipeData, setRecipeData] = useState<RecipeTypes>({
-    recipeName: "", // ensure this is always a string
-    recipeDescription: "",
-    recipeInstruction: "",
-    category: "",
-    cookingTime: 0,
-    recipeIngredients: [],
+    recipeName: updateRecipeData?.recipeName || "", // ensure this is always a string
+    recipeDescription: updateRecipeData?.recipeDescription || "",
+    recipeInstruction: updateRecipeData?.recipeInstruction || "",
+    category: updateRecipeData?.category || "",
+    cookingTime: updateRecipeData?.cookingTime || 0,
+    recipeIngredients: updateRecipeData?.recipeIngredients || [],
     photoUrl: "",
     photoId: "",
     createdBy: "",

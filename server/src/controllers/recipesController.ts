@@ -112,3 +112,26 @@ export const deleteRecipe = async (req: Request, res: Response) => {
   }
   res.status(StatusCodes.OK).json({ message: "Recipe Deleted" });
 };
+
+/** Update Recipe */
+export const updateRecipe = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  if (!req.body) {
+    throw new ExpressError("No data provided", StatusCodes.BAD_REQUEST);
+  }
+
+  if (req.file) {
+    const response = cloudinary.v2.uploader.upload(req.file.path);
+  }
+
+  const updateRecipe = await RecipeModel.findByIdAndUpdate(id, req.body, {
+    new: true,
+  });
+  if (!updateRecipe) {
+    throw new ExpressError("Cannot update recipe", StatusCodes.BAD_REQUEST);
+  }
+  res
+    .status(StatusCodes.OK)
+    .json({ message: "Successfully updated recipe", updateRecipe });
+};
