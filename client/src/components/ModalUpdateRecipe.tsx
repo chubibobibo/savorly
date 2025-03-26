@@ -13,28 +13,28 @@ import { toast, ToastContainer, Zoom } from "react-toastify";
 import { Form } from "react-router-dom";
 import IngredientTable from "./IngredientTable";
 import { RecipeTypes, IngredientType } from "../types/Types";
-
 interface setToggleModalType {
   //   setToggleModal: React.Dispatch<React.SetStateAction<boolean>>;
   //   toggleModal: boolean;
   navigate: () => void;
   closeModal: () => void;
-  // updateRecipeData: {
-  //   recipeName: string;
-  //   recipeInstruction: string;
-  //   recipeDescription: string;
-  //   recipeIngredients: [{ ingredientName: string; ingredientQty: string }];
-  //   category: string;
-  //   cookingTime: number;
-  //   _id: string;
-  // };
+  updateRecipeData: {
+    recipeName: string;
+    recipeInstruction: string;
+    recipeDescription: string;
+    // recipeIngredients: [{ ingredientName: string; ingredientQty: string }];
+    recipeIngredients: [{ ingredientName: string; ingredientQty: string }];
+    category: string;
+    cookingTime: number;
+    _id: string;
+  };
 }
 
-function ModalAddRecipe({
-  navigate,
+function ModalUpdateRecipe({
   closeModal,
-}: // updateRecipeData,
-setToggleModalType) {
+  navigate,
+  updateRecipeData,
+}: setToggleModalType) {
   /** @selected state in the selectInput component that contains data of the recipe category selected */
   /** @recipeData state that handles of the data with regards to the recipe. When modal is used in updating, used as initial value the updateRecipeData passed as props from the RecipePage component. */
   /** @ingredients state that handles ingredient data that will be used to update with new data the recipeIngredient array in the recipeData */
@@ -48,18 +48,22 @@ setToggleModalType) {
   /** @recipeDataStateSetter callback function that sets the state using setRecipeState and passed as props to the Ingredient table component */
   /** @ToastContainer placed on top of the main container for the modal dialog to render toast alerts on top of modal */
 
+  //   console.log(updateRecipeData);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [recipeData, setRecipeData] = useState<RecipeTypes>({
-    recipeName: "", // ensure this is always a string
-    recipeDescription: "",
-    recipeInstruction: "",
-    category: "",
-    cookingTime: 0,
-    recipeIngredients: [],
+    recipeName: updateRecipeData.recipeName || "", // ensure this is always a string
+    recipeDescription: updateRecipeData.recipeDescription || "",
+    recipeInstruction: updateRecipeData.recipeInstruction || "",
+    category: updateRecipeData.category || "",
+    cookingTime: updateRecipeData.cookingTime || 0,
+    recipeIngredients: updateRecipeData.recipeIngredients || [],
     photoUrl: "",
     photoId: "",
     createdBy: "",
   });
+
+  //   console.log(recipeData);
   const [ingredients, setIngredients] = useState<IngredientType>();
 
   /** used multiple types for event in @handleInputChange because it is used in different input types */
@@ -134,20 +138,25 @@ setToggleModalType) {
     e.preventDefault();
     setIsSubmitting(true);
     const formData = new FormData();
-    formData.append("recipeName", recipeData?.recipeName || "");
-    formData.append("recipeDescription", recipeData?.recipeDescription || "");
-    formData.append("recipeInstruction", recipeData?.recipeInstruction || "");
-    formData.append("category", recipeData?.category || "");
-    formData.append("cookingTime", recipeData?.cookingTime?.toString() || "");
+    formData.append("recipeName", recipeData?.recipeName);
+    formData.append("recipeDescription", recipeData?.recipeDescription);
+    formData.append("recipeInstruction", recipeData?.recipeInstruction);
+    formData.append("category", recipeData?.category);
+    formData.append("cookingTime", recipeData?.cookingTime?.toString());
     formData.append("photoUrl", recipeData?.photoUrl || "");
+
     recipeData?.recipeIngredients?.forEach((newIngredients) => {
+      //   console.log(newIngredients);
       formData.append("recipeIngredients", JSON.stringify(newIngredients));
     });
 
     // console.log(formData.getAll("recipeIngredients"));
 
     try {
-      await axios.post("/api/recipe/createRecipe", formData);
+      await axios.patch(
+        `/api/recipe/updateRecipe/${updateRecipeData._id}`,
+        formData
+      );
       setRecipeData((prev) => {
         return {
           ...prev,
@@ -177,37 +186,6 @@ setToggleModalType) {
     }
     setIsSubmitting(false);
   };
-
-  // const handleUpdateSubmit = async (
-  //   e: React.SyntheticEvent<HTMLFormElement>
-  // ) => {
-  //   e.preventDefault();
-  //   const formData = new FormData();
-
-  //   formData.append("recipeName", recipeData?.recipeName || "");
-  //   formData.append("recipeDescription", recipeData?.recipeDescription || "");
-  //   formData.append("recipeInstruction", recipeData?.recipeInstruction || "");
-  //   formData.append("category", recipeData?.category || "");
-  //   formData.append("cookingTime", recipeData?.cookingTime?.toString() || "");
-  //   formData.append("photoUrl", recipeData?.photoUrl || "");
-  //   recipeData?.recipeIngredients?.forEach((newIngredients) => {
-  //     formData.append("recipeIngredients", JSON.stringify(newIngredients));
-  //   });
-  //   try {
-  //     await axios.patch(`/api/recipe/updateRecipe/${updateRecipeData._id}`);
-  //     navigate();
-  //     toast.success("Recipe updated");
-  //   } catch (err) {
-  //     if (axios.isAxiosError(err)) {
-  //       toast.error(
-  //         Array.isArray(err?.response?.data?.message)
-  //           ? err?.response?.data?.message[0]
-  //           : err?.response?.data?.message
-  //       );
-  //     }
-  //   }
-  // };
-
   return (
     <>
       <dialog id='my_modal_1' className='modal'>
@@ -321,4 +299,4 @@ setToggleModalType) {
     </>
   );
 }
-export default ModalAddRecipe;
+export default ModalUpdateRecipe;
