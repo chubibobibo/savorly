@@ -8,7 +8,7 @@ import { MdOutlineDescription } from "react-icons/md";
 import { capitalize } from "../../utils/capitalize";
 import IngredientTable from "../../components/IngredientTable";
 import ConfirmDeleteModal from "../../components/confirmDeleteModal";
-import ModalAddRecipe from "../../components/ModalAddRecipe";
+import ModalUpdateRecipe from "../../components/ModalUpdateRecipe";
 
 export const loader: LoaderFunction = async ({ params }) => {
   try {
@@ -33,8 +33,9 @@ function RecipePage() {
   /** @handleDelete event handler for button to delete a specific recipe */
 
   const specificRecipeData = useLoaderData();
-  const recipeData = specificRecipeData.data.foundRecipe;
+  const recipeData = specificRecipeData?.data?.foundRecipe;
   const navigate = useNavigate();
+  // console.log(recipeData);
 
   const handleDelete = async (id: string) => {
     try {
@@ -132,7 +133,7 @@ function RecipePage() {
             >
               Update
             </button>
-            <ModalAddRecipe
+            <ModalUpdateRecipe
               navigate={navigateToDashboard}
               closeModal={closeUpdateModal}
               updateRecipeData={recipeData}
