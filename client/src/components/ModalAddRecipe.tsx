@@ -19,15 +19,6 @@ interface setToggleModalType {
   //   toggleModal: boolean;
   navigate: () => void;
   closeModal: () => void;
-  // updateRecipeData: {
-  //   recipeName: string;
-  //   recipeInstruction: string;
-  //   recipeDescription: string;
-  //   recipeIngredients: [{ ingredientName: string; ingredientQty: string }];
-  //   category: string;
-  //   cookingTime: number;
-  //   _id: string;
-  // };
 }
 
 function ModalAddRecipe({
@@ -45,7 +36,7 @@ setToggleModalType) {
   /** @file the photoUrl from the image upload input (using e.target.files[0])*/
   /** @handleImageInput  handles the file upload in the file upload input. This directly updates the photoUrl in the recipeData */
   /** @handleSubmit created a new formData that will contain all the data of the recipe using data from the recipeData state. This will be sent as strings or blobs or files for multer to convert to req.file (which is an object). Clears the input field after submission by updating the ingredients state */
-  /** @recipeDataStateSetter callback function that sets the state using setRecipeState and passed as props to the Ingredient table component */
+  /** @recipeDataStateSetter callback function that sets the state using setRecipeState and passed as props to the Ingredient table component. Avoids passing setRecipeData as props */
   /** @ToastContainer placed on top of the main container for the modal dialog to render toast alerts on top of modal */
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -177,36 +168,6 @@ setToggleModalType) {
     }
     setIsSubmitting(false);
   };
-
-  // const handleUpdateSubmit = async (
-  //   e: React.SyntheticEvent<HTMLFormElement>
-  // ) => {
-  //   e.preventDefault();
-  //   const formData = new FormData();
-
-  //   formData.append("recipeName", recipeData?.recipeName || "");
-  //   formData.append("recipeDescription", recipeData?.recipeDescription || "");
-  //   formData.append("recipeInstruction", recipeData?.recipeInstruction || "");
-  //   formData.append("category", recipeData?.category || "");
-  //   formData.append("cookingTime", recipeData?.cookingTime?.toString() || "");
-  //   formData.append("photoUrl", recipeData?.photoUrl || "");
-  //   recipeData?.recipeIngredients?.forEach((newIngredients) => {
-  //     formData.append("recipeIngredients", JSON.stringify(newIngredients));
-  //   });
-  //   try {
-  //     await axios.patch(`/api/recipe/updateRecipe/${updateRecipeData._id}`);
-  //     navigate();
-  //     toast.success("Recipe updated");
-  //   } catch (err) {
-  //     if (axios.isAxiosError(err)) {
-  //       toast.error(
-  //         Array.isArray(err?.response?.data?.message)
-  //           ? err?.response?.data?.message[0]
-  //           : err?.response?.data?.message
-  //       );
-  //     }
-  //   }
-  // };
 
   return (
     <>

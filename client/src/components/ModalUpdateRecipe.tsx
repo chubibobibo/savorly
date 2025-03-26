@@ -13,6 +13,7 @@ import { toast, ToastContainer, Zoom } from "react-toastify";
 import { Form } from "react-router-dom";
 import IngredientTable from "./IngredientTable";
 import { RecipeTypes, IngredientType } from "../types/Types";
+
 interface setToggleModalType {
   //   setToggleModal: React.Dispatch<React.SetStateAction<boolean>>;
   //   toggleModal: boolean;
@@ -63,7 +64,7 @@ function ModalUpdateRecipe({
     createdBy: "",
   });
 
-  //   console.log(recipeData);
+  //   console.log(updateRecipeData);
   const [ingredients, setIngredients] = useState<IngredientType>();
 
   /** used multiple types for event in @handleInputChange because it is used in different input types */
@@ -146,7 +147,6 @@ function ModalUpdateRecipe({
     formData.append("photoUrl", recipeData?.photoUrl || "");
 
     recipeData?.recipeIngredients?.forEach((newIngredients) => {
-      //   console.log(newIngredients);
       formData.append("recipeIngredients", JSON.stringify(newIngredients));
     });
 
@@ -157,6 +157,7 @@ function ModalUpdateRecipe({
         `/api/recipe/updateRecipe/${updateRecipeData._id}`,
         formData
       );
+      toast.success("recipe Updated");
       setRecipeData((prev) => {
         return {
           ...prev,
@@ -173,7 +174,6 @@ function ModalUpdateRecipe({
       });
       closeModal();
       navigate(); // defined in the parent component (included in react router dom)
-      toast.success("Created new recipe");
     } catch (err) {
       if (axios.isAxiosError(err)) {
         console.log(err);

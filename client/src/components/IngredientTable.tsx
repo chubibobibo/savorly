@@ -9,15 +9,18 @@ function IngredientTable({
 }: RecipeDataProps) {
   /** @filteredRecipes function that filters recipesIngredients by it's id then updates the recipeIngredient in the recipeData state to the filtered ingredients */
   /** @isForDisplay passed boolean as props, used to determine if ingredient table is for adding ingredients or just displaying */
-  /** @recipeDataDateSetter callback  function that allows the setting of recipeData state. */
+  /** @recipeDataDateSetter callback  function that allows the setting of recipeData state. Implemented this so that we won't have to pass the setRecipeData function */
 
+  // console.log(data);
   const filteredRecipes = (id: string) => {
-    const filtered = recipeData?.recipeIngredients?.filter(
-      (recipesFiltered) => recipesFiltered.id !== id
+    const filtered = recipeData?.recipeIngredients?.filter((recipesFiltered) =>
+      recipesFiltered.id
+        ? recipesFiltered.id !== id
+        : recipesFiltered._id !== id
     );
     if (recipeDataStateSetter) {
       recipeDataStateSetter((prev) => {
-        return { ...prev, recipeIngredients: [...filtered] };
+        return { ...prev, recipeIngredients: [...filtered] }; //uses the previous recipe data then access the recipeIngredients and use the filtered data as it's value
       });
       // console.log(filtered);
     }
@@ -38,11 +41,12 @@ function IngredientTable({
             {/* row 1 */}
             {data?.recipeIngredients.length !== 0 ? (
               data?.recipeIngredients.map((prev, idx) => {
+                // console.log(prev);
                 return (
                   <tr key={idx}>
                     <th
                       onClick={() => {
-                        filteredRecipes(prev.id ? prev.id : "");
+                        filteredRecipes(prev.id ? prev.id : prev._id);
                       }}
                     >
                       {!isForDisplay ? (

@@ -114,6 +114,8 @@ export const deleteRecipe = async (req: Request, res: Response) => {
 };
 
 /** Update Recipe */
+/** @parsedUpdateData array where we pushed the parsed strings of ingredient from the client that we then use as the value for req.body.recipeIngredients */
+
 export const updateRecipe = async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -130,12 +132,22 @@ export const updateRecipe = async (req: Request, res: Response) => {
   }
 
   const parsedUpdateData: ParsedDataType[][] = [];
+  if (!req.body.recipeIngredients) {
+    throw new ExpressError(
+      "Recipe ingredients and quantity cannot be empty",
+      StatusCodes.BAD_REQUEST
+    );
+  }
   if (Array.isArray(req.body.recipeIngredients)) {
     req.body.recipeIngredients.forEach((ingredients: any) => {
       const parsed = JSON.parse(ingredients);
       parsedUpdateData.push(parsed);
     });
+  } else {
+    const parsedData = JSON.parse(req.body.recipeIngredients);
+    parsedUpdateData.push(parsedData);
   }
+
   req.body.recipeIngredients = parsedUpdateData;
   const updateRecipe = await RecipeModel.findByIdAndUpdate(id, req.body, {
     new: true,
