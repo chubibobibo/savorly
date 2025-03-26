@@ -122,15 +122,30 @@ export const updateRecipe = async (req: Request, res: Response) => {
   }
 
   if (req.file) {
-    const response = cloudinary.v2.uploader.upload(req.file.path);
+    const response = await cloudinary.v2.uploader.upload(req.file.path, {
+      quality: 70,
+    });
+    req.body.photoUrl = response.secure_url;
+    req.body.photoId = response.public_id;
   }
 
+  const parsedUpdateData: ParsedDataType[][] = [];
+  if (Array.isArray(req.body.recipeIngredients)) {
+    req.body.recipeIngredients.forEach((ingredients: any) => {
+      const parsed = JSON.parse(ingredients);
+      parsedUpdateData.push(parsed);
+    });
+  }
+  req.body.recipeIngredients = parsedUpdateData;
   const updateRecipe = await RecipeModel.findByIdAndUpdate(id, req.body, {
     new: true,
   });
   if (!updateRecipe) {
     throw new ExpressError("Cannot update recipe", StatusCodes.BAD_REQUEST);
   }
+
+  //after updating the entry, delete the image in cloudinary using the publicId
+
   res
     .status(StatusCodes.OK)
     .json({ message: "Successfully updated recipe", updateRecipe });
