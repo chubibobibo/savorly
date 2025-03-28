@@ -22,18 +22,33 @@ export type ParsedDataType = {
 };
 
 /** extending @Request type object to include user and _id property. This allows us to type properly req.user._id */
-// export interface UserRequest extends Request {
-//   user: {
-//     _id: Types.ObjectId;
-//   };
-// }
-
 export interface UserRequest extends Request {
   // user: {
   //   _id: Types.ObjectId;
   // };
   // _id: Types.ObjectId;
+  photoId: string;
   user: {
     _id: string;
   };
 }
+
+export type IngredientType = {
+  ingredientName?: string;
+  ingredientQty?: string;
+  id?: string | null;
+};
+
+export type RecipeData = {
+  recipeName: string;
+  // recipeIngredients: IngredientType[];
+  recipeIngredients: IngredientType[];
+  recipeDescription: string;
+  recipeInstruction: string;
+  createdBy: string;
+  category: string;
+  photoUrl?: File | string;
+  photoId?: string;
+  cookingTime: number;
+  _id?: string;
+};

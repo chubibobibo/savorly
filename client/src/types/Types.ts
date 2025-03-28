@@ -34,6 +34,8 @@ export type RecipePropsIndex = {
     | "dessert";
   _id?: string;
   id?: string;
+  photo: string;
+  photoUrl: string;
 };
 
 export type RecipeDataProps = {

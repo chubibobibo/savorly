@@ -2,7 +2,12 @@ import { Request, Response } from "express";
 import { ExpressError } from "../ExpressError/ExpressError";
 import { StatusCodes } from "http-status-codes";
 import { RecipeModel } from "../Schema/RecipeSchema";
-import { ParsedDataType, UserRequest, UserTypes } from "../types/Types";
+import {
+  ParsedDataType,
+  RecipeData,
+  UserRequest,
+  UserTypes,
+} from "../types/Types";
 import cloudinary from "cloudinary";
 import { promises as fs } from "fs";
 
@@ -126,6 +131,7 @@ export const updateRecipe = async (req: Request, res: Response) => {
   if (req.file) {
     const response = await cloudinary.v2.uploader.upload(req.file.path, {
       quality: 70,
+      folder: "savorly",
     });
     req.body.photoUrl = response.secure_url;
     req.body.photoId = response.public_id;
@@ -148,6 +154,16 @@ export const updateRecipe = async (req: Request, res: Response) => {
     parsedUpdateData.push(parsedData);
   }
 
+  //after updating the entry, delete the image in cloudinary using the publicId
+  if (req.body.photoId) {
+    const foundRecipe: RecipeData | null = await RecipeModel.findById(id);
+    if (!foundRecipe) {
+      throw new ExpressError("No found recipe", StatusCodes.NOT_FOUND);
+    } else if (foundRecipe?.photoId) {
+      await cloudinary.v2.uploader.destroy(foundRecipe?.photoId);
+    }
+  }
+
   req.body.recipeIngredients = parsedUpdateData;
   const updateRecipe = await RecipeModel.findByIdAndUpdate(id, req.body, {
     new: true,
@@ -155,8 +171,6 @@ export const updateRecipe = async (req: Request, res: Response) => {
   if (!updateRecipe) {
     throw new ExpressError("Cannot update recipe", StatusCodes.BAD_REQUEST);
   }
-
-  //after updating the entry, delete the image in cloudinary using the publicId
 
   res
     .status(StatusCodes.OK)
