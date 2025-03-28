@@ -59,7 +59,7 @@ function DashboardLayout() {
   };
 
   const navigateToDashboard = () => {
-    navigate("/dashboard");
+    navigate("/dashboard/home");
   };
   // console.log(searchInput);
   // console.log(toggleModal);
