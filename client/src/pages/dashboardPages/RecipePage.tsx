@@ -87,7 +87,7 @@ function RecipePage() {
           <img
             src={recipeData.photoUrl ? recipeData.photoUrl : "/logo.png"}
             alt='recipe photo'
-            className='md:w-12/12'
+            className='w-[40rem] rounded-t-none'
           />
         </figure>
         <div className='card-body overflow-y-auto overflow-x-hidden md:flex md:justify-center'>
