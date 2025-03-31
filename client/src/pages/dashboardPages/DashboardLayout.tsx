@@ -17,6 +17,7 @@ import { SearchStateType } from "../../types/Types";
 
 import ModalAddRecipe from "../../components/ModalAddRecipe";
 
+
 function DashboardLayout() {
   /** @modalClick handles the rendering of modal to add recipes by updating the toggleModal state */
   /** @handleBadgeClick handles the querying of recipes by navigating to a url with the corresponding query hard coded to it */
@@ -46,6 +47,7 @@ function DashboardLayout() {
     modal?.close();
   };
 
+
   const handleBadgeClick = (badgeValue: string) => {
     setBadgeId(badgeValue);
     navigate(`/dashboard/home?category=${badgeValue}`);
@@ -62,7 +64,9 @@ function DashboardLayout() {
     navigate("/dashboard/home");
   };
   // console.log(searchInput);
+
   // console.log(toggleModal);
+
 
   return (
     <>
@@ -82,7 +86,9 @@ function DashboardLayout() {
         </LoggedUserContextProvider>
         <section className='w-screen flex justify-center flex-col items-center gap-2'>
           <Form
+
             className='px-2 py-4 flex justify-center items-center flex-col border-b-1 border-gray-200 gap-2 md:w-screen mb-2 md:mb-8'
+
             action='/dashboard'
           >
             <section className='flex w-full items-center pb-4'>
@@ -119,8 +125,10 @@ function DashboardLayout() {
             </section>
           </Form>
 
+
           <section className=' bg-light-custom-purple w-10/12 rounded-3xl p-4 md:p-8 md:w-4/12 place-items-center'>
             <p className='pb-2 md:text-base'>
+
               Create your own recipes that will only be visible to you.
             </p>
             <p className='text-sm text-gray-500 place-items-center pb-5 md:text-base'>
@@ -144,6 +152,7 @@ function DashboardLayout() {
         </section>
         <Outlet /> {/** Renders all child components of DashboardLayout */}
       </section>
+
     </>
   );
 }
