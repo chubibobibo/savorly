@@ -48,6 +48,7 @@ function Dashboard() {
                       recipeDescription={eachRecipes.recipeDescription}
                       cookingTime={eachRecipes.cookingTime}
                       category={eachRecipes.category}
+                      photo={eachRecipes.photoUrl}
                       id={eachRecipes._id}
                     />
                   </LazyLoadingComponent>

@@ -9,7 +9,7 @@ import Button from "./Button";
 
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-import { toast, ToastContainer, Zoom } from "react-toastify";
+import { toast } from "react-toastify";
 import { Form } from "react-router-dom";
 import IngredientTable from "./IngredientTable";
 import { RecipeTypes, IngredientType } from "../types/Types";
@@ -17,7 +17,7 @@ import { RecipeTypes, IngredientType } from "../types/Types";
 interface setToggleModalType {
   //   setToggleModal: React.Dispatch<React.SetStateAction<boolean>>;
   //   toggleModal: boolean;
-  navigate: () => void;
+  navigate: (id: string) => void;
   closeModal: () => void;
   updateRecipeData: {
     recipeName: string;
@@ -173,7 +173,7 @@ function ModalUpdateRecipe({
         };
       });
       closeModal();
-      navigate(); // defined in the parent component (included in react router dom)
+      navigate(updateRecipeData._id); // defined in the parent component (included in react router dom)
     } catch (err) {
       if (axios.isAxiosError(err)) {
         console.log(err);
@@ -189,14 +189,6 @@ function ModalUpdateRecipe({
   return (
     <>
       <dialog id='my_modal_1' className='modal'>
-        <ToastContainer
-          position='top-center'
-          closeOnClick
-          transition={Zoom}
-          autoClose={5000}
-          hideProgressBar={true}
-          theme='colored'
-        />
         {/** MAIN CONTAINER */}
         <div className='modal-box md:w-5/12 md:max-w-7xl md:h-[70rem]'>
           <h3 className='font-bold text-lg'>Create your Recipe</h3>
@@ -281,7 +273,7 @@ function ModalUpdateRecipe({
                 />
                 <div className='bg-gray-50 px-4 py-5 sm:flex sm:flex-row-reverse sm:px-6 flex flex-col gap-2'>
                   <Button
-                    title={"Submit"}
+                    title={"Update"}
                     type={"submit"}
                     isSubmitting={isSubmitting}
                     isDisabled={false}

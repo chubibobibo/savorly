@@ -9,6 +9,7 @@ import { capitalize } from "../../utils/capitalize";
 import IngredientTable from "../../components/IngredientTable";
 import ConfirmDeleteModal from "../../components/confirmDeleteModal";
 import ModalUpdateRecipe from "../../components/ModalUpdateRecipe";
+import { ToastContainer, Zoom } from "react-toastify";
 
 export const loader: LoaderFunction = async ({ params }) => {
   try {
@@ -52,6 +53,10 @@ function RecipePage() {
     navigate("/dashboard/home");
   };
 
+  const navigateToRecipe = (id: string) => {
+    navigate(`/recipe/${id}`);
+  };
+
   const openDeleteModal = () => {
     const modal = document.getElementById("my_modal_5") as HTMLDialogElement;
     modal?.showModal();
@@ -69,12 +74,20 @@ function RecipePage() {
   // console.log(specificRecipeData);
   return (
     <section className='p-1 w-12/12 md:w-10/12 md:place-self-center md:pt-15'>
+      <ToastContainer
+        position='top-center'
+        closeOnClick
+        transition={Zoom}
+        autoClose={5000}
+        hideProgressBar={true}
+        theme='colored'
+      />
       <div className='card bg-base-100 w-12/12 shadow-sm md:flex md:items-center'>
         <figure>
           <img
             src={recipeData.photoUrl ? recipeData.photoUrl : "/logo.png"}
             alt='recipe photo'
-            className='md:w-12/12'
+            className='w-[40rem] rounded-t-none'
           />
         </figure>
         <div className='card-body overflow-y-auto overflow-x-hidden md:flex md:justify-center'>
@@ -133,8 +146,15 @@ function RecipePage() {
             >
               Update
             </button>
+            <button
+              className='btn btn-error md:m-auto md:w-32 md:h-12'
+              onClick={navigateToDashboard}
+            >
+              Home
+            </button>
+
             <ModalUpdateRecipe
-              navigate={navigateToDashboard}
+              navigate={navigateToRecipe}
               closeModal={closeUpdateModal}
               updateRecipeData={recipeData}
             />

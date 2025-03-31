@@ -9,7 +9,7 @@ import Button from "./Button";
 
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-import { toast, ToastContainer, Zoom } from "react-toastify";
+import { toast } from "react-toastify";
 import { Form } from "react-router-dom";
 import IngredientTable from "./IngredientTable";
 import { RecipeTypes, IngredientType } from "../types/Types";
@@ -172,14 +172,6 @@ setToggleModalType) {
   return (
     <>
       <dialog id='my_modal_1' className='modal'>
-        <ToastContainer
-          position='top-center'
-          closeOnClick
-          transition={Zoom}
-          autoClose={5000}
-          hideProgressBar={true}
-          theme='colored'
-        />
         {/** MAIN CONTAINER */}
         <div className='modal-box md:w-5/12 md:max-w-7xl md:h-[70rem]'>
           <h3 className='font-bold text-lg'>Create your Recipe</h3>
