@@ -4,6 +4,7 @@ import {
   loginUser,
   logout,
   registerUser,
+  updateUser,
 } from "../controllers/authControllers";
 
 import {
@@ -16,6 +17,7 @@ import { StatusCodes } from "http-status-codes";
 import { rateLimit } from "express-rate-limit";
 
 import upload from "../middleware/multerMiddleware";
+import { isLoggedIn } from "../middleware/isLoggedIn";
 
 const router = express.Router();
 
@@ -64,6 +66,9 @@ router.post(
   },
   loginUser
 );
+
 router.post("/logout", logout);
+
+router.patch("/updateUser", isLoggedIn, updateUser);
 
 export default router;
