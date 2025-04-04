@@ -11,7 +11,7 @@ import {
 import cloudinary from "cloudinary";
 import { promises as fs } from "fs";
 
-/** @parsedDataArray array where the parsed ingredients data is pushed then used as the new value of req.body.recipeIngredients */
+/** @parsedUpdateArea array where the parsed ingredients data is pushed then used as the new value of req.body.recipeIngredients */
 
 export const createRecipe: any = async (req: UserRequest, res: Response) => {
   if (!req.body) {
@@ -26,7 +26,7 @@ export const createRecipe: any = async (req: UserRequest, res: Response) => {
     });
     // console.log(response);
 
-    fs.unlink(req.file.path);
+    fs.unlink(req.file.path); //deletes the image saved by multer in the public folder
     req.body.photoUrl = response.secure_url;
     req.body.photoId = response.public_id;
   }

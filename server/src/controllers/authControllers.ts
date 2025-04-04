@@ -82,7 +82,7 @@ export const getLoggedUser: any = async (req: UserRequest, res: Response) => {
   res.status(StatusCodes.OK).json({ message: "LoggedUser", loggedUser });
 };
 
-/** Logging out user */
+/** Logging out user from passportJs*/
 export const logout = (req: Request, res: Response, next: NextFunction) => {
   req.logout((err) => {
     if (err) {
@@ -91,4 +91,48 @@ export const logout = (req: Request, res: Response, next: NextFunction) => {
     }
     res.status(StatusCodes.OK).json({ message: "User logged out" });
   });
+};
+
+/** Update user */
+export const updateUser = async (req: Request, res: Response) => {
+  const useReq = req as UserRequest;
+  if (!req.body) {
+    throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
+  }
+
+  if (req.file) {
+    const response = await cloudinary.v2.uploader.upload(req.file.path, {
+      folder: "savorly",
+      quality: 70,
+    });
+    if (!response) {
+      throw new ExpressError("Cannot update user", StatusCodes.BAD_REQUEST);
+    }
+    fs.unlink(req.file.path); //deletes the image saved by multer in the public folder
+    req.body.photoUrl = response.secure_url;
+    req.body.photoId = response.publicId;
+  }
+
+  if (req.body.password) {
+    const foundUpdateUser = await UserModel.findById(useReq?.user?._id);
+    await foundUpdateUser?.setPassword(req.body.password);
+    await foundUpdateUser?.save();
+  }
+
+  if (useReq.user._id) {
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      useReq.user?._id,
+      req.body,
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      throw new ExpressError("Cannot update user", StatusCodes.BAD_REQUEST);
+    }
+    res
+      .status(StatusCodes.OK)
+      .json({ message: "User updated successfully", updatedUser });
+  } else {
+    throw new ExpressError("User is not logged in", StatusCodes.UNAUTHORIZED);
+  }
 };
