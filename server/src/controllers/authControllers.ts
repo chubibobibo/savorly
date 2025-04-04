@@ -113,12 +113,19 @@ export const updateUser = async (req: Request, res: Response) => {
     req.body.photoId = response.publicId;
   }
 
+  if (req.body.password) {
+    const foundUpdateUser = await UserModel.findById(useReq?.user?._id);
+    await foundUpdateUser?.setPassword(req.body.password);
+    await foundUpdateUser?.save();
+  }
+
   if (useReq.user._id) {
     const updatedUser = await UserModel.findByIdAndUpdate(
       useReq.user?._id,
       req.body,
       { new: true }
     );
+
     if (!updatedUser) {
       throw new ExpressError("Cannot update user", StatusCodes.BAD_REQUEST);
     }
