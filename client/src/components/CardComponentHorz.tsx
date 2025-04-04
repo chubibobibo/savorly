@@ -1,6 +1,8 @@
+import Button from "./Button";
 import { RecipePropsIndex } from "../types/Types";
 import { capitalize } from "../utils/capitalize";
 import CategoryBadge from "./CategoryBadge";
+import { useNavigate } from "react-router-dom";
 
 import { FaRegClock } from "react-icons/fa";
 import { MdOutlineDescription } from "react-icons/md";
@@ -10,13 +12,20 @@ function CardComponentHorz({
   recipeDescription,
   cookingTime,
   category,
+  photo,
+  id,
 }: RecipePropsIndex) {
+  const navigate = useNavigate();
+  const recipeRedirect = () => {
+    navigate(`/recipe/${id}`);
+  };
   return (
     <>
       <div className='max-w-md w-full lg:max-w-full lg:flex p-2'>
         <div className='h-48 w-auto sm:w-74 lg:h-auto lg:w-48  flex-none rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden'>
           <img
-            src='/logo.png'
+
+            src={photo ? photo : "/logo.png"}
 
             alt='recipe image'
             className='h-48 w-90 object-cover lg:object-cover lg:h-60'
@@ -30,13 +39,19 @@ function CardComponentHorz({
             <div className='pt-1'>
               <CategoryBadge category={category} />
             </div>
-            <p className='text-gray-700 text-base flex items-center gap-2 pb-2'>
-              <FaRegClock className='text-custom-blue' /> {cookingTime} minutes
+            <p className='text-gray-700 text-xs  flex items-center gap-2 pb-2'>
+              <FaRegClock className='text-custom-blue size-3' /> {cookingTime}
+              minutes
             </p>
-            <p className='text-gray-700 text-base flex items-center gap-2'>
-              <MdOutlineDescription className='text-custom-blue' size={20} />
+            <p className='text-gray-700 text-xs flex items-center gap-2 mb-4'>
+              <MdOutlineDescription className='text-custom-blue size-3' />
               {recipeDescription}
             </p>
+            <Button
+              title={"Show Recipe"}
+              type={"button"}
+              onClickProps={recipeRedirect}
+            />
           </div>
         </div>
       </div>

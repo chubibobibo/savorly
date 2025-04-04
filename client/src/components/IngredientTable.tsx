@@ -5,16 +5,25 @@ function IngredientTable({
   data,
   recipeData,
   recipeDataStateSetter,
+  isForDisplay,
 }: RecipeDataProps) {
   /** @filteredRecipes function that filters recipesIngredients by it's id then updates the recipeIngredient in the recipeData state to the filtered ingredients */
+  /** @isForDisplay passed boolean as props, used to determine if ingredient table is for adding ingredients or just displaying */
+  /** @recipeDataDateSetter callback  function that allows the setting of recipeData state. Implemented this so that we won't have to pass the setRecipeData function */
+
+  // console.log(data);
   const filteredRecipes = (id: string) => {
-    const filtered = recipeData?.recipeIngredients?.filter(
-      (recipesFiltered) => recipesFiltered.id !== id
+    const filtered = recipeData?.recipeIngredients?.filter((recipesFiltered) =>
+      recipesFiltered.id
+        ? recipesFiltered.id !== id
+        : recipesFiltered._id !== id
     );
-    recipeDataStateSetter((prev) => {
-      return { ...prev, recipeIngredients: [...filtered] };
-    });
-    // console.log(filtered);
+    if (recipeDataStateSetter) {
+      recipeDataStateSetter((prev) => {
+        return { ...prev, recipeIngredients: [...filtered] }; //uses the previous recipe data then access the recipeIngredients and use the filtered data as it's value
+      });
+      // console.log(filtered);
+    }
   };
   return (
     <>
@@ -24,26 +33,34 @@ function IngredientTable({
           <thead>
             <tr>
               <th>#</th>
-              <th>Ingredient Name</th>
-              <th>Quantity</th>
+              <th className='paragraphMd'>Ingredient Name</th>
+              <th className='paragraphMd'>Quantity</th>
             </tr>
           </thead>
-          <tbody className='text-[14px]'>
+          <tbody className='text-[14px] bg-custom-yellow'>
             {/* row 1 */}
             {data?.recipeIngredients.length !== 0 ? (
-              data?.recipeIngredients.map((prev) => {
+              data?.recipeIngredients.map((prev, idx) => {
+                // console.log(prev);
                 return (
-                  <tr key={prev.id}>
-                    {/* <th>{index + 1}</th> */}
+                  <tr key={idx}>
                     <th
                       onClick={() => {
-                        filteredRecipes(prev.id ? prev.id : "");
+                        filteredRecipes(prev.id ? prev.id : prev._id);
                       }}
                     >
-                      <IoIosCloseCircle size={20} color='red' />
+                      {!isForDisplay ? (
+                        <IoIosCloseCircle
+                          size={20}
+                          color='red'
+                          cursor='pointer'
+                        />
+                      ) : (
+                        idx + 1
+                      )}
                     </th>
-                    <td>{prev.ingredientName}</td>
-                    <td>{prev.ingredientQty}</td>
+                    <td className='paragraphMd'>{prev.ingredientName}</td>
+                    <td className='paragraphMd'>{prev.ingredientQty}</td>
                   </tr>
                 );
               })

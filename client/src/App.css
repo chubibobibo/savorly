@@ -11,6 +11,7 @@
   /* colors */
   --color-custom-green: #41c1a5;
   --color-custom-yellow: #ffce5d;
+  --color-custom-blue: #009edc;
   --color-light-custom-green: #e5fbf3;
   --color-light-custom-yellow: #f7fae7;
   --color-light-custom-rose: #fbe5ec;
@@ -20,4 +21,56 @@
 
 * {
   font-family: Poppins;
+}
+
+/* utility classes daisyUI */
+@utility card-title {
+  @apply md:text-3xl md:text-gray-700;
+}
+
+/** reusable styling using classNames*/
+@layer components {
+  .error-container {
+    @apply flex flex-col justify-center items-center p-8 md:p-30;
+  }
+
+  .error-image {
+    @apply w-10/12 h-[20rem] md:h-[40rem] object-contain;
+  }
+
+  .text-header-lg {
+    @apply text-xl md:text-[40px];
+  }
+
+  .forms-register {
+    @apply pt-1 px-2 flex justify-center md:h-[30rem];
+  }
+
+  .input-field {
+    @apply md:h-12;
+  }
+
+  .bgImage {
+    @apply bg-[url('./registerBg.png')] bg-cover bg-center w-screen h-screen opacity-40;
+  }
+
+  .badges-sm {
+    @apply text-xs;
+  }
+
+  .badges-md {
+    @apply md:text-base;
+  }
+
+  .custom-buttons {
+    @apply bg-green-100 rounded-3xl w-34 flex justify-center items-center h-8 hover:bg-green-200 cursor-pointer active:bg-green-300;
+  }
+
+  .input-field-forms {
+    @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-green-600 focus:border-2;
+  }
+
+  .paragraphMd {
+    @apply md:text-base;
+  }
 }

@@ -9,7 +9,7 @@ import Button from "./Button";
 
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-import { toast, ToastContainer, Zoom } from "react-toastify";
+import { toast } from "react-toastify";
 import { Form } from "react-router-dom";
 import IngredientTable from "./IngredientTable";
 import { RecipeTypes, IngredientType } from "../types/Types";
@@ -19,12 +19,15 @@ interface setToggleModalType {
   //   toggleModal: boolean;
   navigate: () => void;
   closeModal: () => void;
-  //   openModal: () => void;
 }
 
-function ModalAddRecipe({ navigate, closeModal }: setToggleModalType) {
+function ModalAddRecipe({
+  navigate,
+  closeModal,
+}: // updateRecipeData,
+setToggleModalType) {
   /** @selected state in the selectInput component that contains data of the recipe category selected */
-  /** @recipeData state that handles of the data with regards to the recipe */
+  /** @recipeData state that handles of the data with regards to the recipe. When modal is used in updating, used as initial value the updateRecipeData passed as props from the RecipePage component. */
   /** @ingredients state that handles ingredient data that will be used to update with new data the recipeIngredient array in the recipeData */
   /** @handleInputChange handles input changes for input fields */
   /** @handleIngredientChange handles the ingredient name and ingredient qty fields */
@@ -33,7 +36,7 @@ function ModalAddRecipe({ navigate, closeModal }: setToggleModalType) {
   /** @file the photoUrl from the image upload input (using e.target.files[0])*/
   /** @handleImageInput  handles the file upload in the file upload input. This directly updates the photoUrl in the recipeData */
   /** @handleSubmit created a new formData that will contain all the data of the recipe using data from the recipeData state. This will be sent as strings or blobs or files for multer to convert to req.file (which is an object). Clears the input field after submission by updating the ingredients state */
-  /** @recipeDataStateSetter callback function that sets the state using setRecipeState and passed as props to the Ingredientable component */
+  /** @recipeDataStateSetter callback function that sets the state using setRecipeState and passed as props to the Ingredient table component. Avoids passing setRecipeData as props */
   /** @ToastContainer placed on top of the main container for the modal dialog to render toast alerts on top of modal */
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -132,7 +135,7 @@ function ModalAddRecipe({ navigate, closeModal }: setToggleModalType) {
       formData.append("recipeIngredients", JSON.stringify(newIngredients));
     });
 
-    console.log(formData.getAll("recipeIngredients"));
+    // console.log(formData.getAll("recipeIngredients"));
 
     try {
       await axios.post("/api/recipe/createRecipe", formData);
@@ -169,16 +172,8 @@ function ModalAddRecipe({ navigate, closeModal }: setToggleModalType) {
   return (
     <>
       <dialog id='my_modal_1' className='modal'>
-        <ToastContainer
-          position='top-center'
-          closeOnClick
-          transition={Zoom}
-          autoClose={5000}
-          hideProgressBar={true}
-          theme='colored'
-        />
         {/** MAIN CONTAINER */}
-        <div className='modal-box'>
+        <div className='modal-box md:w-5/12 md:max-w-7xl md:h-[70rem]'>
           <h3 className='font-bold text-lg'>Create your Recipe</h3>
           <p className='py-4'>
             Press ESC key or click the button below to close
@@ -188,8 +183,9 @@ function ModalAddRecipe({ navigate, closeModal }: setToggleModalType) {
               onSubmit={handleSubmit}
               method='POST'
               encType='multipart/form-data'
+              className='w-12/12 md:w-7/12'
             >
-              <div>
+              <div className='md:flex md:flex-col md:w-full gap-6'>
                 <UploadPhotoForm onChange={handleImageInput} />
                 <InputForms
                   title={"Recipe Name"}
@@ -222,7 +218,7 @@ function ModalAddRecipe({ navigate, closeModal }: setToggleModalType) {
                   value={recipeData.cookingTime}
                 />
                 <section className='border-1 border-gray-300 p-0 flex flex-col justify-center items-center rounded-xl pb-4'>
-                  <section className='bg-light-custom-purple p-10 rounded-t-xl mb-2 h-25 flex justify-center items-center'>
+                  <section className='bg-light-custom-purple p-10 rounded-t-xl mb-2 h-25 flex justify-center items-center md:w-full'>
                     <p className='text-sm'>
                       Add your ingredients and their quantity in the table
                       below.

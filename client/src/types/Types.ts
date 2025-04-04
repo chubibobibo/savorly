@@ -14,8 +14,8 @@ export type RecipeTypes = {
   recipeInstruction: string;
   createdBy: string;
   category: string;
-  photoUrl: File | string;
-  photoId: string;
+  photoUrl?: File | string;
+  photoId?: string;
   cookingTime: number;
   _id?: string;
 };
@@ -24,13 +24,25 @@ export type RecipePropsIndex = {
   recipeName: string;
   recipeDescription: string;
   cookingTime: number;
-  category: string;
+  category:
+    | "pork"
+    | "beef"
+    | "fish"
+    | "chicken"
+    | "vegetarian"
+    | "vegan"
+    | "dessert";
+  _id?: string;
+  id?: string;
+  photo: string;
+  photoUrl: string;
 };
 
 export type RecipeDataProps = {
   data: RecipeTypes;
-  recipeData: RecipeTypes;
-  recipeDataStateSetter: (args: RecipeTypes) => void;
+  recipeData?: RecipeTypes;
+  recipeDataStateSetter?: (args: RecipeTypes) => void;
+  isForDisplay?: boolean;
 };
 
 export type UserTypes = {

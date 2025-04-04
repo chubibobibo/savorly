@@ -7,13 +7,16 @@ import {
   LoginPage,
   LandingPage,
   DashboardLayout,
+  Dashboard,
+  RecipePage,
 } from "./utils/";
 import RegisterPage from "./pages/authPages/RegisterPage";
 
 //action and loader functions
 import { action as registerAction } from "./pages/authPages/RegisterPage";
 import { action as loginAction } from "./pages/authPages/LoginPage";
-import { loader as recipesLoader } from "./pages/dashboardPages/DashboardLayout";
+import { loader as recipesLoader } from "./pages/dashboardPages/Dashboard";
+import { loader as specificRecipeLoader } from "./pages/dashboardPages/RecipePage";
 
 // import RecipesContextProvider from "./context/RecipesContextProvider";
 import ProtectRoutes from "./utils/ProtectRoutes";
@@ -46,7 +49,26 @@ function App() {
               <DashboardLayout />
             </ProtectRoutes>
           ),
-          loader: recipesLoader,
+          children: [
+            {
+              path: "home",
+              element: (
+                <ProtectRoutes>
+                  <Dashboard />
+                </ProtectRoutes>
+              ),
+              loader: recipesLoader,
+            },
+          ],
+        },
+        {
+          path: "recipe/:id",
+          element: (
+            <ProtectRoutes>
+              <RecipePage />
+            </ProtectRoutes>
+          ),
+          loader: specificRecipeLoader,
         },
       ],
     },

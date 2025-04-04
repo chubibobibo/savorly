@@ -29,6 +29,7 @@ const requestLimiter = rateLimit({
 });
 
 router.get("/getLoggedUser", getLoggedUser);
+
 router.post(
   "/register",
   upload.single("photoUrl"),

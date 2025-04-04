@@ -17,7 +17,7 @@ function Button({
   return (
     <>
       <button
-        className=' btn btn-primary btn-md  shadow-3xl text-base-content'
+        className=' btn btn-primary btn-sm  shadow-3xl text-base-content'
         onClick={onClickProps}
         type={type}
         disabled={isDisabled}
