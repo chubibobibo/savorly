@@ -1,7 +1,7 @@
 import { PhotoIcon } from "@heroicons/react/24/solid";
 
 type OnChangeType = {
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
 
 function UploadPhotoForm({ onChange }: OnChangeType) {

@@ -7,9 +7,18 @@ type InputProps = {
   id: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string | number;
+  dValue?: string;
 };
 
-function InputForms({ title, type, name, id, onChange, value }: InputProps) {
+function InputForms({
+  title,
+  type,
+  name,
+  id,
+  onChange,
+  value,
+  dValue,
+}: InputProps) {
   return (
     <>
       <div className='mb-2'>
@@ -27,6 +36,7 @@ function InputForms({ title, type, name, id, onChange, value }: InputProps) {
           name={name}
           onChange={onChange}
           value={value}
+          defaultValue={dValue}
         />
       </div>
     </>
