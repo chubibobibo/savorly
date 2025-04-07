@@ -6,3 +6,4 @@ export { default as LandingPage } from "../pages/dashboardPages/LandingPage.tsx"
 export { default as DashboardLayout } from "../pages/dashboardPages/DashboardLayout";
 export { default as Dashboard } from "../pages/dashboardPages/Dashboard";
 export { default as RecipePage } from "../pages/dashboardPages/RecipePage";
+export { default as UpdateUserPage } from "../pages/authPages/UpdateUserPage";

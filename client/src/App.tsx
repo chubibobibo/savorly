@@ -9,6 +9,7 @@ import {
   DashboardLayout,
   Dashboard,
   RecipePage,
+  UpdateUserPage,
 } from "./utils/";
 import RegisterPage from "./pages/authPages/RegisterPage";
 
@@ -17,9 +18,12 @@ import { action as registerAction } from "./pages/authPages/RegisterPage";
 import { action as loginAction } from "./pages/authPages/LoginPage";
 import { loader as recipesLoader } from "./pages/dashboardPages/Dashboard";
 import { loader as specificRecipeLoader } from "./pages/dashboardPages/RecipePage";
+// import { loader as updateUserLoader } from "./pages/authPages/UpdateUserPage";
 
 // import RecipesContextProvider from "./context/RecipesContextProvider";
 import ProtectRoutes from "./utils/ProtectRoutes";
+import LoggedUserContextProvider from "./context/LoggedUserContextProvider";
+// import UpdateUserPage from "./pages/authPages/UpdateUserPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -41,6 +45,15 @@ function App() {
           path: "register",
           element: <RegisterPage />,
           action: registerAction,
+        },
+        {
+          path: "updateUser",
+          element: (
+            <LoggedUserContextProvider>
+              <UpdateUserPage />
+            </LoggedUserContextProvider>
+          ),
+          // loader: updateUserLoader,
         },
         {
           path: "dashboard",
