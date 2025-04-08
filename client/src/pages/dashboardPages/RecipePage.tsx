@@ -7,7 +7,7 @@ import { FaRegClock } from "react-icons/fa";
 import { MdOutlineDescription } from "react-icons/md";
 import { capitalize } from "../../utils/capitalize";
 import IngredientTable from "../../components/IngredientTable";
-import ConfirmDeleteModal from "../../components/confirmDeleteModal";
+import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
 import ModalUpdateRecipe from "../../components/ModalUpdateRecipe";
 import { ToastContainer, Zoom } from "react-toastify";
 
@@ -32,6 +32,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 function RecipePage() {
   /** @handleDelete event handler for button to delete a specific recipe */
+  /** @navigateToDashboard function passed to modalUpdateRecipe component that will allow to use navigate without being in react router. */
 
   const specificRecipeData = useLoaderData();
   const recipeData = specificRecipeData?.data?.foundRecipe;
@@ -111,13 +112,13 @@ function RecipePage() {
           <section className='bg-custom-blue p-2 rounded-b-lg h-[10rem] w-12/12 overflow-y-scroll mb-2 text-gray-800 md:w-7/12 md:place-self-center paragraphMd'>
             <p className='text-wrap'>
               {recipeData.recipeInstruction}
-              asdasdasdasdasd asdasd asdasdasdasdasdasdasd asdasdasd
+              {/* asdasdasdasdasd asdasd asdasdasdasdasdasdasd asdasdasd
               asdasdasdasdasdasdasdasdasdasd sadfdasfdsadfsdfsdfgdsfgdsfg
               asdasdasdasdasdasdasd a asdasdasd sadasdasd asdasdsad
-              asdasddasdfgasd sadasdasdas saddas
+              asdasddasdfgasd sadasdasdas saddas */}
             </p>
           </section>
-          <div className='card-actions justify-start'>
+          <div className='flex justify-center md:justify-center'>
             {/* <button
               className='btn btn-error md:m-auto md:w-32 md:h-12'
               onClick={() => {
@@ -127,7 +128,7 @@ function RecipePage() {
               Delete
             </button> */}
             <button
-              className='btn btn-error md:m-auto md:w-32 md:h-12'
+              className='btn btn-error mr-2 md:w-32 md:h-12'
               onClick={openDeleteModal}
             >
               Delete
@@ -141,13 +142,13 @@ function RecipePage() {
             </section>
             {/** update recipe modal button */}
             <button
-              className='btn btn-error md:m-auto md:w-32 md:h-12'
+              className='btn btn-error mr-2 md:w-32 md:h-12'
               onClick={openUpdateModal}
             >
               Update
             </button>
             <button
-              className='btn btn-error md:m-auto md:w-32 md:h-12'
+              className='btn btn-error md:w-32 md:h-12'
               onClick={navigateToDashboard}
             >
               Home
