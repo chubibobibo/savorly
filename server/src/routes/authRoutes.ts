@@ -69,6 +69,6 @@ router.post(
 
 router.post("/logout", logout);
 
-router.patch("/updateUser", isLoggedIn, updateUser);
+router.patch("/updateUser", upload.single("photoUrl"), isLoggedIn, updateUser);
 
 export default router;

@@ -30,6 +30,9 @@ const mongodbConnectionString = process.env.MONGO_DB;
 
 const app = express();
 
+/**serving public folder */
+app.use(express.static(path.join(__dirname, "./public")));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); //parses data and populates req.body if content is application/x-www-form-urlencoded
 app.use(cors());
@@ -101,6 +104,11 @@ cloudinary.config({
 //ROUTES
 app.use("/api/auth/", userRoute);
 app.use("/api/recipe/", recipeRoutes);
+
+//access to index.html from the client
+app.get("*", (req: Request, res: Response) => {
+  res.sendFile(path.resolve(__dirname, "./public", "index.html"));
+});
 
 //error handler page not found
 app.use("*", (req: Request, res: Response) => {
