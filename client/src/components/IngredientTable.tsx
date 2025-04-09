@@ -1,4 +1,4 @@
-import { RecipeDataProps } from "../types/Types";
+import { RecipeDataProps, RecipeTypes } from "../types/Types";
 import { IoIosCloseCircle } from "react-icons/io";
 
 function IngredientTable({
@@ -12,15 +12,19 @@ function IngredientTable({
   /** @recipeDataDateSetter callback  function that allows the setting of recipeData state. Implemented this so that we won't have to pass the setRecipeData function */
 
   // console.log(data);
-  const filteredRecipes = (id: string) => {
+  const filteredRecipes = (id: string | undefined) => {
     const filtered = recipeData?.recipeIngredients?.filter((recipesFiltered) =>
       recipesFiltered.id
-        ? recipesFiltered.id !== id
-        : recipesFiltered._id !== id
+        ? recipesFiltered?.id !== id
+        : recipesFiltered?._id !== id
     );
     if (recipeDataStateSetter) {
-      recipeDataStateSetter((prev) => {
-        return { ...prev, recipeIngredients: [...filtered] }; //uses the previous recipe data then access the recipeIngredients and use the filtered data as it's value
+      (
+        recipeDataStateSetter as React.Dispatch<
+          React.SetStateAction<RecipeTypes>
+        >
+      )((prev: RecipeTypes) => {
+        return { ...prev, recipeIngredients: [...(filtered || [])] }; //uses the previous recipe data then access the recipeIngredients and use the filtered data as its value
       });
       // console.log(filtered);
     }
@@ -46,7 +50,7 @@ function IngredientTable({
                   <tr key={idx}>
                     <th
                       onClick={() => {
-                        filteredRecipes(prev.id ? prev.id : prev._id);
+                        filteredRecipes(prev?.id ? prev?.id : prev?._id);
                       }}
                     >
                       {!isForDisplay ? (

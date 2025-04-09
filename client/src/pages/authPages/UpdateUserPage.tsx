@@ -14,7 +14,7 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 
-import InputForms from "../../components/inputForms";
+import InputForms from "../../components/InputForms";
 import UploadPhotoForm from "../../components/UploadPhotoForm";
 
 /** action function to submit form */

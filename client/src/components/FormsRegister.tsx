@@ -1,6 +1,6 @@
 import { Form, Link } from "react-router-dom";
 
-import InputForms from "./inputForms";
+import InputForms from "./InputForms";
 import UploadPhotoForm from "./UploadPhotoForm";
 
 function FormsRegister() {

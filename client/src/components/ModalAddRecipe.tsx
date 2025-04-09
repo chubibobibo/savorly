@@ -1,4 +1,4 @@
-import InputForms from "./inputForms";
+import InputForms from "./InputForms";
 import TextAreaForms from "./TextAreaForms";
 import SelectInputForms from "./SelectInputForms";
 import React, { useState } from "react";

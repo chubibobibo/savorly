@@ -4,6 +4,7 @@ export type IngredientType = {
   ingredientName?: string;
   ingredientQty?: string;
   id?: string | null;
+  _id?: string;
 };
 
 export type RecipeTypes = {
@@ -34,8 +35,8 @@ export type RecipePropsIndex = {
     | "dessert";
   _id?: string;
   id?: string;
-  photo: string;
-  photoUrl: string;
+  photo?: string;
+  photoUrl?: string;
 };
 
 export type RecipeDataProps = {
@@ -43,6 +44,7 @@ export type RecipeDataProps = {
   recipeData?: RecipeTypes;
   recipeDataStateSetter?: (args: RecipeTypes) => void;
   isForDisplay?: boolean;
+  _id?: string;
 };
 
 export type UserTypes = {

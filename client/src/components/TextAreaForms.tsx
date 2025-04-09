@@ -1,7 +1,7 @@
 type ChangeType = {
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   name: string;
-  value: string;
+  value?: string;
 };
 
 function TextAreaForms({ onChange, name, value }: ChangeType) {
